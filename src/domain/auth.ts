@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'fir
 
 const auth = getAuth(app)
 
-const signIn = ({ email, password }) => {
+const signIn = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
 }
 const signOut = () => {
