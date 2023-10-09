@@ -37,11 +37,6 @@ const router = createRouter({
       path: '/clients',
       name: 'clients',
       component: ClientsView
-    },
-    {
-      path: '/consultants',
-      name: 'consultants',
-      component: ConsultantsView
     }
   ]
 })
