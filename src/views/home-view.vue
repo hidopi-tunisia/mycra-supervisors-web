@@ -185,7 +185,9 @@ const fn = async () => {
     console.log(profile)
     console.log('=====PROFILE=====')
   } catch (error) {
-    console.log(error, error.message, error.data)
+    console.log(error)
+console.log(error.response.data)
+
   }
 }
 fn()

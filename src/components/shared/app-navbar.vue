@@ -101,6 +101,15 @@
             <li>
               <div class="dropdown-divider"></div>
             </li>
+            <li @click="handleClickCopyToken">
+              <a class="dropdown-item" href="#">
+                <i class="bx bx-key me-2"></i>
+                <span class="align-middle">Copy token</span>
+              </a>
+            </li>
+            <li>
+              <div class="dropdown-divider"></div>
+            </li>
             <li>
               <a class="dropdown-item" href="auth-login-basic.html">
                 <i class="bx bx-power-off me-2"></i>
@@ -116,6 +125,16 @@
   <!-- / Navbar -->
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getAuthorization } from '@/domain/auth'
+
+const handleClickCopyToken = () => {
+  const fn = async () => {
+    const authorization = await getAuthorization()
+    navigator.clipboard.writeText(authorization)
+  }
+  fn()
+}
+</script>
 
 <style scoped></style>
