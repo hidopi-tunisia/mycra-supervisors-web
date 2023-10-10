@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="d-flex flex-row align-items-center justify-content-between">
-      <h5 class="card-header">Liste des clients</h5>
+      <h5 class="card-header">Liste des consultants</h5>
       <div class="nav-item d-flex align-items-center">
         <i class="bx bx-search fs-4 lh-0"></i>
         <input
@@ -20,12 +20,12 @@
             <th>Nom</th>
             <th>Référencé depuis</th>
             <th>Projet en cours</th>
-            <th>Clients</th>
+            <th>Consultants</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          <clients-table-item
+          <consultants-table-item
             v-for="item in props.items.slice(0, currentSize)"
             :key="item._id"
             :item="item"
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import ClientsTableItem from '@/components/clients/table/clients-table-item.vue'
+import ConsultantsTableItem from '@/components/consultants/table/consultants-table-item.vue'
 import TablePagination from '@/components/shared/table/table-pagination.vue'
 import TableSize from '@/components/shared/table/table-size.vue'
 const props = defineProps({ items: Array, pages: Number, currentPage: Number, sizes: Array<Number>, currentSize: Number })

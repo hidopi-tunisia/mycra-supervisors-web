@@ -2,7 +2,7 @@
   <tr>
     <td>
       <i class="fab fa-angular fa-lg text-danger me-3"></i>
-      <router-link :to="'clients/' + props.item._id">
+      <router-link :to="'consultants/' + props.item._id">
         <strong class="text-gray">{{ props.item!.firstName }} {{ props.item!.lastName }}</strong>
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>
@@ -12,7 +12,7 @@
     <td>
       <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
         <li
-          v-for="a in props.item!.clients"
+          v-for="a in props.item!.consultants"
           data-bs-toggle="tooltip"
           data-popup="tooltip-custom"
           data-bs-placement="top"
@@ -52,7 +52,7 @@ const handleClickAvatar = (a) => {
 </script>
 
 <style scoped>
-.client-code {
+.consultant-code {
   text-transform: uppercase;
 }
 </style>
