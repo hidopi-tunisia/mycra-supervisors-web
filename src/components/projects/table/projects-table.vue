@@ -1,6 +1,18 @@
 <template>
   <div class="card">
-    <h5 class="card-header">Liste des projets</h5>
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="card-header">Projets</h5>
+      <div class="nav-item d-flex align-items-center">
+        <i class="bx bx-search fs-4 lh-0"></i>
+        <input
+          type="text"
+          class="form-control border-0 shadow-none"
+          placeholder="Rechercher..."
+          aria-label="Rechercher..."
+          @input="handleInputSearch"
+        />
+      </div>
+    </div>
     <div class="table-responsive text-nowrap">
       <table class="table">
         <thead>
@@ -24,6 +36,11 @@
 <script setup lang="ts">
 import ProjectsTableItem from '@/components/projects/table/projects-table-item.vue'
 const props = defineProps({ items: Array })
+const emit = defineEmits(['search'])
+const handleInputSearch = ({ target }) => {
+  const { value } = target
+  emit('search', value)
+}
 </script>
 
 <style scoped></style>
