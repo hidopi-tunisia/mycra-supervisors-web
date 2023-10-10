@@ -13,10 +13,10 @@
           <div class="content-backdrop fade"></div>
         </div>
       </div>
+      <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 
     <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
   </div>
   <!-- / Layout wrapper -->
 </template>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import AppNavbar from '@/components/shared/app-navbar.vue'
 import AppMenu from '@/components/shared/app-menu.vue'
-
+import AppFooter from '@/components/shared/app-footer.vue'
 </script>
 
 <style scoped></style>

@@ -74,11 +74,40 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item active">
-        <a href="index.html" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home-circle"></i>
-          <div data-i18n="Analytics">Dashboard</div>
-        </a>
+      <li class="menu-item" :class="route.name === 'home' ? 'active' : ''">
+        <router-link to="/">
+          <a class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Dashboard</div>
+          </a>
+        </router-link>
+      </li>
+      <li class="menu-item" :class="route.name === 'cras' ? 'active' : ''">
+        <router-link to="/cras">
+          <a class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">CRAs</div>
+          </a>
+        </router-link>
+      </li>
+      <li class="menu-item" :class="route.name === 'clients' ? 'active' : ''">
+        <router-link to="/clients">
+          <a class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Clients</div>
+          </a>
+        </router-link>
+      </li>
+      <li class="menu-item" :class="route.name === 'consultants' ? 'active' : ''">
+        <router-link to="/consultants">
+          <a class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Consultants</div>
+          </a>
+        </router-link>
+      </li>
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Pages</span>
       </li>
 
       <!-- Layouts -->
@@ -404,6 +433,9 @@
   <!-- / Menu -->
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+const route = useRoute()
+</script>
 
 <style scoped></style>
