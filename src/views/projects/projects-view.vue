@@ -10,7 +10,14 @@
               </div>
             </div>
             <div class="dropdown">
-              <button class="btn btn-primary">Créer un projet</button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#project-create-modal"
+              >
+                Créer un projet
+              </button>
             </div>
           </div>
           <span class="d-block mb-1">Projets</span>
@@ -21,12 +28,15 @@
   </div>
   <h4 class="fw-bold py-3 mb-4">Projets</h4>
   <projects-table v-if="results" :items="filtered" @search="handleSearch" />
+  <project-create-modal :clients="resultsClients"/>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getProjects } from '@/api/projects'
+import { getClients } from '@/api/clients'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
+import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
@@ -44,6 +54,17 @@ const fn = async () => {
   }
 }
 fn()
+const resultsClients = ref(null)
+const fn2 = async () => {
+  try {
+    const { data } = await getClients()
+    resultsClients.value = data
+  } catch (error) {
+    console.log(error)
+    console.log(error.response.data)
+  }
+}
+fn2()
 const handleSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (

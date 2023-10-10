@@ -1,0 +1,23 @@
+[
+  "{{repeat(5, 10)}}",
+  {
+    "lastName": "{{surname()}}",
+    "firstName": "{{firstName()}}",
+    "email": "{{email()}}",
+    "phone": "+33 {{phone()}}",
+    "secondPhone": "+33 {{phone()}}",
+    "company": {
+      "name": "{{lorem(1, 'words')}}",
+      "siret": "{{integer(111111111111, 999999999999)}}",
+      "representative": "{{firstName()}} {{surname()}}",
+      "address": {
+        "street": "{integer(100, 999)}} {{street(}}",
+        "city": "{{city()}}",
+        "zipCode": "{{integer(10000, 99999)}}"
+      }
+    },
+    "signatureDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
+    "observation": "{{lorem(1, 'paragraphs')}}",
+    "createdAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}"
+  }
+]
