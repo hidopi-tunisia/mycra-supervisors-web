@@ -9,7 +9,6 @@
     "endDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
     "category": "{{random('Web', 'Desktop', 'Mobile', 'Réseau', 'Cloud', 'Database', 'Hardware')}}",
     "client": "{{firstName()}} {{surname()}}",
-
     "consultants": [
       "{{repeat(1, 3)}}",
       {

@@ -19,6 +19,15 @@
     },
     "signatureDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
     "observation": "{{lorem(1, 'paragraphs')}}",
-    "createdAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}"
+    "project": "{{lorem(2, 'words')}}",
+    "createdAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
+    "consultants": [
+      "{{repeat(1, 3)}}",
+      {
+        "id": "{{index()}}",
+        "name": "{{firstName()}} {{surname()}}",
+        "profilePhoto":"https://randomuser.me/api/portraits/{{random('men', 'women')}}/{{integer(0, 99)}}.jpg"
+      }
+    ]
   }
 ]

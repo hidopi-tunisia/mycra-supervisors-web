@@ -4,6 +4,7 @@ import ProjectsView from '@/views/projects/projects-view.vue'
 import ConsultantsView from '@/views/consultants/consultants-view.vue'
 import ConsultantDetailsView from '@/views/consultants/consultant-details-view.vue'
 import ConsultantCreateView from '@/views/consultants/new-consultant-view.vue'
+import ClientsView from '@/views/clients/clients-view.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,6 +32,11 @@ const router = createRouter({
       path: '/consultants/new',
       name: 'create-consultant',
       component: ConsultantCreateView
+    },
+    {
+      path: '/clients',
+      name: 'clients',
+      component: ClientsView
     }
   ]
 })
