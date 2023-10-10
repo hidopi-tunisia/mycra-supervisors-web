@@ -44,7 +44,9 @@ import { getProjects } from '@/api/projects'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
+import Swal from 'sweetalert2'
 import { ref } from 'vue'
+
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
@@ -93,10 +95,37 @@ const handleShowUpdateProject = (id) => {
   project.value = results.value.find(({ _id }) => _id === id)
 }
 const handleDeleteProject = (id) => {
-  console.log(id)
+  Swal.fire({
+    title: 'Êtes-vous sûr de vouloir supprimer le projet ?',
+    text: "Cette action est irriversible",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimer !'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('Supprimé!', 'Le projet a été supprimé avec succès.', 'success')
+    }
+  })
 }
 const modalCreateProject = ref(null)
 const modalUpdateProject = ref(null)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+.rounded-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 4px;
+}
+.bg-projects {
+  background-color: #03a9f433;
+}
+.icon-projects {
+  color: #03a9f4;
+}
+</style>
