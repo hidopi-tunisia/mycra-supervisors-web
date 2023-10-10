@@ -99,7 +99,6 @@ const handleSizeChange = (s) => {
   currentSize.value = s
 }
 const modalCreateClient = ref(null)
-const modalUpdateClient = ref(null)
 </script>
 
 <style lang="css" scoped>
