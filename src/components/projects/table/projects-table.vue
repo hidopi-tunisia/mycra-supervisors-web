@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import ProjectsTableItem from '@/components/projects/table/projects-table-item.vue'
 const props = defineProps({ items: Array })
-const emit = defineEmits(['search', 'delete', "show-update"])
+const emit = defineEmits(['search', 'delete', 'show-update'])
 const handleInputSearch = ({ target }) => {
   const { value } = target
   emit('search', value)
