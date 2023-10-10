@@ -10,12 +10,7 @@
               </div>
             </div>
             <div class="dropdown">
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#project-create-modal"
-              >
+              <button type="button" class="btn btn-primary" @click="modalCreateProject.show()">
                 Créer un projet
               </button>
             </div>
@@ -27,16 +22,29 @@
     </div>
   </div>
   <h4 class="fw-bold py-3 mb-4">Projets</h4>
-  <projects-table v-if="results" :items="filtered" @search="handleSearch" />
-  <project-create-modal :clients="resultsClients"/>
+  <projects-table
+    v-if="results"
+    :items="filtered"
+    @search="handleSearch"
+    @show-update="handleShowUpdateProject"
+    @delete="handleDeleteProject"
+  />
+  <project-create-modal ref="modalCreateProject" :clients="resultsClients" />
+  <project-update-modal
+    ref="modalUpdateProject"
+    :clients="resultsClients"
+    :project="project"
+    @submit="handleUpdateProject"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { getProjects } from '@/api/projects'
 import { getClients } from '@/api/clients'
-import ProjectsTable from '@/components/projects/table/projects-table.vue'
+import { getProjects } from '@/api/projects'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
+import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
+import ProjectsTable from '@/components/projects/table/projects-table.vue'
+import { ref } from 'vue'
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
@@ -75,6 +83,20 @@ const handleSearch = (value) => {
     )
   })
 }
+const project = ref(null)
+const handleUpdateProject = (project) => {
+  console.log(project)
+  modalUpdateProject.value.hide()
+}
+const handleShowUpdateProject = (id) => {
+  modalUpdateProject.value.show()
+  project.value = results.value.find(({ _id }) => _id === id)
+}
+const handleDeleteProject = (id) => {
+  console.log(id)
+}
+const modalCreateProject = ref(null)
+const modalUpdateProject = ref(null)
 </script>
 
 <style lang="scss" scoped></style>

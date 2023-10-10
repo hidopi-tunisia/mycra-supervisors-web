@@ -1,6 +1,7 @@
 [
   "{{repeat(12, 17)}}",
   {
+    "_id": "{{objectId()}}",
     "name": "{{lorem(1, 'words')}}",
     "projectCode": "{{guid()}}",
     "description": "{{lorem(1, 'paragraphs')}}",

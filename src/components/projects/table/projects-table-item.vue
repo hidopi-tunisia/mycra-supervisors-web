@@ -36,11 +36,11 @@
           <i class="bx bx-dots-vertical-rounded"></i>
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="javascript:void(0);"
-            ><i class="bx bx-edit-alt me-1"></i> Edit</a
+          <a class="dropdown-item with-pointer" @click="emit('update', props.item._id)"
+            ><i class="bx bx-edit-alt me-1"></i> Modifier</a
           >
-          <a class="dropdown-item" href="javascript:void(0);"
-            ><i class="bx bx-trash me-1"></i> Delete</a
+          <a class="dropdown-item with-pointer" @click="emit('delete', props.item._id)"
+            ><i class="bx bx-trash me-1"></i> Supprimer</a
           >
         </div>
       </div>
@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
 const props = defineProps({ item: Object })
+const emit = defineEmits(['update', 'delete'])
 </script>
 
 <style scoped>

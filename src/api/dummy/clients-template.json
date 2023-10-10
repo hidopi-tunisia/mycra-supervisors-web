@@ -1,6 +1,7 @@
 [
   "{{repeat(5, 10)}}",
   {
+    "_id": "{{objectId()}}",
     "lastName": "{{surname()}}",
     "firstName": "{{firstName()}}",
     "email": "{{email()}}",

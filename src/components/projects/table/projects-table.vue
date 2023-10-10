@@ -26,7 +26,13 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          <projects-table-item v-for="item in props.items" :key="item._id" :item="item" />
+          <projects-table-item
+            v-for="item in props.items"
+            :key="item._id"
+            :item="item"
+            @delete="handleDelete"
+            @update="handleUpdate"
+          />
         </tbody>
       </table>
     </div>
@@ -36,10 +42,16 @@
 <script setup lang="ts">
 import ProjectsTableItem from '@/components/projects/table/projects-table-item.vue'
 const props = defineProps({ items: Array })
-const emit = defineEmits(['search'])
+const emit = defineEmits(['search', 'delete', "show-update"])
 const handleInputSearch = ({ target }) => {
   const { value } = target
   emit('search', value)
+}
+const handleUpdate = (id) => {
+  emit('show-update', id)
+}
+const handleDelete = (id) => {
+  emit('delete', id)
 }
 </script>
 
