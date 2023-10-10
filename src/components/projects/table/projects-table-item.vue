@@ -21,6 +21,7 @@
       </ul>
     </td>
     <td class="project-code">{{ props.item!.projectCode.substring(0, 6) }}</td>
+    <td>{{ props.item!.category }}</td>
     <td>
       <span class="badge bg-label-success me-1" v-show="props.item!.status === 'active'">{{
         props.item!.status

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="d-flex flex-row align-items-center justify-content-between">
-      <h5 class="card-header">Projets</h5>
+      <h5 class="card-header">Liste des projets</h5>
       <div class="nav-item d-flex align-items-center">
         <i class="bx bx-search fs-4 lh-0"></i>
         <input

@@ -24,8 +24,7 @@ const fn = async () => {
   } catch (error) {
     loading.value = false
     console.log(error)
-console.log(error.response.data)
-
+    console.log(error.response.data)
   }
 }
 fn()
