@@ -6,19 +6,21 @@
           <div class="d-flex align-items-end row">
             <div class="col-sm-7">
               <div class="card-body">
-                <h5 class="card-title text-primary">Congratulations John! 🎉</h5>
+                <h5 class="card-title text-primary">Bonjour John ! 🎉</h5>
                 <p class="mb-4">
-                  You have done <span class="fw-bold">72%</span> more sales today. Check your new
-                  badge in your profile.
+                  Vous pouvez modifier votre profil en cliquant sur le bouton
+                  <span class="fw-bold">Consulter mon profil</span>.
                 </p>
 
-                <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+                <a href="javascript:;" class="btn btn-sm btn-outline-primary"
+                  >Consulter mon profil</a
+                >
               </div>
             </div>
             <div class="col-sm-5 text-center text-sm-left">
               <div class="card-body pb-0 px-0 px-md-4">
                 <img
-                  src="../assets/img/illustrations/man-with-laptop-light.png"
+                  src="../../../assets/img/illustrations/man-with-laptop-light.png"
                   height="140"
                   alt="View Badge User"
                   data-app-dark-img="illustrations/man-with-laptop-dark.png"
@@ -36,11 +38,9 @@
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
-                    <img
-                      src="../assets/img/icons/unicons/chart-success.png"
-                      alt="chart success"
-                      class="rounded"
-                    />
+                    <div class="rounded-avatar bg-consultants">
+                      <i class="bx bxs-user-badge bx-sm align-middle icon-consultants"></i>
+                    </div>
                   </div>
                   <div class="dropdown">
                     <button
@@ -54,16 +54,15 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                      <router-link to="/consultants">
+                        <a class="dropdown-item" href="#">Voir les consultants</a>
+                      </router-link>
+                      <a class="dropdown-item" href="javascript:void(0);">Déplacer</a>
                     </div>
                   </div>
                 </div>
-                <span class="fw-semibold d-block mb-1">Profit</span>
-                <h3 class="card-title mb-2">$12,628</h3>
-                <small class="text-success fw-semibold"
-                  ><i class="bx bx-up-arrow-alt"></i> +72.80%</small
-                >
+                <span class="fw-semibold d-block mb-1">Consultants</span>
+                <h3 class="card-title mb-2">25</h3>
               </div>
             </div>
           </div>
@@ -72,11 +71,9 @@
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
-                    <img
-                      src="../assets/img/icons/unicons/wallet-info.png"
-                      alt="Credit Card"
-                      class="rounded"
-                    />
+                    <div class="rounded-avatar bg-clients">
+                      <i class="bx bx-user bx-sm align-middle icon-clients"></i>
+                    </div>
                   </div>
                   <div class="dropdown">
                     <button
@@ -90,16 +87,15 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                      <router-link to="/clients">
+                        <a class="dropdown-item" href="#">Voir les clients</a>
+                      </router-link>
+                      <a class="dropdown-item" href="#">Déplacer</a>
                     </div>
                   </div>
                 </div>
-                <span>Sales</span>
-                <h3 class="card-title text-nowrap mb-1">$4,679</h3>
-                <small class="text-success fw-semibold"
-                  ><i class="bx bx-up-arrow-alt"></i> +28.42%</small
-                >
+                <span>Clients</span>
+                <h3 class="card-title text-nowrap mb-1">10</h3>
               </div>
             </div>
           </div>
@@ -109,61 +105,9 @@
       <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
         <div class="card">
           <div class="row row-bordered g-0">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <h5 class="card-header m-0 me-2 pb-3">Total Revenue</h5>
               <div id="totalRevenueChart" class="px-2"></div>
-            </div>
-            <div class="col-md-4">
-              <div class="card-body">
-                <div class="text-center">
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-sm btn-outline-primary dropdown-toggle"
-                      type="button"
-                      id="growthReportId"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      2022
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-                      <a class="dropdown-item" href="javascript:void(0);">2021</a>
-                      <a class="dropdown-item" href="javascript:void(0);">2020</a>
-                      <a class="dropdown-item" href="javascript:void(0);">2019</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="growthChart"></div>
-              <div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
-
-              <div
-                class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between"
-              >
-                <div class="d-flex">
-                  <div class="me-2">
-                    <span class="badge bg-label-primary p-2"
-                      ><i class="bx bx-dollar text-primary"></i
-                    ></span>
-                  </div>
-                  <div class="d-flex flex-column">
-                    <small>2022</small>
-                    <h6 class="mb-0">$32.5k</h6>
-                  </div>
-                </div>
-                <div class="d-flex">
-                  <div class="me-2">
-                    <span class="badge bg-label-info p-2"
-                      ><i class="bx bx-wallet text-info"></i
-                    ></span>
-                  </div>
-                  <div class="d-flex flex-column">
-                    <small>2021</small>
-                    <h6 class="mb-0">$41.2k</h6>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -176,11 +120,9 @@
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
-                    <img
-                      src="../assets/img/icons/unicons/paypal.png"
-                      alt="Credit Card"
-                      class="rounded"
-                    />
+                    <div class="rounded-avatar bg-projects">
+                      <i class="bx bx-code-block bx-sm align-middle icon-projects"></i>
+                    </div>
                   </div>
                   <div class="dropdown">
                     <button
@@ -194,16 +136,15 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                      <router-link to="/projects">
+                        <a class="dropdown-item" href="#">Voir les projets</a>
+                      </router-link>
+                      <a class="dropdown-item" href="javascript:void(0);">Déplacer</a>
                     </div>
                   </div>
                 </div>
-                <span class="d-block mb-1">Payments</span>
-                <h3 class="card-title text-nowrap mb-2">$2,456</h3>
-                <small class="text-danger fw-semibold"
-                  ><i class="bx bx-down-arrow-alt"></i> -14.82%</small
-                >
+                <span class="d-block mb-1">Projets</span>
+                <h3 class="card-title text-nowrap mb-2">80</h3>
               </div>
             </div>
           </div>
@@ -212,11 +153,9 @@
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
-                    <img
-                      src="../assets/img/icons/unicons/cc-primary.png"
-                      alt="Credit Card"
-                      class="rounded"
-                    />
+                    <div class="rounded-avatar bg-alerts">
+                      <i class="bx bx-bell bx-sm align-middle icon-alert"></i>
+                    </div>
                   </div>
                   <div class="dropdown">
                     <button
@@ -230,16 +169,16 @@
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                      <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                      <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                      <router-link to="/alerts">
+                        <a class="dropdown-item" href="#"
+                          >Voir les alerts</a
+                        > </router-link
+                      ><a class="dropdown-item" href="javascript:void(0);">Déplacer</a>
                     </div>
                   </div>
                 </div>
-                <span class="fw-semibold d-block mb-1">Transactions</span>
-                <h3 class="card-title mb-2">$14,857</h3>
-                <small class="text-success fw-semibold"
-                  ><i class="bx bx-up-arrow-alt"></i> +28.14%</small
-                >
+                <span class="fw-semibold d-block mb-1">Alerts</span>
+                <h3 class="card-title mb-2">4</h3>
               </div>
             </div>
           </div>
@@ -253,17 +192,15 @@
                     class="d-flex flex-sm-column flex-row align-items-start justify-content-between"
                   >
                     <div class="card-title">
-                      <h5 class="text-nowrap mb-2">Profile Report</h5>
-                      <span class="badge bg-label-warning rounded-pill">Year 2021</span>
+                      <h5 class="text-nowrap mb-2">CRAs saisi</h5>
+                      <span class="badge bg-label-warning rounded-pill">Octobre 2023</span>
                     </div>
                     <div class="mt-sm-auto">
-                      <small class="text-success text-nowrap fw-semibold"
-                        ><i class="bx bx-chevron-up"></i> 68.2%</small
-                      >
-                      <h3 class="mb-0">$84,686k</h3>
+                      <small class="text-success text-nowrap fw-semibold">CRAs</small>
+                      <h3 class="mb-0">39/50</h3>
                     </div>
                   </div>
-                  <div id="profileReportChart"></div>
+                  <div id="growthChart"></div>
                 </div>
               </div>
             </div>
@@ -299,18 +236,32 @@ setTimeout(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 36px;
+  width: 36px;
   border-radius: 4px;
 }
 .bg-consultants {
-  background-color: #ff525266;
+  background-color: #f4433633;
 }
 .bg-clients {
-  background-color: #4caf5066;
-}
-.bg-cras {
-  background-color: #ffc10766;
+  background-color: #4caf5033;
 }
 .bg-projects {
-  background-color: #2196f366;
+  background-color: #03a9f433;
+}
+.bg-alerts {
+  background-color: #ffc10733;
+}
+.icon-consultants {
+  color: #f44336;
+}
+.icon-clients {
+  color: #4caf50;
+}
+.icon-projects {
+  color: #03a9f4;
+}
+.icon-alert {
+  color: #ffc107;
 }
 </style>
