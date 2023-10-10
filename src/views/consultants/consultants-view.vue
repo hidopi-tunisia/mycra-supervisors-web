@@ -5,24 +5,24 @@
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
             <div class="avatar flex-shrink-0">
-              <div class="rounded-avatar bg-projects">
-                <i class="bx bx-code-block bx-sm align-middle icon-projects"></i>
+              <div class="rounded-avatar bg-consultants">
+                <i class="bx bxs-user-badge bx-sm align-middle icon-consultants"></i>
               </div>
             </div>
             <div class="dropdown">
-              <button type="button" class="btn btn-primary" @click="modalCreateProject.show()">
-                Créer un projet
+              <button type="button" class="btn btn-primary" @click="modalCreateConsultant.show()">
+                Créer un consultant
               </button>
             </div>
           </div>
-          <span class="d-block mb-1">Projets</span>
+          <span class="d-block mb-1">Consultants</span>
           <h3 class="card-title text-nowrap mb-2">{{ results.length }}</h3>
         </div>
       </div>
     </div>
   </div>
-  <h4 class="fw-bold py-3 mb-4">Projets</h4>
-  <projects-table
+  <h4 class="fw-bold py-3 mb-4">Consultants</h4>
+  <consultants-table
     v-if="results"
     :items="filtered"
     :pages="pages"
@@ -30,26 +30,17 @@
     :sizes="sizes"
     :currentSize="currentSize"
     @search="handleSearch"
-    @show-update="handleShowUpdateProject"
-    @delete="handleDeleteProject"
+    @show-update="handleShowUpdateConsultant"
+    @delete="handleDeleteConsultant"
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
-  />
-  <project-create-modal ref="modalCreateProject" :clients="resultsClients" />
-  <project-update-modal
-    ref="modalUpdateProject"
-    :clients="resultsClients"
-    :project="project"
-    @submit="handleUpdateProject"
   />
 </template>
 
 <script setup lang="ts">
 import { getClients } from '@/api/clients'
-import { getProjects } from '@/api/projects'
-import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
-import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
-import ProjectsTable from '@/components/projects/table/projects-table.vue'
+import { getConsultants } from '@/api/consultants'
+import ConsultantsTable from '@/components/consultants/table/consultants-table.vue'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
 
@@ -63,7 +54,7 @@ const currentSize = ref(10)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getProjects()
+    const { data } = await getConsultants()
     results.value = data
     filtered.value = data
     loading.value = false
@@ -88,25 +79,23 @@ fn2()
 const handleSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
-      d.name.toLowerCase().includes(value.toLowerCase()) ||
-      d.projectCode.toLowerCase().includes(value.toLowerCase()) ||
-      d.client.toLowerCase().includes(value.toLowerCase()) ||
-      d.category.toLowerCase().includes(value.toLowerCase())
+      d.firstName.toLowerCase().includes(value.toLowerCase()) ||
+      d.lastName.toLowerCase().includes(value.toLowerCase())
     )
   })
 }
-const project = ref(null)
-const handleUpdateProject = (project) => {
-  console.log(project)
-  modalUpdateProject.value.hide()
+const consultant = ref(null)
+const handleUpdateConsultant = (consultant) => {
+  console.log(consultant)
+  modalUpdateConsultant.value.hide()
 }
-const handleShowUpdateProject = (id) => {
-  modalUpdateProject.value.show()
-  project.value = results.value.find(({ _id }) => _id === id)
+const handleShowUpdateConsultant = (id) => {
+  modalUpdateConsultant.value.show()
+  consultant.value = results.value.find(({ _id }) => _id === id)
 }
-const handleDeleteProject = (id) => {
+const handleDeleteConsultant = (id) => {
   Swal.fire({
-    title: 'Êtes-vous sûr de vouloir supprimer le projet ?',
+    title: 'Êtes-vous sûr de vouloir supprimer le consultant ?',
     text: 'Cette action est irriversible',
     icon: 'warning',
     showCancelButton: true,
@@ -115,7 +104,7 @@ const handleDeleteProject = (id) => {
     confirmButtonText: 'Oui, supprimer !'
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire('Supprimé!', 'Le projet a été supprimé avec succès.', 'success')
+      Swal.fire('Supprimé!', 'Le consultant a été supprimé avec succès.', 'success')
     }
   })
 }
@@ -125,8 +114,8 @@ const handlePaginationChange = (p) => {
 const handleSizeChange = (s) => {
   currentSize.value = s
 }
-const modalCreateProject = ref(null)
-const modalUpdateProject = ref(null)
+const modalCreateConsultant = ref(null)
+const modalUpdateConsultant = ref(null)
 </script>
 
 <style lang="css" scoped>
@@ -138,10 +127,10 @@ const modalUpdateProject = ref(null)
   width: 36px;
   border-radius: 4px;
 }
-.bg-projects {
-  background-color: #03a9f433;
+.bg-consultants {
+  background-color: #f4433633;
 }
-.icon-projects {
-  color: #03a9f4;
+.icon-consultants {
+  color: #f44336;
 }
 </style>

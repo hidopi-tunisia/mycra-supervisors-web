@@ -18,9 +18,9 @@
         <thead>
           <tr>
             <th>Nom</th>
-            <th>Référencé depuis</th>
+            <th>Depuis</th>
             <th>Projet en cours</th>
-            <th>Consultants</th>
+            <th>CRA saisi</th>
             <th>Actions</th>
           </tr>
         </thead>

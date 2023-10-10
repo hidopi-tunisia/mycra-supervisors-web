@@ -1,0 +1,27 @@
+{
+  "_id": "{{objectId()}}",
+  "civility": "{{random('Mr.', 'Mme.')}}",
+  "lastName": "{{surname()}}",
+  "firstName": "{{firstName()}}",
+  "profilePhoto": "https://randomuser.me/api/portraits/{{random('men', 'women')}}/{{integer(0, 99)}}.jpg",
+  "email": "{{email()}}",
+  "availableAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
+  "hiredAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
+  "linkedIn": "https://www.linkedin.com/in/{{objectId()}}",
+  "tags": ["{{repeat(3)}}", "{{lorem(1, 'words')}}"],
+  "position": "{{lorem(2, 'word')}}",
+  "yearsOfExperience": "{{integer(0, 20)}}",
+  "phone": "+31{{phone()}}",
+  "note": "{{lorem(1, 'paragraphs')}}",
+  "hasAcceptedTermsAndConditions": "{{bool()}}",
+  "acceptedTermsAndConditionsVersion": "{{bool()}}",
+  "status": "{{random('inactive', 'active')}}",
+  "projects": [
+    "{{repeat(1, 3)}}",
+    {
+      "id": "{{index()}}",
+      "name": "{{lorem(2, 'word')}}"
+    }
+  ],
+  "createdAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}"
+}

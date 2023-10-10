@@ -3,27 +3,20 @@
     <td>
       <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <router-link :to="'consultants/' + props.item._id">
-        <strong class="text-gray">{{ props.item!.firstName }} {{ props.item!.lastName }}</strong>
+        <img class="avatar rounded" :src="props.item.profilePhoto" />
+        <strong class="text-gray mx-2">{{ props.item!.firstName }} {{ props.item!.lastName }}</strong>
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>
     </td>
-    <td>{{ props.item!.signatureDate.substring(0, 10) }}</td>
-    <td>{{ props.item!.project }}</td>
+    <td>{{ props.item!.hiredAt.substring(0, 10) }}</td>
+    <td>{{ props.item!.projects[0].name }}</td>
     <td>
-      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-        <li
-          v-for="a in props.item!.consultants"
-          data-bs-toggle="tooltip"
-          data-popup="tooltip-custom"
-          data-bs-placement="top"
-          class="avatar avatar-xs pull-up"
-          :key="a"
-          :title="a.name"
-          @click="handleClickAvatar(a)"
-        >
-          <img :src="a.profilePhoto" alt="Avatar" class="rounded-circle" />
-        </li>
-      </ul>
+      <span class="badge bg-label-success me-1" v-show="props.item!.status === 'active'">
+        Oui
+      </span>
+      <span class="badge bg-label-danger me-1" v-show="props.item!.status === 'inactive'">
+        Non
+      </span>
     </td>
     <td>
       <div class="dropdown">
