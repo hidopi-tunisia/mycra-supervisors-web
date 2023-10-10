@@ -146,5 +146,5 @@ const handleSubmit = () => {
 </script>
 
 <style lang="css" scoped>
-@import '../../assets/vendor/css/pages/page-auth.css';
+@import './sign-in-view.css';
 </style>

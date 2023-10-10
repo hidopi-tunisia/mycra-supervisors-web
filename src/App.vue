@@ -8,8 +8,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layout/app-layout.vue'
 import AppFooter from '@/components/shared/app-footer.vue'
-import SignInView from '@/views/sign-in-view.vue'
-import BlankLoadingView from '@/views/blank-loading-view.vue'
+import SignInView from '@/views/auth/sign-in-view.vue'
+import BlankLoadingView from '@/views/miscs/blank-loading-view.vue'
 import { onAuthStateChanged } from '@/domain/auth'
 import { ref } from 'vue'
 const user = ref(null)

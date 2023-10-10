@@ -212,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import { drawAnalytics } from '../../assets/js/dashboards-analytics'
+import { drawAnalytics } from '../../../assets/js/dashboards-analytics'
 import { getProfile } from '@/domain/me'
 import { ref } from 'vue'
 const profile = ref(null)

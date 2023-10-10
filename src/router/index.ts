@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/home-view.vue'
-import CRAsView from '@/views/cras-view.vue'
-import ClientsView from '@/views/clients-view.vue'
-import ConsultantsView from '@/views/consultants-view.vue'
-import ConsultantDetailsView from '@/views/consultant-details-view.vue'
-import ConsultantCreateView from '@/views/new-consultant-view.vue'
+import HomeView from '@/views/home/home-view.vue'
+import ConsultantsView from '@/views/consultants/consultants-view.vue'
+import ConsultantDetailsView from '@/views/consultants/consultant-details-view.vue'
+import ConsultantCreateView from '@/views/consultants/new-consultant-view.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -27,16 +25,6 @@ const router = createRouter({
       path: '/consultants/new',
       name: 'create-consultant',
       component: ConsultantCreateView
-    },
-    {
-      path: '/cras',
-      name: 'cras',
-      component: CRAsView
-    },
-    {
-      path: '/clients',
-      name: 'clients',
-      component: ClientsView
     }
   ]
 })
