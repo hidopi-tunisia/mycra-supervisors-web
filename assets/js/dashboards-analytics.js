@@ -2,16 +2,15 @@
  * Dashboard Analytics
  */
 
-'use strict';
+'use strict'
 
-(function () {
-  let cardColor, headingColor, axisColor, shadeColor, borderColor;
+const drawAnalytics = () => {
+  let cardColor, headingColor, axisColor, shadeColor, borderColor
 
-  cardColor = config.colors.white;
-  headingColor = config.colors.headingColor;
-  axisColor = config.colors.axisColor;
-  borderColor = config.colors.borderColor;
-
+  cardColor = config.colors.white
+  headingColor = config.colors.headingColor
+  axisColor = config.colors.axisColor
+  borderColor = config.colors.borderColor
   // Total Revenue Report Chart - Bar Chart
   // --------------------------------------------------------------------
   const totalRevenueChartEl = document.querySelector('#totalRevenueChart'),
@@ -268,10 +267,11 @@
           }
         }
       }
-    };
+    }
+
   if (typeof totalRevenueChartEl !== undefined && totalRevenueChartEl !== null) {
-    const totalRevenueChart = new ApexCharts(totalRevenueChartEl, totalRevenueChartOptions);
-    totalRevenueChart.render();
+    const totalRevenueChart = new ApexCharts(totalRevenueChartEl, totalRevenueChartOptions)
+    totalRevenueChart.render()
   }
 
   // Growth Chart - Radial Bar Chart
@@ -349,10 +349,10 @@
           }
         }
       }
-    };
+    }
   if (typeof growthChartEl !== undefined && growthChartEl !== null) {
-    const growthChart = new ApexCharts(growthChartEl, growthChartOptions);
-    growthChart.render();
+    const growthChart = new ApexCharts(growthChartEl, growthChartOptions)
+    growthChart.render()
   }
 
   // Profit Report Line Chart
@@ -412,10 +412,10 @@
       yaxis: {
         show: false
       }
-    };
+    }
   if (typeof profileReportChartEl !== undefined && profileReportChartEl !== null) {
-    const profileReportChart = new ApexCharts(profileReportChartEl, profileReportChartConfig);
-    profileReportChart.render();
+    const profileReportChart = new ApexCharts(profileReportChartEl, profileReportChartConfig)
+    profileReportChart.render()
   }
 
   // Order Statistics Chart
@@ -429,7 +429,12 @@
       },
       labels: ['Electronic', 'Sports', 'Decor', 'Fashion'],
       series: [85, 15, 50, 50],
-      colors: [config.colors.primary, config.colors.secondary, config.colors.info, config.colors.success],
+      colors: [
+        config.colors.primary,
+        config.colors.secondary,
+        config.colors.info,
+        config.colors.success
+      ],
       stroke: {
         width: 5,
         colors: cardColor
@@ -437,7 +442,7 @@
       dataLabels: {
         enabled: false,
         formatter: function (val, opt) {
-          return parseInt(val) + '%';
+          return parseInt(val) + '%'
         }
       },
       legend: {
@@ -462,7 +467,7 @@
                 color: headingColor,
                 offsetY: -15,
                 formatter: function (val) {
-                  return parseInt(val) + '%';
+                  return parseInt(val) + '%'
                 }
               },
               name: {
@@ -475,17 +480,17 @@
                 color: axisColor,
                 label: 'Weekly',
                 formatter: function (w) {
-                  return '38%';
+                  return '38%'
                 }
               }
             }
           }
         }
       }
-    };
+    }
   if (typeof chartOrderStatistics !== undefined && chartOrderStatistics !== null) {
-    const statisticsChart = new ApexCharts(chartOrderStatistics, orderChartConfig);
-    statisticsChart.render();
+    const statisticsChart = new ApexCharts(chartOrderStatistics, orderChartConfig)
+    statisticsChart.render()
   }
 
   // Income Chart - Area chart
@@ -581,10 +586,10 @@
         max: 50,
         tickAmount: 4
       }
-    };
+    }
   if (typeof incomeChartEl !== undefined && incomeChartEl !== null) {
-    const incomeChart = new ApexCharts(incomeChartEl, incomeChartConfig);
-    incomeChart.render();
+    const incomeChart = new ApexCharts(incomeChartEl, incomeChartConfig)
+    incomeChart.render()
   }
 
   // Expenses Mini Chart - Radial Chart
@@ -617,7 +622,7 @@
             },
             value: {
               formatter: function (val) {
-                return '$' + parseInt(val);
+                return '$' + parseInt(val)
               },
               offsetY: 5,
               color: '#697a8d',
@@ -654,9 +659,10 @@
           }
         }
       }
-    };
+    }
   if (typeof weeklyExpensesEl !== undefined && weeklyExpensesEl !== null) {
-    const weeklyExpenses = new ApexCharts(weeklyExpensesEl, weeklyExpensesConfig);
-    weeklyExpenses.render();
+    const weeklyExpenses = new ApexCharts(weeklyExpensesEl, weeklyExpensesConfig)
+    weeklyExpenses.render()
   }
-})();
+}
+export { drawAnalytics }
