@@ -25,9 +25,15 @@
   <projects-table
     v-if="results"
     :items="filtered"
+    :pages="pages"
+    :currentPage="currentPage"
+    :sizes="sizes"
+    :currentSize="currentSize"
     @search="handleSearch"
     @show-update="handleShowUpdateProject"
     @delete="handleDeleteProject"
+    @pagination-change="handlePaginationChange"
+    @size-change="handleSizeChange"
   />
   <project-create-modal ref="modalCreateProject" :clients="resultsClients" />
   <project-update-modal
@@ -50,6 +56,10 @@ import { ref } from 'vue'
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
+const pages = ref(5)
+const currentPage = ref(1)
+const sizes = ref([5, 10, 25, 50, 100])
+const currentSize = ref(10)
 const fn = async () => {
   try {
     loading.value = true
@@ -97,7 +107,7 @@ const handleShowUpdateProject = (id) => {
 const handleDeleteProject = (id) => {
   Swal.fire({
     title: 'Êtes-vous sûr de vouloir supprimer le projet ?',
-    text: "Cette action est irriversible",
+    text: 'Cette action est irriversible',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -108,6 +118,12 @@ const handleDeleteProject = (id) => {
       Swal.fire('Supprimé!', 'Le projet a été supprimé avec succès.', 'success')
     }
   })
+}
+const handlePaginationChange = (p) => {
+  currentPage.value = p
+}
+const handleSizeChange = (s) => {
+  currentSize.value = s
 }
 const modalCreateProject = ref(null)
 const modalUpdateProject = ref(null)
