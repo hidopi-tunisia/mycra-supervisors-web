@@ -49,10 +49,6 @@
 </template>
 
 <script setup lang="ts">
-const $ = window.jQuery
-$(document).ready(function () {
-  $('body').tooltip({ selector: '[data-bs-toggle=tooltip]' })
-})
 const props = defineProps({ item: Object })
 const emit = defineEmits(['update', 'delete'])
 </script>

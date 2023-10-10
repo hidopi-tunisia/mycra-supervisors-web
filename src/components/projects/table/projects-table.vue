@@ -34,6 +34,9 @@
             @update="handleUpdate"
           />
         </tbody>
+        <tfoot>
+          <projects-table-pagination />
+        </tfoot>
       </table>
     </div>
   </div>
@@ -41,6 +44,7 @@
 
 <script setup lang="ts">
 import ProjectsTableItem from '@/components/projects/table/projects-table-item.vue'
+import ProjectsTablePagination from '@/components/projects/table/project-table-pagination.vue'
 const props = defineProps({ items: Array })
 const emit = defineEmits(['search', 'delete', 'show-update'])
 const handleInputSearch = ({ target }) => {
