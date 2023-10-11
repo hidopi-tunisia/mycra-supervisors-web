@@ -1,6 +1,11 @@
 <template>
-  <h4 class="fw-bold py-3 mb-4">Notifications</h4>
-
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+      <li class="breadcrumb-item active">
+        <a href="#">Notifications</a>
+      </li>
+    </ol>
+  </nav>
   <div class="row">
     <div class="col-md-12">
       <form @submit.prevent="handleSubmit">

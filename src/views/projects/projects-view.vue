@@ -21,7 +21,13 @@
       </div>
     </div>
   </div>
-  <h4 class="fw-bold py-3 mb-4">Projets</h4>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+      <li class="breadcrumb-item active">
+        <a href="#">Projets</a>
+      </li>
+    </ol>
+  </nav>
   <projects-table
     v-if="results"
     :items="filtered"
