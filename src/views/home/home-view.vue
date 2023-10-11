@@ -219,7 +219,7 @@ const fn = async () => {
     console.log(error.response.data)
   }
 }
-fn()
+// fn()
 setTimeout(() => {
   drawAnalytics()
 }, 500)

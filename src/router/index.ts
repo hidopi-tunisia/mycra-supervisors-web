@@ -5,6 +5,7 @@ import ConsultantsView from '@/views/consultants/consultants-view.vue'
 import ConsultantDetailsView from '@/views/consultants/consultant-details-view.vue'
 import ConsultantCreateView from '@/views/consultants/new-consultant-view.vue'
 import ClientsView from '@/views/clients/clients-view.vue'
+import ClientDetailsView from '@/views/clients/client-details-view.vue'
 import ClientCreateView from '@/views/clients/new-client-view.vue'
 import NotificationsView from '@/views/notifications/notifications-view.vue'
 const router = createRouter({
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/clients',
       name: 'clients',
       component: ClientsView
+    },
+    {
+      path: '/clients/:id',
+      name: 'create-details',
+      component: ClientDetailsView
     },
     {
       path: '/clients/new',

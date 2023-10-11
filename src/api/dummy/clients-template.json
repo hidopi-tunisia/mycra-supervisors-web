@@ -12,7 +12,7 @@
       "siret": "{{integer(111111111111, 999999999999)}}",
       "representative": "{{firstName()}} {{surname()}}",
       "address": {
-        "street": "{integer(100, 999)}} {{street(}}",
+        "street": "{{integer(100, 999)}} {{street()}}",
         "city": "{{city()}}",
         "zipCode": "{{integer(10000, 99999)}}"
       }

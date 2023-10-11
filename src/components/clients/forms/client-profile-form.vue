@@ -55,8 +55,8 @@
             </div>
             <div class="row my-2">
               <div class="col-6">
-                <div class="mb-2">Poste</div>
-                <div class="fw-bold my-2">{{ newProfile.position }}</div>
+                <div class="mb-2">Nom social</div>
+                <div class="fw-bold my-2 text-capitalize">{{ newProfile.company?.name }}</div>
               </div>
               <div class="col-6">
                 <div>Téléphone</div>
@@ -154,7 +154,7 @@
               name="address"
               rows="2"
               placeholder="Ex : 123 rue des Oranges"
-              :value="newProfile.note"
+              :value="newProfile?.company?.address?.street"
             ></textarea>
           </div>
         </div>
@@ -167,7 +167,7 @@
               name="lastName"
               id="lastName"
               placeholder="Ex : 123456789"
-              :value="newProfile.firstName"
+              :value="newProfile.phone"
             />
           </div>
           <div class="mb-3 col-md-3">
@@ -178,7 +178,7 @@
               id="firstName"
               name="firstName"
               placeholder="Ex : 123456789"
-              :value="newProfile.lastName"
+              :value="newProfile.secondPhone"
             />
           </div>
           <div class="mb-3 col-md-3">
@@ -188,8 +188,8 @@
               type="text"
               id="city"
               name="city"
-              placeholder="Ex : john.doe@example.com"
-              :value="newProfile?.company?.city"
+              placeholder="Ex : Paris"
+              :value="newProfile?.company?.address?.city"
             />
           </div>
           <div class="mb-3 col-md-3">
@@ -199,8 +199,8 @@
               type="text"
               id="email"
               name="email"
-              placeholder="Ex : john.doe@example.com"
-              :value="newProfile?.company?.zipCode"
+              placeholder="Ex : 12345"
+              :value="newProfile?.company?.address?.zipCode"
             />
           </div>
           <div class="mb-3 col-md-6">
