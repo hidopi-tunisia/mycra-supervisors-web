@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="card mb-4">
-      <h5 class="card-header">Profil du consultant</h5>
+      <h5 class="card-header">Profil du client</h5>
       <div class="card-body">
         <div class="row">
           <div class="col-6">

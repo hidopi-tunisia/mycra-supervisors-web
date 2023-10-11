@@ -10,9 +10,9 @@
               </div>
             </div>
             <div class="dropdown">
-              <button type="button" class="btn btn-primary" @click="modalCreateClient.show()">
-                Créer un client
-              </button>
+              <router-link to="/clients/new">
+                <a class="btn btn-primary" href="#"> Créer un client</a>
+              </router-link>
             </div>
           </div>
           <span class="d-block mb-1">Clients</span>
