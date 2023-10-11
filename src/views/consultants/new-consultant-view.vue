@@ -9,13 +9,13 @@
       <li class="breadcrumb-item">Créer un consultant</li>
     </ol>
   </nav>
-  <create-consultant-form @submit="handleSubmit" />
+  <consultant-profile-form @submit="handleSubmit" />
   <pre class="card" v-if="result">{{ result }}</pre>
 </template>
 
 <script setup lang="ts">
 import { createConsultant } from '@/domain/consultants'
-import CreateConsultantForm from '@/components/consultants/forms/create-consultant-form.vue'
+import ConsultantProfileForm from '@/components/consultants/forms/consultant-profile-form.vue'
 import { ref } from 'vue'
 const result = ref(null)
 const loading = ref(false)

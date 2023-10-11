@@ -1,35 +1,66 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="card mb-4">
-      <h5 class="card-header">Détails du consultant</h5>
+      <h5 class="card-header">Profil du consultant</h5>
       <div class="card-body">
-        <div class="d-flex align-items-start align-items-sm-center gap-4">
-          <img
-            src="../../../../assets/img/avatars/1.png"
-            alt="user-avatar"
-            class="d-block rounded"
-            height="100"
-            width="100"
-            id="profilePhoto"
-          />
-          <div class="button-wrapper">
-            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-              <span class="d-none d-sm-block">Téléverser une photo</span>
-              <i class="bx bx-upload d-block d-sm-none"></i>
-              <input
-                type="file"
-                id="upload"
-                class="account-file-input"
-                hidden
-                accept="image/png, image/jpeg"
+        <div class="row">
+          <div class="col-6">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+              <img
+                :src="newProfile.profilePhoto"
+                alt="user-avatar"
+                class="d-block rounded"
+                height="100"
+                width="100"
+                id="profilePhoto"
               />
-            </label>
-            <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-              <i class="bx bx-reset d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Réintialiser</span>
-            </button>
-
-            <p class="text-muted mb-0">JPG ou PNG. Taille maximale 1MB</p>
+              <div class="button-wrapper">
+                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                  <span class="d-none d-sm-block">Téléverser une photo</span>
+                  <i class="bx bx-upload d-block d-sm-none"></i>
+                  <input
+                    type="file"
+                    id="upload"
+                    class="account-file-input"
+                    hidden
+                    accept="image/png, image/jpeg"
+                  />
+                </label>
+                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                  <i class="bx bx-reset d-block d-sm-none"></i>
+                  <span class="d-none d-sm-block">Réintialiser</span>
+                </button>
+                <p class="text-muted mb-0">JPG ou PNG. Taille maximale 1MB</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-2">Nom et prénom</div>
+                <div class="fw-bold">
+                  {{ newProfile.civility }} {{ newProfile.firstName }} {{ newProfile.lastName }}
+                </div>
+              </div>
+              <div class="col-6">
+                <div>Email</div>
+                <div class="fw-bold my-2">
+                  <a :href="'mailto:' + newProfile.phone">{{ newProfile.email }}</a>
+                </div>
+              </div>
+            </div>
+            <div class="row my-2">
+              <div class="col-6">
+                <div class="mb-2">Poste</div>
+                <div class="fw-bold my-2">{{ newProfile.position }}</div>
+              </div>
+              <div class="col-6">
+                <div>Téléphone</div>
+                <div class="fw-bold my-2">
+                  <a :href="'tel:' + newProfile.phone">{{ newProfile.phone }}</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -45,6 +76,7 @@
                 name="civility"
                 id="male"
                 value="Mr."
+                :checked="newProfile.civility === 'Mr.'"
               />
               <label class="form-check-label with-pointer" for="male">Mr.</label>
             </div>
@@ -55,6 +87,7 @@
                 name="civility"
                 id="female"
                 value="Mme."
+                :checked="newProfile.civility === 'Mme.'"
               />
               <label class="form-check-label with-pointer" for="female">Mme.</label>
             </div>
@@ -69,7 +102,7 @@
               id="position"
               name="position"
               placeholder="Ex : Développeur web"
-              value=""
+              :value="newProfile.position"
             />
           </div>
         </div>
@@ -102,7 +135,7 @@
               name="lastName"
               id="lastName"
               placeholder="Ex : Doe"
-              value=""
+              :value="newProfile.firstName"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -113,7 +146,7 @@
               id="firstName"
               name="firstName"
               placeholder="Ex : Prénom"
-              value=""
+              :value="newProfile.lastName"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -124,20 +157,19 @@
               id="email"
               name="email"
               placeholder="Ex : john.doe@example.com"
-              value=""
+              :value="newProfile.email"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label class="form-label" for="phoneNumber">Phone Number</label>
+            <label class="form-label" for="phoneNumber">Téléphone</label>
             <div class="input-group input-group-merge">
-              <span class="input-group-text">FR (+33)</span>
               <input
                 type="text"
                 id="phoneNumber"
                 name="phoneNumber"
                 class="form-control"
                 placeholder="Ex : 123456789"
-                value=""
+                :value="newProfile.phone"
               />
             </div>
           </div>
@@ -149,7 +181,7 @@
               id="address"
               name="address"
               placeholder="Ex : https://www.linkedin.com/in/john.doe"
-              value=""
+              :value="newProfile.linkedIn"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -160,16 +192,28 @@
               id="state"
               name="zipCode"
               placeholder="Ex : 123456"
-              value=""
+              :value="newProfile.zipCode"
             />
           </div>
           <div class="mb-3 col-md-6">
             <label for="availableAt" class="form-label">Date de disponibilité</label>
-            <input type="date" class="form-control" id="availableAt" name="availableAt" value="" />
+            <input
+              type="date"
+              class="form-control"
+              id="availableAt"
+              name="availableAt"
+              :value="newProfile.availableAt"
+            />
           </div>
           <div class="mb-3 col-md-6">
             <label for="hiredAt" class="form-label">Date d'embauche</label>
-            <input type="date" class="form-control" id="hiredAt" name="hiredAt" value="" />
+            <input
+              type="date"
+              class="form-control"
+              id="hiredAt"
+              name="hiredAt"
+              :value="newProfile.hiredAt"
+            />
           </div>
           <div class="mb-3 col-md-6">
             <label for="note" class="form-label">Note</label>
@@ -177,8 +221,9 @@
               class="form-control"
               id="note"
               name="note"
+              rows="4"
               placeholder="Ex : John Doe est un excellent développeur"
-              value=""
+              :value="newProfile.note"
             ></textarea>
           </div>
           <div class="mb-3 col-md-6">
@@ -196,6 +241,11 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps(['profile', 'isUpdate'])
+let newProfile
+if (props.isUpdate) {
+  newProfile = { ...props.profile }
+}
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
   const payload = {}
