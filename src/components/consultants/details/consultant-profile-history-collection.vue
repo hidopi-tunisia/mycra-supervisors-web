@@ -50,7 +50,7 @@
           <p v-if="selected.status === 'rejected'">
             Le à été rejeté le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
           </p>
-          <Calendar :selected="selected" @click-day="handleClickDay" />
+          <Calendar :selected="selected" @click-day="handleClickDay" class="mx-auto mb-4" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
             >{{ selected.working }} Travaillés</span
           >
