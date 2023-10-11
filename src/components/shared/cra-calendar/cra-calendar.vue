@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps(['selected'])
 const days = 30
 const types = ['working', 'half', 'remote', 'off']
 const randomType = () => {

@@ -1,7 +1,11 @@
 <template>
-  <div class="d-flex mb-3 d-flex align-items-center">
+  <div
+    class="d-flex mb-3 d-flex align-items-center with-pointer"
+    :class="selected ? 'selected' : ''"
+    @click="handleClick"
+  >
     <div class="flex-shrink-0 ml-2">
-      <div class="month-pill">
+      <div class="month-pill" :class="selected?'text-white bg-primary': ''">
         <div>{{ props.history.year }}</div>
       </div>
     </div>
@@ -11,16 +15,26 @@
         <small class="text-muted">Calendar and contacts</small>
       </div>
       <div class="col-3 text-end">
-          <span class="badge bg-primary float-end" v-if="props.history.status === 'submitted'">Envoyé</span>
-          <span class="badge bg-success float-end" v-if="props.history.status === 'approved'">Approuvé</span>
-          <span class="badge bg-danger float-end" v-if="props.history.status === 'rejected'">Rejeté</span>
+        <span class="badge bg-primary float-end" v-if="props.history.status === 'submitted'"
+          >Envoyé</span
+        >
+        <span class="badge bg-success float-end" v-if="props.history.status === 'approved'"
+          >Approuvé</span
+        >
+        <span class="badge bg-danger float-end" v-if="props.history.status === 'rejected'"
+          >Rejeté</span
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps(['history'])
+const props = defineProps(['selected', 'history'])
+const emit = defineEmits(['select'])
+const handleClick = () => {
+  emit('select', props.history._id)
+}
 </script>
 
 <style scoped>
@@ -33,6 +47,11 @@ const props = defineProps(['history'])
   align-items: center;
   border: 2px solid white;
   border-radius: 32px;
-  background-color: #ff000022;
+  background-color: #2196f322;
+}
+.selected {
+  background-color: #bdbdbd22;
+  padding: 8px;
+  border-radius: 16px;
 }
 </style>
