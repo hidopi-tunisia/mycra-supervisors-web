@@ -10,9 +10,9 @@
               </div>
             </div>
             <div class="dropdown">
-              <button type="button" class="btn btn-primary" @click="modalCreateConsultant.show()">
-                Créer un consultant
-              </button>
+              <router-link to="/consultants/new">
+                <a class="btn btn-primary" href="#"> Créer un consultant</a>
+              </router-link>
             </div>
           </div>
           <span class="d-block mb-1">Consultants</span>
@@ -21,7 +21,13 @@
       </div>
     </div>
   </div>
-  <h4 class="fw-bold py-3 mb-4">Consultants</h4>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+      <li class="breadcrumb-item active">
+        <a href="#">Consultants</a>
+      </li>
+    </ol>
+  </nav>
   <consultants-table
     v-if="results"
     :items="filtered"

@@ -1,32 +1,28 @@
 <template>
-  <h1>Create consultant</h1>
-  <form @submit.prevent="handleSubmit" class="col-md-4">
-    <div class="mb-3">
-      <label for="email" class="form-label">Email or Username</label>
-      <input
-        type="text"
-        class="form-control"
-        id="email"
-        name="email-username"
-        placeholder="Enter your email or username"
-        autofocus
-        :value="email"
-        @input="(event) => (email = (event.target as HTMLTextAreaElement).value)"
-      />
-    </div>
-    <button class="btn btn-primary" :disabled="loading">Create</button>
-    <div v-if="loading">Loading...</div>
-  </form>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+      <li class="breadcrumb-item active">
+        <router-link to="/consultants">
+          <a href="#">Consultants</a>
+        </router-link>
+      </li>
+      <li class="breadcrumb-item">Créer un consultant</li>
+    </ol>
+  </nav>
+  <create-consultant-form @submit="handleSubmit" />
   <pre class="card" v-if="result">{{ result }}</pre>
 </template>
 
 <script setup lang="ts">
 import { createConsultant } from '@/domain/consultants'
+import CreateConsultantForm from '@/components/consultants/forms/create-consultant-form.vue'
 import { ref } from 'vue'
 const result = ref(null)
 const loading = ref(false)
-let email
-const handleSubmit = () => {
+const handleSubmit = (payload) => {
+  console.log(payload)
+}
+const handleSubmit2 = () => {
   const fn = async () => {
     try {
       loading.value = true
