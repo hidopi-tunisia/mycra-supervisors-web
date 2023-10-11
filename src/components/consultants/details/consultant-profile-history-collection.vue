@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-md-7 col-12 mb-md-0 mb-4">
       <div class="card">
-        <h5 class="card-header">Connected Accounts</h5>
+        <h5 class="card-header">Historique des CRAs</h5>
         <div class="card-body">
-          <span>Display content from your connected</span>
+          <span>Choisissez l'année et un élément pour voir les détails</span>
           <select
             class="form-select d-inline year-select mx-2 mb-4"
             id="table-size-select"
@@ -50,7 +50,7 @@
           <p v-if="selected.status === 'rejected'">
             Le à été rejeté le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
           </p>
-          <Calendar :selected="selected" />
+          <Calendar :selected="selected" @click-day="handleClickDay" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
             >{{ selected.working }} Travaillés</span
           >
@@ -75,7 +75,10 @@
 import ConsultantProfileHistoryCollectionItem from '@/components/consultants/details/consultant-profile-history-collection-item.vue'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
 const props = defineProps(['history', 'selected', 'years', 'current'])
-const emit = defineEmits(['change', 'select'])
+const emit = defineEmits(['change', 'select', 'click-day'])
+const handleClickDay = (d) => {
+  emit('click-day', d)
+}
 const handleChangeYear = ({ target }) => {
   const { value } = target
   emit('change', value)

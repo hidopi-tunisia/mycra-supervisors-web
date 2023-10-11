@@ -85,7 +85,7 @@
       <li class="menu-item" :class="route.name === 'projects' ? 'active' : ''">
         <router-link to="/projects">
           <a class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bx-code-block"></i>
             <div data-i18n="Analytics">Mes projets</div>
           </a>
         </router-link>
@@ -93,7 +93,7 @@
       <li class="menu-item" :class="route.name === 'clients' ? 'active' : ''">
         <router-link to="/clients">
           <a class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bx-user"></i>
             <div data-i18n="Analytics">Mes clients</div>
           </a>
         </router-link>
@@ -101,7 +101,7 @@
       <li class="menu-item" :class="route.name === 'consultants' ? 'active' : ''">
         <router-link to="/consultants">
           <a class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <i class="menu-icon tf-icons bx bxs-user-badge"></i>
             <div data-i18n="Analytics">Mes consultants</div>
           </a>
         </router-link>

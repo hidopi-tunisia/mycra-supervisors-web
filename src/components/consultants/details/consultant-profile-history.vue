@@ -66,19 +66,21 @@
       :selected="selected"
       @change="handleChangeYear"
       @select="handleChangeSelected"
+      @click-day="handleClickDay"
     />
   </form>
 </template>
 
 <script setup lang="ts">
 import ConsultantProfileHistoryCollection from '@/components/consultants/details/consultant-profile-history-collection.vue'
+import Swal from 'sweetalert2'
 import { ref } from 'vue'
 const props = defineProps(['profile', 'isUpdate', 'history'])
 let newProfile
 if (props.isUpdate) {
   newProfile = { ...props.profile }
 }
-const emit = defineEmits(['submit'])
+const emit = defineEmits(['submit', 'click-day'])
 const handleSubmit = () => {
   const payload = {}
   emit('submit', payload)
@@ -93,6 +95,16 @@ const handleChangeSelected = (id) => {
 const handleChangeYear = (y) => {
   current.value = y
   filteredHistory.value = props.history.filter(({ year }) => year == y)
+}
+const reasons = ['CP', 'Maternité', 'Absence', 'Congé maladie', 'Déménagement']
+const handleClickDay = (d) => {
+  const reason = reasons[Math.floor(Math.random() * reasons.length)]
+  Swal.fire({
+    title: `${d} ${selected.value.month} ${current.value}`,
+    text: `La reason d'absence est "` + reason + '"',
+    icon: 'info',
+    confirmButtonText: 'OK'
+  })
 }
 </script>
 

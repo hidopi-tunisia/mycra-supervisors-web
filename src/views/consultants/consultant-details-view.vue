@@ -28,7 +28,7 @@
         href="#"
         :class="tab === 'history' ? 'active' : ''"
         @click="handleClickTab('history')"
-        ><i class="bx bx-bell me-1"></i> Historique</a
+        ><i class="bx bx-time me-1"></i> Historique</a
       >
     </li>
   </ul>
@@ -48,11 +48,11 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-const { params } = useRoute()
 import { getConsultant, getHistory } from '@/api/consultants'
 import ConsultantProfileForm from '@/components/consultants/forms/consultant-profile-form.vue'
 import ConsultantProfileHistory from '@/components/consultants/details/consultant-profile-history.vue'
 import { ref } from 'vue'
+const { params } = useRoute()
 const { id } = params
 const result = ref(null)
 const history = ref(null)
