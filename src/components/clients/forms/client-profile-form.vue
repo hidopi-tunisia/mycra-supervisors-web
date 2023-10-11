@@ -99,60 +99,42 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="position" class="form-label">Poste</label>
+            <label for="position" class="form-label">Nom social</label>
             <input
               class="form-control"
               type="text"
               id="position"
               name="position"
-              placeholder="Ex : Développeur web"
-              :value="newProfile.position"
+              placeholder="Ex : ACME Corp"
+              :value="newProfile?.company?.name"
             />
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="currency" class="form-label">Expérience dans le poste</label>
-            <select id="currency" class="select2 form-select">
-              <option disabled selected>Sélectionner</option>
-              <option v-for="y in 10" :key="y" :value="y">{{ y }}</option>
-            </select>
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="skills" class="form-label">Compétences</label>
-            <input
-              class="form-control"
-              type="text"
-              id="skills"
-              name="skills"
-              placeholder="Ex : Node.js, Jira, Angular..."
-              value=""
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="mb-3 col-md-6">
-            <label for="lastName" class="form-label">Nom</label>
+            <label for="lastName" class="form-label">SIRET</label>
             <input
               class="form-control"
               type="text"
               name="lastName"
               id="lastName"
               placeholder="Ex : Doe"
-              :value="newProfile.firstName"
+              :value="newProfile?.company?.siret"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="firstName" class="form-label">Prénom</label>
+            <label for="lastName" class="form-label">Responsable</label>
             <input
               class="form-control"
               type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="Ex : Prénom"
-              :value="newProfile.lastName"
+              name="lastName"
+              id="lastName"
+              placeholder="Ex : Doe"
+              :value="newProfile?.company?.representative"
             />
           </div>
+        </div>
+        <div class="row">
           <div class="mb-3 col-md-6">
             <label for="email" class="form-label">E-mail</label>
             <input
@@ -165,58 +147,81 @@
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label class="form-label" for="phoneNumber">Téléphone</label>
-            <div class="input-group input-group-merge">
-              <input
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                class="form-control"
-                placeholder="Ex : 123456789"
-                :value="newProfile.phone"
-              />
-            </div>
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="address" class="form-label">Profil LinkedIn</label>
-            <input
-              type="text"
+            <label for="note" class="form-label">Adresse postale</label>
+            <textarea
               class="form-control"
               id="address"
               name="address"
-              placeholder="Ex : https://www.linkedin.com/in/john.doe"
-              :value="newProfile.linkedIn"
-            />
+              rows="2"
+              placeholder="Ex : 123 rue des Oranges"
+              :value="newProfile.note"
+            ></textarea>
           </div>
-          <div class="mb-3 col-md-6">
-            <label for="zipCode" class="form-label">Code postal</label>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-3">
+            <label for="lastName" class="form-label">Téléphone 1</label>
             <input
               class="form-control"
               type="text"
-              id="state"
-              name="zipCode"
-              placeholder="Ex : 123456"
-              :value="newProfile.zipCode"
+              name="lastName"
+              id="lastName"
+              placeholder="Ex : 123456789"
+              :value="newProfile.firstName"
+            />
+          </div>
+          <div class="mb-3 col-md-3">
+            <label for="firstName" class="form-label">Téléphone 2</label>
+            <input
+              class="form-control"
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="Ex : 123456789"
+              :value="newProfile.lastName"
+            />
+          </div>
+          <div class="mb-3 col-md-3">
+            <label for="email" class="form-label">Ville</label>
+            <input
+              class="form-control"
+              type="text"
+              id="city"
+              name="city"
+              placeholder="Ex : john.doe@example.com"
+              :value="newProfile?.company?.city"
+            />
+          </div>
+          <div class="mb-3 col-md-3">
+            <label for="email" class="form-label">Code postal</label>
+            <input
+              class="form-control"
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Ex : john.doe@example.com"
+              :value="newProfile?.company?.zipCode"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="availableAt" class="form-label">Date de disponibilité</label>
+            <label for="availableAt" class="form-label">Date du signature</label>
             <input
               type="date"
               class="form-control"
-              id="availableAt"
-              name="availableAt"
-              :value="newProfile.availableAt"
+              id="signatureDate"
+              name="signatureDate"
+              :value="newProfile.signatureDate"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="hiredAt" class="form-label">Date d'embauche</label>
+            <label for="hiredAt" class="form-label">Compétences</label>
             <input
-              type="date"
               class="form-control"
-              id="hiredAt"
-              name="hiredAt"
-              :value="newProfile.hiredAt"
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Ex : BP, CP, Développement du backend, Développement du frontend..."
+              :value="newProfile.skills"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -231,7 +236,7 @@
             ></textarea>
           </div>
           <div class="mb-3 col-md-6">
-            <label for="formFile" class="form-label">Dossier de compétence</label>
+            <label for="formFile" class="form-label">Document</label>
             <input class="form-control" type="file" id="formFile" />
           </div>
         </div>
