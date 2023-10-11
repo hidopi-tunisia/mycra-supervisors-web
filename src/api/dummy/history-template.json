@@ -1,0 +1,15 @@
+[
+  "{{repeat(8, 12)}}",
+  {
+    "_id": "{{objectId()}}",
+    "working": "{{integer(9,16)}}",
+    "half": "{{integer(1,4)}}",
+    "remote": "{{integer(1,4)}}",
+    "off": "{{integer(1,3)}}",
+    "year": "{{integer(2020,2022)}}",
+    "status": "{{random('janvier', 'février','mars', 'avril')}}",
+    "month": "{{random('submitted', 'approved','rejected')}}",
+    "motive": "{{lorem(1, 'paragraphs')}}",
+    "at": "{{date(new Date(2023, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}"
+  }
+]

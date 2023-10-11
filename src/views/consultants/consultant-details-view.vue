@@ -38,22 +38,32 @@
     @submit="handleSubmit"
     isUpdate="true"
   />
+  <consultant-profile-history
+    :profile="result"
+    :history="history"
+    isUpdate="true"
+    v-if="tab === 'history'"
+  />
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 const { params } = useRoute()
-import { getConsultant } from '@/api/consultants'
+import { getConsultant, getHistory } from '@/api/consultants'
 import ConsultantProfileForm from '@/components/consultants/forms/consultant-profile-form.vue'
+import ConsultantProfileHistory from '@/components/consultants/details/consultant-profile-history.vue'
 import { ref } from 'vue'
 const { id } = params
 const result = ref(null)
+const history = ref(null)
 const loading = ref(false)
 const fn = async () => {
   try {
     loading.value = true
     const { data } = await getConsultant(id)
+    const { data: historyData } = await getHistory()
     result.value = data
+    history.value = historyData
     loading.value = false
   } catch (error) {
     loading.value = false
