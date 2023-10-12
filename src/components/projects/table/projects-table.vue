@@ -33,6 +33,7 @@
             @delete="handleDelete"
             @update="handleUpdate"
             @toggle-status="handleToggleStatus"
+            @assign-consultant="handleAssignConsultant"
           />
         </tbody>
         <tfoot>
@@ -71,7 +72,8 @@ const emit = defineEmits([
   'show-update',
   'toggle-status',
   'pagination-change',
-  'size-change'
+  'size-change',
+  'assign-consultant'
 ])
 const handleInputSearch = ({ target }) => {
   const { value } = target
@@ -91,6 +93,9 @@ const handleChangePagination = (page) => {
 }
 const handleChangeSize = (page) => {
   emit('size-change', page)
+}
+const handleAssignConsultant = (id) => {
+  emit('assign-consultant', id)
 }
 </script>
 

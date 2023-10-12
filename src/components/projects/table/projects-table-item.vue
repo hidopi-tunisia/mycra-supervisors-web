@@ -36,6 +36,9 @@
           <i class="bx bx-dots-vertical-rounded"></i>
         </button>
         <div class="dropdown-menu">
+          <a class="dropdown-item with-pointer" @click="emit('assign-consultant', props.item._id)"
+            ><i class="bx bxs-user-badge me-1"></i> Assigner consultant</a
+          >
           <a
             class="dropdown-item with-pointer"
             v-show="props.item.status === 'inactive'"
@@ -64,7 +67,7 @@
 
 <script setup lang="ts">
 const props = defineProps({ item: Object })
-const emit = defineEmits(['update', 'delete', 'toggle-status'])
+const emit = defineEmits(['update', 'delete', 'toggle-status', 'assign-consultant'])
 </script>
 
 <style scoped>

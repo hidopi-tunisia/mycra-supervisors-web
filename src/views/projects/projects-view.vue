@@ -36,6 +36,7 @@
     :sizes="sizes"
     :currentSize="currentSize"
     @search="handleSearch"
+    @assign-consultant="handleAssignConsultant"
     @toggle-status="handleToggleStatus"
     @show-update="handleShowUpdateProject"
     @delete="handleDeleteProject"
@@ -58,6 +59,7 @@ import ProjectCreateModal from '@/components/projects/modals/project-create-moda
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
 import Swal from 'sweetalert2'
+import Picker from '@/components/shared/pickers/constultants-picker'
 import { ref } from 'vue'
 
 const results = ref(null)
@@ -149,6 +151,17 @@ const handleSizeChange = (s) => {
 }
 const modalCreateProject = ref(null)
 const modalUpdateProject = ref(null)
+const handleAssignConsultant = () => {
+  const fn = async () => {
+    try {
+      const { _id } = await Picker.pick()
+      console.log(_id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
+}
 </script>
 
 <style lang="css" scoped>
