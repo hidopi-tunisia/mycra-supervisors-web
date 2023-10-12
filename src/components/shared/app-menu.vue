@@ -106,14 +106,21 @@
           </a>
         </router-link>
       </li>
-
-      <li class="menu-header small text-uppercase">
-      </li>
+      <li class="menu-header"></li>
       <li class="menu-item" :class="route.name === 'notifications' ? 'active' : ''">
         <router-link to="/notifications">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-bell"></i>
             <div data-i18n="Analytics">Notifications</div>
+          </a>
+        </router-link>
+      </li>
+      <li class="menu-header"></li>
+      <li class="menu-item" :class="route.name === 'about' ? 'active' : ''">
+        <router-link to="/about">
+          <a class="menu-link">
+            <i class="menu-icon tf-icons bx bx-star"></i>
+            <div data-i18n="Analytics">Mettre à niveau votre forfait</div>
           </a>
         </router-link>
       </li>
