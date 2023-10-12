@@ -36,6 +36,7 @@
     :sizes="sizes"
     :currentSize="currentSize"
     @search="handleSearch"
+    @toggle-status="handleToggleStatus"
     @show-update="handleShowUpdateProject"
     @delete="handleDeleteProject"
     @pagination-change="handlePaginationChange"
@@ -110,6 +111,21 @@ const handleShowUpdateProject = (id) => {
   modalUpdateProject.value.show()
   project.value = results.value.find(({ _id }) => _id === id)
 }
+const handleToggleStatus = (id) => {
+  Swal.fire({
+    title: 'Êtes-vous sûr de vouloir changer le statut du projet ?',
+    text: 'Cette action est irriversible',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, changer !'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('Statut changé !', 'Le statut du projet a été changé avec succès.', 'success')
+    }
+  })
+}
 const handleDeleteProject = (id) => {
   Swal.fire({
     title: 'Êtes-vous sûr de vouloir supprimer le projet ?',
@@ -121,7 +137,7 @@ const handleDeleteProject = (id) => {
     confirmButtonText: 'Oui, supprimer !'
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire('Supprimé!', 'Le projet a été supprimé avec succès.', 'success')
+      Swal.fire('Supprimé !', 'Le projet a été supprimé avec succès.', 'success')
     }
   })
 }

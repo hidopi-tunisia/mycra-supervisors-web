@@ -94,7 +94,7 @@ const handleDeleteClient = (id) => {
     confirmButtonText: 'Oui, supprimer !'
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire('Supprimé!', 'Le client a été supprimé avec succès.', 'success')
+      Swal.fire('Supprimé !', 'Le client a été supprimé avec succès.', 'success')
     }
   })
 }

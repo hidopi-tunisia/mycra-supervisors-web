@@ -75,9 +75,7 @@ const handleSubmit = () => {
     cancelButtonColor: '#d33',
     confirmButtonText: 'Oui, envoyer !'
   }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Supprimé!', 'La notification à été envoyée.', 'success')
-    }
+    
   })
 }
 </script>

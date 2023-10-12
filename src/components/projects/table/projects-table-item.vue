@@ -36,6 +36,20 @@
           <i class="bx bx-dots-vertical-rounded"></i>
         </button>
         <div class="dropdown-menu">
+          <a
+            class="dropdown-item with-pointer"
+            v-show="props.item.status === 'inactive'"
+            @click="emit('toggle-status', props.item._id)"
+          >
+            <i class="bx bx-check me-1"></i>Rendre actif
+          </a>
+          <a
+            class="dropdown-item with-pointer"
+            v-show="props.item.status === 'active'"
+            @click="emit('toggle-status', props.item._id)"
+          >
+            <i class="bx bx-x me-1"></i>Rendre inactif
+          </a>
           <a class="dropdown-item with-pointer" @click="emit('update', props.item._id)"
             ><i class="bx bx-edit-alt me-1"></i> Modifier</a
           >
@@ -50,7 +64,7 @@
 
 <script setup lang="ts">
 const props = defineProps({ item: Object })
-const emit = defineEmits(['update', 'delete'])
+const emit = defineEmits(['update', 'delete', 'toggle-status'])
 </script>
 
 <style scoped>
