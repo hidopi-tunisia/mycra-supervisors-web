@@ -103,8 +103,8 @@
       <div class="card">
         <div class="row row-bordered g-0">
           <div class="col-md-12">
-            <h5 class="card-header m-0 me-2 pb-3">Total Revenue</h5>
-            <div id="totalRevenueChart" class="px-2"></div>
+            <h5 class="card-header m-0 me-2 pb-3">CRAs saisis chaques années</h5>
+            <div id="chart-consultants-absence" class="px-2"></div>
           </div>
         </div>
       </div>
