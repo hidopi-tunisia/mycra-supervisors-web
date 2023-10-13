@@ -116,8 +116,8 @@
         </router-link>
       </li>
       <li class="menu-header"></li>
-      <li class="menu-item" :class="route.name === 'about' ? 'active' : ''">
-        <router-link to="/about">
+      <li class="menu-item" :class="route.name === 'upgrade' ? 'active' : ''">
+        <router-link to="/upgrade">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-star"></i>
             <div data-i18n="Analytics">Mettre à niveau votre forfait</div>

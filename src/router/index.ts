@@ -55,6 +55,11 @@ const router = createRouter({
       path: '/notifications',
       name: 'notifications',
       component: NotificationsView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: NotificationsView
     }
   ]
 })

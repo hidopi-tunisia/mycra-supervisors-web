@@ -34,8 +34,11 @@
           ></button>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-5 wrapper overflow-auto">
+          <div class="row" v-if="Array.isArray(results) && results.length > 0">
+            <div
+              class="col-5 wrapper overflow-auto"
+              v-if="Array.isArray(filtered) && filtered.length > 0"
+            >
               <item
                 class="with-pointer"
                 :key="i._id"
@@ -45,8 +48,26 @@
                 @select="handleSelect(i)"
               />
             </div>
+            <div
+              v-else
+              class="col-5 wrapper overflow-auto d-flex justify-content-center align-items-center"
+            >
+              Pas de consultants, merci de changer votre filtre
+            </div>
             <div class="col-7">
               <consultant-summary v-if="selected" :data="selected" />
+            </div>
+          </div>
+          <div class="row" v-else>
+            <div
+              class="col-12 wrapper overflow-auto d-flex justify-content-center align-items-center"
+            >
+              <div class="d-flex flex-column justify-content-center align-items-center">
+                <div class="mb-3">Pas de consultants</div>
+                <router-link to="/consultants/new">
+                  <a class="btn btn-outline-primary" href="#" @click="hide"> Créer un consultant</a>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -58,6 +79,7 @@
             type="button"
             class="btn btn-primary"
             data-bs-dismiss="modal"
+            v-if="Array.isArray(results) && results.length > 0"
             @click="handleConfirm"
           >
             Confirmer
@@ -83,7 +105,7 @@ const loading = ref(false)
 const pages = ref(5)
 const currentPage = ref(1)
 const sizes = ref([5, 10, 25, 50, 100])
-const currentSize = ref(10)
+const currentSize = ref(100)
 const fn = async () => {
   try {
     loading.value = true
@@ -122,7 +144,9 @@ const show = () => {
 }
 const hide = (cb) => {
   $('#consultant-picker-modal').modal('hide')
-  if (cb) cb()
+  if (typeof cb === 'function') {
+    cb()
+  }
 }
 const onHide = (cb) => {
   $('#consultant-picker-modal').on('hidden.bs.modal', cb)
