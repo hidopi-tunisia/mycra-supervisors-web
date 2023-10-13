@@ -1,6 +1,6 @@
-import Modal from '@/components/consultants/modals/consultant-picker-modal/consultant-picker-modal.vue'
 import { createApp } from 'vue'
 import router from '@/router'
+import Modal from '@/components/consultants/modals/consultant-picker-modal/consultant-picker-modal.vue'
 
 const Picker = {
   instance: null,

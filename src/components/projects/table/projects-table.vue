@@ -21,6 +21,7 @@
             <th>Client</th>
             <th>Consultant</th>
             <th>Code</th>
+            <th>Catégorie</th>
             <th>Statut</th>
             <th>Actions</th>
           </tr>

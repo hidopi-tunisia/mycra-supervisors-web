@@ -20,7 +20,7 @@
             <th>Nom</th>
             <th>Référencé depuis</th>
             <th>Projet en cours</th>
-            <th>Clients</th>
+            <th>Consultants</th>
             <th>Actions</th>
           </tr>
         </thead>

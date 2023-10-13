@@ -12,7 +12,7 @@
     <td>
       <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
         <li
-          v-for="a in props.item!.clients"
+          v-for="a in props.item!.consultants"
           data-bs-toggle="tooltip"
           data-popup="tooltip-custom"
           data-bs-placement="top"
