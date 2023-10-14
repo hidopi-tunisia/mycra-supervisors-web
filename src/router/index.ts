@@ -8,6 +8,7 @@ import ClientsView from '@/views/clients/clients-view.vue'
 import ClientDetailsView from '@/views/clients/client-details-view.vue'
 import ClientCreateView from '@/views/clients/new-client-view.vue'
 import NotificationsView from '@/views/notifications/notifications-view.vue'
+import MeView from  '@/views/me/me-view.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -55,6 +56,11 @@ const router = createRouter({
       path: '/notifications',
       name: 'notifications',
       component: NotificationsView
+    },
+    {
+      path: '/me',
+      name: 'me',
+      component: MeView
     },
     {
       path: '/about',

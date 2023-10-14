@@ -30,8 +30,8 @@
             :key="item._id"
             :item="item"
             @delete="handleDelete"
-            @update="handleUpdate"
             @notify="handleNotify"
+            @assign-project="handleAssignProject"
           />
         </tbody>
         <tfoot>
@@ -64,19 +64,26 @@ const props = defineProps({
   sizes: Array<Number>,
   currentSize: Number
 })
-const emit = defineEmits(['search', 'delete', 'show-update', 'pagination-change', 'size-change'])
+const emit = defineEmits([
+  'search',
+  'delete',
+  'pagination-change',
+  'size-change',
+  'notify',
+  'assign-project'
+])
 const handleInputSearch = ({ target }) => {
   const { value } = target
   emit('search', value)
-}
-const handleUpdate = (id) => {
-  emit('show-update', id)
 }
 const handleDelete = (id) => {
   emit('delete', id)
 }
 const handleNotify = (id) => {
   emit('notify', id)
+}
+const handleAssignProject = (id) => {
+  emit('assign-project', id)
 }
 const handleChangePagination = (page) => {
   emit('pagination-change', page)

@@ -35,7 +35,11 @@
             data-bs-toggle="dropdown"
           >
             <div class="avatar avatar-online">
-              <img src="../../../assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle" />
+              <img
+                src="../../../assets/img/avatars/company.jpg"
+                alt=""
+                class="w-px-40 h-auto rounded-circle"
+              />
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -45,16 +49,18 @@
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
                       <img
-                        src="../../../assets/img/avatars/1.png"
+                        src="../../../assets/img/avatars/company.jpg"
                         alt=""
                         class="w-px-40 h-auto rounded-circle"
                       />
                     </div>
                   </div>
-                  <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">John Doe</span>
-                    <small class="text-muted">Superviseur</small>
-                  </div>
+                  <router-link to="/profile">
+                    <div class="flex-grow-1">
+                      <span class="fw-semibold d-block">John Doe</span>
+                      <small class="text-muted">Superviseur</small>
+                    </div>
+                  </router-link>
                 </div>
               </a>
             </li>
@@ -62,10 +68,12 @@
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <a class="dropdown-item" href="#">
-                <i class="bx bx-user me-2"></i>
-                <span class="align-middle">Mon profil</span>
-              </a>
+              <router-link to="/profile">
+                <a class="dropdown-item" href="#">
+                  <i class="bx bx-user me-2"></i>
+                  <span class="align-middle">Mon profil</span>
+                </a>
+              </router-link>
             </li>
             <li>
               <div class="dropdown-divider"></div>

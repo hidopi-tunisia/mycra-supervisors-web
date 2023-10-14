@@ -20,7 +20,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-4 offset-4 mb-3">
       <div class="card">
         <div class="card-body">
@@ -31,7 +30,7 @@
               </div>
             </div>
             <div class="dropdown">
-              <button class="btn btn-outline-primary" @click="handleClickNotify">
+              <button class="btn btn-outline-primary" @click="handleClickNotifyRest">
                 Notifier le reste
               </button>
             </div>
@@ -57,9 +56,9 @@
     :sizes="sizes"
     :currentSize="currentSize"
     @search="handleSearch"
-    @show-update="handleShowUpdateConsultant"
     @delete="handleDeleteConsultant"
     @notify="handleNotifyConsultant"
+    @assign-project="handleAssignProject"
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
@@ -70,6 +69,7 @@ import { getClients } from '@/api/clients'
 import { getConsultants } from '@/api/consultants'
 import ConsultantsTable from '@/components/consultants/table/consultants-table.vue'
 import ConsultantsNotifier from '@/components/shared/notifiers/consultants-notifier'
+import Picker from '@/components/shared/pickers/projects-picker'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
 
@@ -113,15 +113,6 @@ const handleSearch = (value) => {
     )
   })
 }
-const consultant = ref(null)
-const handleUpdateConsultant = (consultant) => {
-  console.log(consultant)
-  modalUpdateConsultant.value.hide()
-}
-const handleShowUpdateConsultant = (id) => {
-  modalUpdateConsultant.value.show()
-  consultant.value = results.value.find(({ _id }) => _id === id)
-}
 const handleDeleteConsultant = (id) => {
   Swal.fire({
     title: 'Êtes-vous sûr de vouloir supprimer le consultant ?',
@@ -143,10 +134,31 @@ const handlePaginationChange = (p) => {
 const handleSizeChange = (s) => {
   currentSize.value = s
 }
-const handleClickNotify = () => {
+const handleClickNotifyRest = () => {
   const fn = async () => {
     const message = await ConsultantsNotifier.notify()
     console.log(message)
+    Swal.fire({
+      title: 'Consultants notifés',
+      text: `Le notification a été envoyé vers les consultant.`,
+      icon: 'success',
+      confirmButtonText: 'OK'
+    })
+  }
+  fn()
+}
+const handleAssignProject = (id) => {
+  const fn = async () => {
+    const project = await Picker.pick()
+    console.log('project: ', project._id)
+    console.log('client: ', project.client)
+    console.log('consultant: ', id)
+    Swal.fire({
+      title: 'Consultant assigné au projet',
+      text: `Le consultant a été assigné au projet avec succès.`,
+      icon: 'success',
+      confirmButtonText: 'OK'
+    })
   }
   fn()
 }
@@ -167,8 +179,6 @@ const handleNotifyConsultant = (id) => {
   }
   fn()
 }
-const modalCreateConsultant = ref(null)
-const modalUpdateConsultant = ref(null)
 </script>
 
 <style lang="css" scoped>

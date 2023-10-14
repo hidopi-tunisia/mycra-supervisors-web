@@ -42,13 +42,13 @@
         </h5>
         <div class="card-body">
           <p v-if="selected.status === 'submitted'">
-            Le CRA à été envoyé à <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
+            Le CRA a été envoyé à <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
           </p>
           <p v-if="selected.status === 'approved'">
             Le CRA est apprové le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
           </p>
           <p v-if="selected.status === 'rejected'">
-            Le à été rejeté le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
+            Le a été rejeté le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
           </p>
           <Calendar :selected="selected" @click-day="handleClickDay" class="mx-auto mb-4" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
