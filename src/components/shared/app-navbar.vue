@@ -55,7 +55,7 @@
                       />
                     </div>
                   </div>
-                  <router-link to="/profile">
+                  <router-link to="/me">
                     <div class="flex-grow-1">
                       <span class="fw-semibold d-block">John Doe</span>
                       <small class="text-muted">Superviseur</small>
@@ -68,21 +68,12 @@
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <router-link to="/profile">
+              <router-link to="/me">
                 <a class="dropdown-item" href="#">
                   <i class="bx bx-user me-2"></i>
                   <span class="align-middle">Mon profil</span>
                 </a>
               </router-link>
-            </li>
-            <li>
-              <div class="dropdown-divider"></div>
-            </li>
-            <li @click="handleClickCopyToken">
-              <a class="dropdown-item" href="#">
-                <i class="bx bx-key me-2"></i>
-                <span class="align-middle">Copier l'autorisation</span>
-              </a>
             </li>
             <li>
               <div class="dropdown-divider"></div>

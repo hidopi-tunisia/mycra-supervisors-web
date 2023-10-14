@@ -36,7 +36,6 @@
     :sizes="sizes"
     :currentSize="currentSize"
     @search="handleSearch"
-    @show-update="handleUpdateClient"
     @delete="handleDeleteClient"
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
@@ -79,10 +78,6 @@ const handleSearch = (value) => {
     )
   })
 }
-const client = ref(null)
-const handleUpdateClient = (id) => {
-  client.value = results.value.find(({ _id }) => _id === id)
-}
 const handleDeleteClient = (id) => {
   Swal.fire({
     title: 'Êtes-vous sûr de vouloir supprimer le client ?',
@@ -104,7 +99,6 @@ const handlePaginationChange = (p) => {
 const handleSizeChange = (s) => {
   currentSize.value = s
 }
-const modalCreateClient = ref(null)
 </script>
 
 <style lang="css" scoped>

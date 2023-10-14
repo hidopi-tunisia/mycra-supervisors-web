@@ -30,7 +30,6 @@
             :key="item._id"
             :item="item"
             @delete="handleDelete"
-            @update="handleUpdate"
           />
         </tbody>
         <tfoot>
@@ -61,9 +60,6 @@ const emit = defineEmits(['search', 'delete', 'show-update', 'pagination-change'
 const handleInputSearch = ({ target }) => {
   const { value } = target
   emit('search', value)
-}
-const handleUpdate = (id) => {
-  emit('show-update', id)
 }
 const handleDelete = (id) => {
   emit('delete', id)

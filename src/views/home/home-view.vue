@@ -7,11 +7,14 @@
             <div class="card-body">
               <h5 class="card-title text-primary">Bonjour John ! 🎉</h5>
               <p class="mb-4">
-                Vous pouvez modifier votre profil en cliquant sur le bouton
+                Vous pouvez consulter votre profil en cliquant sur le bouton
                 <span class="fw-bold">Consulter mon profil</span>.
               </p>
-
-              <a href="javascript:;" class="btn btn-sm btn-outline-primary">Consulter mon profil</a>
+              <router-link to="/me">
+                <a href="#" class="btn btn-sm btn-outline-primary"
+                  >Consulter mon profil</a
+                >
+              </router-link>
             </div>
           </div>
           <div class="col-sm-5 text-center text-sm-left">
@@ -206,7 +209,7 @@
 </template>
 
 <script setup lang="ts">
-import { drawAnalytics } from '../../../assets/js/dashboards-analytics'
+import { drawAnalytics } from '../../../public/assets/js/dashboards-analytics'
 import { getProfile } from '@/domain/me'
 import { ref } from 'vue'
 const profile = ref(null)
@@ -259,3 +262,4 @@ setTimeout(() => {
   color: #ffc107;
 }
 </style>
+../../../public/assets/js/dashboards-analytics

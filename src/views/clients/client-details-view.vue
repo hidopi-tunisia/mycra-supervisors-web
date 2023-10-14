@@ -29,7 +29,6 @@ const { params } = useRoute()
 const { id } = params
 const result = ref(null)
 const loading = ref(false)
-console.log('frjgjois');
 
 const fn = async () => {
   try {
