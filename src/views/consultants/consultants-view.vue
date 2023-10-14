@@ -20,6 +20,27 @@
         </div>
       </div>
     </div>
+
+    <div class="col-4 offset-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <div class="rounded-avatar border-consultants">
+                <i class="bx bx-bell bx-sm align-middle icon-consultants"></i>
+              </div>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-outline-primary" @click="handleClickNotify">
+                Notifier le reste
+              </button>
+            </div>
+          </div>
+          <span class="d-block mb-1">CRAs saisi ce mois</span>
+          <h3 class="card-title text-nowrap mb-2">50%</h3>
+        </div>
+      </div>
+    </div>
   </div>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-style1">
@@ -47,6 +68,7 @@
 import { getClients } from '@/api/clients'
 import { getConsultants } from '@/api/consultants'
 import ConsultantsTable from '@/components/consultants/table/consultants-table.vue'
+import ConsultantsNotifier from '@/components/shared/notifiers/consultants-notifier'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
 
@@ -120,6 +142,13 @@ const handlePaginationChange = (p) => {
 const handleSizeChange = (s) => {
   currentSize.value = s
 }
+const handleClickNotify = () => {
+  const fn = async () => {
+    const message = await ConsultantsNotifier.notify()
+    console.log(message)
+  }
+  fn()
+}
 const modalCreateConsultant = ref(null)
 const modalUpdateConsultant = ref(null)
 </script>
@@ -135,6 +164,9 @@ const modalUpdateConsultant = ref(null)
 }
 .bg-consultants {
   background-color: #f4433633;
+}
+.border-consultants {
+  border: 1px solid #f44336;
 }
 .icon-consultants {
   color: #f44336;
