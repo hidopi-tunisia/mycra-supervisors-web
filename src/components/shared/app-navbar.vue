@@ -96,6 +96,7 @@
 <script setup lang="ts">
 import { getAuthorization } from '@/domain/auth'
 import { signOut } from '@/domain/auth'
+import Swal from 'sweetalert2'
 
 const handleClickCopyToken = () => {
   const fn = async () => {
@@ -105,9 +106,20 @@ const handleClickCopyToken = () => {
   fn()
 }
 const handleClickLogout = () => {
-  if (confirm('Are you sure to logout?')) {
-    signOut()
-  }
+  Swal.fire({
+    title: 'Se déconnecter ?',
+    text: 'Êtes-vous sûr de se déconnecter',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui',
+    cancelButtonText: 'Non'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      signOut()
+    }
+  })
 }
 </script>
 

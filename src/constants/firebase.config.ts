@@ -4,8 +4,8 @@ const FIREBASE_CONFIG = {
   projectId: 'mycra-dev',
   storageBucket: 'mycra-dev.appspot.com',
   messagingSenderId: '474737003844',
-  appId: '1:474737003844:web:29df8548ab6c9915cd5b11',
-  measurementId: 'G-T6VZS6SR76'
+  appId: '1:474737003844:web:9e94725acaf927f2cd5b11',
+  measurementId: 'G-RKJCRZ60C6'
 }
 
 export { FIREBASE_CONFIG }
