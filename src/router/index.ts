@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import HomeView from '@/views/home/home-view.vue'
 import ProjectsView from '@/views/projects/projects-view.vue'
 import ConsultantsView from '@/views/consultants/consultants-view.vue'
@@ -10,7 +10,7 @@ import ClientCreateView from '@/views/clients/new-client-view.vue'
 import NotificationsView from '@/views/notifications/notifications-view.vue'
 import MeView from  '@/views/me/me-view.vue'
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',

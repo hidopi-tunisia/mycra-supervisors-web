@@ -209,7 +209,7 @@
 </template>
 
 <script setup lang="ts">
-import { drawAnalytics } from '../../../public/assets/js/dashboards-analytics'
+import { drawAnalytics } from '../../../assets/js/dashboards-analytics'
 import { getProfile } from '@/domain/me'
 import { ref } from 'vue'
 const profile = ref(null)
@@ -262,4 +262,4 @@ setTimeout(() => {
   color: #ffc107;
 }
 </style>
-../../../public/assets/js/dashboards-analytics
+../../../assets/js/dashboards-analytics
