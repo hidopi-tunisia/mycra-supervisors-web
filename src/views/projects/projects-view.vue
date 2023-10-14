@@ -64,7 +64,8 @@ import ProjectCreateModal from '@/components/projects/modals/project-create-moda
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
 import Swal from 'sweetalert2'
-import Picker from '@/components/shared/pickers/constultants-picker'
+import ConsultantsPicker from '@/components/shared/pickers/constultants-picker'
+import ClientsPicker from '@/components/shared/pickers/clients-picker'
 import { ref } from 'vue'
 
 const results = ref(null)
@@ -159,7 +160,7 @@ const modalUpdateProject = ref(null)
 const handleAssignConsultant = () => {
   const fn = async () => {
     try {
-      const { _id } = await Picker.pick()
+      const { _id } = await ConsultantsPicker.pick()
       console.log(_id)
     } catch (error) {
       console.log(error)
@@ -171,7 +172,7 @@ const client = ref(null)
 const handleAssignClient = () => {
   const fn = async () => {
     try {
-      const c = await Picker.pick()
+      const c = await ClientsPicker.pick()
       console.log(c)
 
       console.log(c._id)
