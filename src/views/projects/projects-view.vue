@@ -43,7 +43,12 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
-  <project-create-modal ref="modalCreateProject" :clients="resultsClients" />
+  <project-create-modal
+    ref="modalCreateProject"
+    :clients="resultsClients"
+    :client="client"
+    @assign-client="handleAssignClient"
+  />
   <project-update-modal
     ref="modalUpdateProject"
     :clients="resultsClients"
@@ -156,6 +161,22 @@ const handleAssignConsultant = () => {
     try {
       const { _id } = await Picker.pick()
       console.log(_id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
+}
+const client = ref(null)
+const handleAssignClient = () => {
+  const fn = async () => {
+    try {
+      const c = await Picker.pick()
+      console.log(c)
+
+      console.log(c._id)
+
+      client.value = c
     } catch (error) {
       console.log(error)
     }

@@ -36,26 +36,14 @@
             <div class="btn-group mb-3">
               <button
                 type="button"
-                class="btn btn-outline-secondary dropdown-toggle"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+                class="btn btn-outline-secondary"
+                @click="handleClickAssignClient"
               >
-                <span v-if="client"
-                  >{{ client.company.name }} - {{ client.firstName }} {{ client.lastName }}</span
+                <span v-if="props.client"
+                  >{{ props.client.company.name }} - {{ props.client.firstName }} {{ props.client.lastName }}</span
                 >
                 <span v-else> Sélectionner un client</span>
               </button>
-              <ul class="dropdown-menu">
-                <li class="with-pointer">
-                  <a
-                    class="dropdown-item"
-                    :key="c._id"
-                    v-for="c in props.clients"
-                    @click="handleClickClient(c._id)"
-                    >{{ c.company.name }} - {{ c.firstName }} {{ c.lastName }}
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
           <div class="row g-2">
@@ -122,12 +110,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 const $ = window.jQuery
-const props = defineProps({ clients: Array<Object> })
-const client = ref(null)
-const handleClickClient = (id) => {
-  client.value = props.clients.find(({ _id }) => _id === id)
+const props = defineProps({ clients: Array<Object>, client: Object })
+const emit = defineEmits(['assign-client'])
+const handleClickAssignClient = () => {
+  emit('assign-client')
 }
 const show = () => {
   $('#project-create-modal').modal('show')

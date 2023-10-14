@@ -27,7 +27,7 @@
         <div class="col-6">
           <div>Email</div>
           <div class="fw-bold my-2">
-            <a :href="'mailto:' + props.data.phone">{{ props.data.email }}</a>
+            <a :href="'mailto:' + props.data.email">{{ props.data.email }}</a>
           </div>
         </div>
       </div>
@@ -63,9 +63,9 @@
     </div>
     <div class="row">
       <div class="mb-3 col-md-4">
-        <label for="address" class="form-label">Profil LinkedIn</label>
+        <label for="linked-in" class="form-label">Profil LinkedIn</label>
         <p>
-          <a target="_blank" :href="props.data.linkedIn">Visiter profil</a>
+          <a target="_blank" id="linked-in" :href="props.data.linkedIn">Visiter profil</a>
         </p>
       </div>
       <div class="mb-3 col-md-4">
