@@ -15,8 +15,7 @@
   <ul class="nav nav-pills flex-column flex-md-row mb-3">
     <li class="nav-item">
       <a
-        class="nav-link"
-        href="#"
+        class="nav-link with-pointer"
         :class="tab === 'profile' ? 'active' : ''"
         @click="handleClickTab('profile')"
         ><i class="bx bx-user me-1"></i> Profil</a
@@ -24,8 +23,7 @@
     </li>
     <li class="nav-item">
       <a
-        class="nav-link"
-        href="#"
+        class="nav-link with-pointer"
         :class="tab === 'history' ? 'active' : ''"
         @click="handleClickTab('history')"
         ><i class="bx bx-time me-1"></i> Historique</a
