@@ -11,7 +11,9 @@
         <div class="modal-header">
           <div class="row d-flex align-items-center">
             <div class="col">
-              <h5 class="modal-title" id="consultants-notifier-modal-title">My CRA</h5>
+              <h5 class="modal-title" id="consultants-notifier-modal-title">
+                My CRA <label v-if="target"> - {{ target }}</label>
+              </h5>
             </div>
           </div>
           <button
@@ -24,13 +26,26 @@
         <div class="modal-body">
           <div class="row">
             <div class="mb-3 col-12">
-              <label for="note" class="form-label">Message</label>
+              <div class="d-flex justify-content-between">
+                <label for="note" class="form-label"
+                  >Message
+                  <button class="btn btn-sm btn-simple" @click="handleClickRestoreIntialMessage">
+                    Restaurer le message initial
+                  </button>
+                </label>
+                <button
+                  class="btn btn-sm btn-outline-danger mb-1"
+                  @click="handleClickDeleteMessage"
+                >
+                  Vider
+                </button>
+              </div>
               <textarea
                 class="form-control"
                 id="address"
                 name="address"
-                rows="2"
-                placeholder="Ex : 123 rue des Oranges"
+                rows="4"
+                placeholder="Pensez à saisir votre CRA"
                 :value="message"
                 @input="handleInputSearch"
               ></textarea>
@@ -58,14 +73,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const $ = window.jQuery
-const message = ref(
-  `Pensez à saisir votre CRA pour le mois (${
-    new Date().getMonth() + 1
-  } - ${new Date().getFullYear()})`
-)
+const INITIAL_MESSAGE = `Pensez à saisir votre CRA pour le mois (${
+  new Date().getMonth() + 1
+} - ${new Date().getFullYear()})`
+const message = ref(INITIAL_MESSAGE)
 const handleInputSearch = ({ target }) => {
   const { value } = target
   message.value = value
+}
+const handleClickRestoreIntialMessage = () => {
+  message.value = INITIAL_MESSAGE
+}
+const handleClickDeleteMessage = () => {
+  message.value = ''
 }
 let callback
 const handleConfirm = () => {
@@ -74,7 +94,10 @@ const handleConfirm = () => {
 const onPositive = (cb) => {
   callback = cb
 }
-const show = () => {
+const target = ref('')
+const show = (t) => {
+  target.value = t
+  message.value = INITIAL_MESSAGE
   $('#consultants-notifier-modal').modal('show')
 }
 const hide = (cb) => {

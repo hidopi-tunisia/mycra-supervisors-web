@@ -4,14 +4,14 @@ import Modal from '@/components/consultants/modals/notifications/consultants-not
 
 const Notifier = {
   instance: null,
-  init() {
+  init(target) {
     const div = document.createElement('div')
     this.instance = createApp(Modal).use(router).mount(div)
     document.body.appendChild(this.instance.$el)
-    this.instance.show()
+    this.instance.show(target)
   },
-  notify() {
-    this.init()
+  notify(target = null) {
+    this.init(target)
     this.instance.onHide(() => {
       this.instance.hide(() => {
         setTimeout(() => {

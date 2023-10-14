@@ -4,7 +4,9 @@
       <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <router-link :to="'consultants/' + props.item._id">
         <img class="avatar rounded" :src="props.item.profilePhoto" />
-        <strong class="text-gray mx-2">{{ props.item!.firstName }} {{ props.item!.lastName }}</strong>
+        <strong class="text-gray mx-2"
+          >{{ props.item!.firstName }} {{ props.item!.lastName }}</strong
+        >
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>
     </td>
@@ -24,6 +26,9 @@
           <i class="bx bx-dots-vertical-rounded"></i>
         </button>
         <div class="dropdown-menu">
+          <a class="dropdown-item with-pointer" @click="emit('notify', props.item._id)"
+            ><i class="bx bx-bell me-1"></i> Notifier</a
+          >
           <a class="dropdown-item with-pointer" @click="emit('update', props.item._id)"
             ><i class="bx bx-edit-alt me-1"></i> Modifier</a
           >
@@ -38,7 +43,7 @@
 
 <script setup lang="ts">
 const props = defineProps({ item: Object })
-const emit = defineEmits(['update', 'delete'])
+const emit = defineEmits(['notify', 'update', 'delete'])
 const handleClickAvatar = (a) => {
   console.log(a)
 }

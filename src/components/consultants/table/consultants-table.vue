@@ -31,6 +31,7 @@
             :item="item"
             @delete="handleDelete"
             @update="handleUpdate"
+            @notify="handleNotify"
           />
         </tbody>
         <tfoot>
@@ -56,7 +57,13 @@
 import ConsultantsTableItem from '@/components/consultants/table/consultants-table-item.vue'
 import TablePagination from '@/components/shared/table/table-pagination.vue'
 import TableSize from '@/components/shared/table/table-size.vue'
-const props = defineProps({ items: Array, pages: Number, currentPage: Number, sizes: Array<Number>, currentSize: Number })
+const props = defineProps({
+  items: Array,
+  pages: Number,
+  currentPage: Number,
+  sizes: Array<Number>,
+  currentSize: Number
+})
 const emit = defineEmits(['search', 'delete', 'show-update', 'pagination-change', 'size-change'])
 const handleInputSearch = ({ target }) => {
   const { value } = target
@@ -67,6 +74,9 @@ const handleUpdate = (id) => {
 }
 const handleDelete = (id) => {
   emit('delete', id)
+}
+const handleNotify = (id) => {
+  emit('notify', id)
 }
 const handleChangePagination = (page) => {
   emit('pagination-change', page)

@@ -151,21 +151,7 @@ const handleClickNotify = () => {
   fn()
 }
 const handleNotifyConsultant = (id) => {
-  const fn = async () => {
-    const consultant = results.value.find(({ _id }) => _id === id)
-    if (consultant) {
-      const t = `${consultant.firstName} ${consultant.lastName}`
-      const message = await ConsultantsNotifier.notify(t)
-      console.log(message)
-      Swal.fire({
-        title: 'Consultant notifé',
-        text: `Le notification a été envoyé vers le consultant ${t} avec succès.`,
-        icon: 'success',
-        confirmButtonText: 'OK'
-      })
-    }
-  }
-  fn()
+  alert(id)
 }
 const modalCreateConsultant = ref(null)
 const modalUpdateConsultant = ref(null)
