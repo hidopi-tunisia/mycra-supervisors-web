@@ -93,6 +93,6 @@ const props = defineProps(['data'])
 
 <style scoped>
 .wrapper {
-  height: 300px;
+  height: 200px;
 }
 </style>
