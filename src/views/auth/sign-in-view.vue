@@ -91,11 +91,9 @@
                 />
               </div>
               <div class="mb-3 form-password-toggle">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between with-pointer" @click="handleClickResetPassword">
                   <label class="form-label" for="password">Mot de passe</label>
-                  <a href="auth-forgot-password-basic.html">
-                    <small>Mot de passe oublié ?</small>
-                  </a>
+                  <small>Mot de passe oublié ?</small>
                 </div>
                 <div class="input-group input-group-merge">
                   <input
@@ -130,7 +128,7 @@
               </div>
               <div class="mb-3">
                 <button
-                  class="btn btn-primary d-grid w-100"
+                  class="btn btn-primary d-grid w-100 d-flex justify-content-center"
                   type="submit"
                   v-if="loading"
                   :disabled="loading"
@@ -139,7 +137,11 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
                 </button>
-                <button class="btn btn-primary d-grid w-100" type="submit" v-else>
+                <button
+                  class="btn btn-primary d-grid w-100 btn-sign-in d-flex justify-content-center align-items-center"
+                  type="submit"
+                  v-else
+                >
                   Se connecter
                 </button>
               </div>
@@ -154,14 +156,36 @@
 
 <script setup lang="ts">
 import { signIn } from '@/domain/auth'
+import Swal from 'sweetalert2'
 import { ref } from 'vue'
 let email
 let password = ''
 const loading = ref(false)
 const shown = ref(false)
+const handleClickResetPassword = () => {
+  Swal.fire({
+    title: `Réintialiser le mot de passe`,
+    text: 'Un email va vous sera envoyé pour réintialiser votre votre mot de passe.',
+    icon: 'info',
+    confirmButtonText: 'OK'
+  })
+}
 const handleSubmit = () => {
-  loading.value = true
-  signIn(email, password)
+  const fn = async () => {
+    try {
+      loading.value = true
+      await signIn(email, password)
+    } catch (error) {
+      loading.value = false
+      Swal.fire({
+        title: `Échec de connexion`,
+        text: 'La connexion a échoué',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
 }
 const handleClickToggleShown = (s) => {
   shown.value = !s
@@ -170,4 +194,7 @@ const handleClickToggleShown = (s) => {
 
 <style lang="css" scoped>
 @import './sign-in-view.css';
+.btn-sign-in {
+  height: 48px;
+}
 </style>
