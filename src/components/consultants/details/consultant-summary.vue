@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-3">
+    <div class="col-xs-12 col-md-3">
       <div class="d-flex align-items-start align-items-sm-center gap-4">
         <img
           :src="
@@ -16,15 +16,16 @@
         />
       </div>
     </div>
-    <div class="col-9">
+    <div class="col-xs-12 col-md-9">
+      <div class="mt-4 d-md-none"></div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-xs-12 col-md-6">
           <div class="mb-2">Nom et prénom</div>
           <div class="fw-bold">
             {{ props.data.civility }} {{ props.data.firstName }} {{ props.data.lastName }}
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-xs-12 col-md-6">
           <div>Email</div>
           <div class="fw-bold my-2">
             <a :href="'mailto:' + props.data.email">{{ props.data.email }}</a>
@@ -32,11 +33,11 @@
         </div>
       </div>
       <div class="row my-2">
-        <div class="col-6">
+        <div class="col-xs-12 col-md-6">
           <div class="mb-2">Poste</div>
           <div class="fw-bold my-2">{{ props.data.position }}</div>
         </div>
-        <div class="col-6">
+        <div class="col-xs-12 col-md-6">
           <div>Téléphone</div>
           <div class="fw-bold my-2">
             <a :href="'tel:' + props.data.phone">{{ props.data.phone }}</a>
