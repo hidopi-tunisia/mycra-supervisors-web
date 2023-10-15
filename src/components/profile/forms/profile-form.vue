@@ -15,22 +15,22 @@
             />
           </div>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-md-9">
           <div class="row">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div class="mb-2">Nom et prénom</div>
               <div class="fw-bold">
                 {{ props.profile.civility }} {{ props.profile.firstName }}
                 {{ props.profile.lastName }}
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div>Email</div>
               <div class="fw-bold my-2">
                 <a :href="'mailto:' + props.profile.phone">{{ props.profile.email }}</a>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
               <div>Offre</div>
               <div class="fw-bold my-2 text-uppercase d-flex align-items-center">
                 {{ props.profile.offer }}
@@ -41,17 +41,17 @@
             </div>
           </div>
           <div class="row my-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div class="mb-2">Nom social</div>
               <div class="fw-bold my-2 text-capitalize">{{ props.profile.company?.name }}</div>
             </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div>Téléphone</div>
               <div class="fw-bold my-2">
                 <a :href="'tel:' + props.profile.phone">{{ props.profile.phone }}</a>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div>Consultants</div>
               <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
                 <li
@@ -225,10 +225,13 @@
         </div>
       </div>
       <div class="mt-2">
-        <button type="submit" class="btn btn-primary me-2" @click="handleClickUpdate">
+        <button type="submit" class="btn btn-primary me-2" @click="handleClickUpgrade">
           Mettre à jour
         </button>
-        <i class='bx bx-info-circle'></i> Demander une mise à jour des informations de votre profil
+        <div class="mt-2">
+          <i class="bx bx-info-circle"></i> Demander une mise à jour des informations de votre
+          profil
+        </div>
       </div>
     </div>
   </div>

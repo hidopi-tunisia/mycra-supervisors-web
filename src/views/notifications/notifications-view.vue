@@ -43,11 +43,12 @@
                 </label>
               </div>
               <div class="row">
-                <div class="col-6 my-3">
+                <div class="col-12 col-md-6 my-3">
                   <label for="textarea-notification-message" class="form-label">Message</label>
                   <textarea
                     type="text"
                     id="textarea-notification-message"
+                    rows="4"
                     class="form-control"
                     placeholder="Ex : Merci de saisir le CRA du mois."
                   ></textarea>

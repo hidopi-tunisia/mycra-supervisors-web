@@ -1,6 +1,6 @@
 <template>
   <div class="row" v-if="results">
-    <div class="col-4 mb-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
       <div class="card">
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4 offset-4 mb-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 offset-md-4 mb-3">
       <div class="card">
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
