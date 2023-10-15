@@ -99,7 +99,7 @@
                 </div>
                 <div class="input-group input-group-merge">
                   <input
-                    type="password"
+                    :type="shown ? 'text' : 'password'"
                     id="password"
                     class="form-control"
                     name="password"
@@ -108,7 +108,18 @@
                     :value="password"
                     @input="(event) => (password = (event.target as HTMLTextAreaElement).value)"
                   />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  <span
+                    class="input-group-text cursor-pointer"
+                    v-show="shown"
+                    @click="handleClickToggleShown(true)"
+                    ><i class="bx bx-hide"></i
+                  ></span>
+                  <span
+                    class="input-group-text cursor-pointer"
+                    v-show="!shown"
+                    @click="handleClickToggleShown(false)"
+                    ><i class="bx bx-show"></i
+                  ></span>
                 </div>
               </div>
               <div class="mb-3">
@@ -147,9 +158,13 @@ import { ref } from 'vue'
 let email
 let password = ''
 const loading = ref(false)
+const shown = ref(false)
 const handleSubmit = () => {
   loading.value = true
   signIn(email, password)
+}
+const handleClickToggleShown = (s) => {
+  shown.value = !s
 }
 </script>
 
