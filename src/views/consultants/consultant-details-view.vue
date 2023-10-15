@@ -13,7 +13,7 @@
     </ol>
   </nav>
   <ul class="nav nav-pills flex-column flex-md-row mb-3">
-    <li class="nav-item">
+    <li class="nav-item with-pointer">
       <a
         class="nav-link with-pointer"
         :class="tab === 'profile' ? 'active' : ''"
@@ -21,7 +21,7 @@
         ><i class="bx bx-user me-1"></i> Profil</a
       >
     </li>
-    <li class="nav-item">
+    <li class="nav-item with-pointer">
       <a
         class="nav-link with-pointer"
         :class="tab === 'history' ? 'active' : ''"
