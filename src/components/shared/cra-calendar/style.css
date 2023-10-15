@@ -1,8 +1,8 @@
 .calendar {
   width: 340px;
+  margin-left: -20px;
 }
 .calendar__date {
-  padding: 6px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
   grid-gap: 12px;

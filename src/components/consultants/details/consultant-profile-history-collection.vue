@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-7 col-12 mb-md-0 mb-4">
+    <div class="col-md-12 col-lg-7 col-12 mb-lg-0 mb-4">
       <div class="card">
         <h5 class="card-header">Historique des CRAs</h5>
         <div class="card-body">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-5 col-12">
+    <div class="col-md-12 col-lg-5 col-12">
       <div class="card">
         <h5 class="card-header">
           CRA du {{ selected.month }} {{ selected.year }}
@@ -50,7 +50,7 @@
           <p v-if="selected.status === 'rejected'">
             Le a été rejeté le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
           </p>
-          <Calendar :selected="selected" @click-day="handleClickDay" class="mx-auto mb-4" />
+          <Calendar :selected="selected" @click-day="handleClickDay" class="mx-sm-auto mb-4" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
             >{{ selected.working }} Travaillés</span
           >

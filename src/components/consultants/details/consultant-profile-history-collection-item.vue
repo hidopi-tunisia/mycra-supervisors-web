@@ -15,14 +15,14 @@
           {{ props.history.month }}
         </h6>
         <small class="text-muted" v-if="props.history.status === 'submitted'">
-            Envoyé à <span class="fw-bold">{{ props.history.at.substring(0, 10) }}</span>
-          </small>
-          <small class="text-muted" v-if="props.history.status === 'approved'">
-            Apprové le <span class="fw-bold">{{ props.history.at.substring(0, 10) }}</span>
-          </small>
-          <small class="text-muted" v-if="props.history.status === 'rejected'">
-            Rejeté le <span class="fw-bold">{{ props.history.at.substring(0, 10) }}</span>
-          </small>
+          Envoyé à <span class="fw-bold">{{ props.history.at.substring(0, 10) }}</span>
+        </small>
+        <small class="text-muted" v-if="props.history.status === 'approved'">
+          Apprové le <span class="fw-bold">{{ props.history.at.substring(0, 10) }}</span>
+        </small>
+        <small class="text-muted" v-if="props.history.status === 'rejected'">
+          Rejeté le <span class="fw-bold">{{ props.history.at.substring(0, 10) }}</span>
+        </small>
       </div>
       <div class="col-3 text-end">
         <span class="badge bg-primary float-end" v-if="props.history.status === 'submitted'"
