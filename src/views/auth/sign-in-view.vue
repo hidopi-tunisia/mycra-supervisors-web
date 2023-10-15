@@ -118,7 +118,19 @@
                 </div>
               </div>
               <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" type="submit">Se connecter</button>
+                <button
+                  class="btn btn-primary d-grid w-100"
+                  type="submit"
+                  v-if="loading"
+                  :disabled="loading"
+                >
+                  <div class="spinner-grow" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+                <button class="btn btn-primary d-grid w-100" type="submit" v-else>
+                  Se connecter
+                </button>
               </div>
             </form>
           </div>
@@ -131,9 +143,12 @@
 
 <script setup lang="ts">
 import { signIn } from '@/domain/auth'
+import { ref } from 'vue'
 let email
 let password = ''
+const loading = ref(false)
 const handleSubmit = () => {
+  loading.value = true
   signIn(email, password)
 }
 </script>
