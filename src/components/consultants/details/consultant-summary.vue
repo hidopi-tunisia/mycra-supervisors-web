@@ -49,45 +49,45 @@
   <hr class="my-0" />
   <div class="row wrapper overflow-auto">
     <div class="row mt-3">
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="currency" class="form-label">Expérience dans le poste</label>
         <p>{{ props.data.yearsOfExperience }}</p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="skills" class="form-label">Compétences</label>
         <p>Skills</p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="skills" class="form-label">Projets</label>
         <p>{{props.data.projects.length}}</p>
       </div>
     </div>
     <div class="row">
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="linked-in" class="form-label">Profil LinkedIn</label>
         <p>
           <a target="_blank" id="linked-in" :href="props.data.linkedIn">Visiter profil</a>
         </p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="zipCode" class="form-label">Code postal</label>
         <p>{{ props.data.zipCode }}</p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="formFile" class="form-label">Dossier de compétence</label>
         <p>
           <a target="_blank" :href="props.data.doc">Voir le dossier</a>
         </p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="availableAt" class="form-label">Date de création</label>
         <p>{{ props.data.createdAt.substring(0, 10) }}</p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="availableAt" class="form-label">Date de disponibilité</label>
         <p>{{ props.data.availableAt.substring(0, 10) }}</p>
       </div>
-      <div class="mb-3 col-md-4">
+      <div class="mb-3 col-md-6 col-lg-4">
         <label for="hiredAt" class="form-label">Date d'embauche</label>
         <p>{{ props.data.hiredAt.substring(0, 10) }}</p>
       </div>

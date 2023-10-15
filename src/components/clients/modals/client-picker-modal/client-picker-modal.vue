@@ -36,7 +36,7 @@
         <div class="modal-body">
           <div class="row" v-if="Array.isArray(results) && results.length > 0">
             <div
-              class="col-xs-12 col-md-5 wrapper overflow-auto"
+              class="col-xs-12 col-lg-5 wrapper overflow-auto"
               v-if="Array.isArray(filtered) && filtered.length > 0"
             >
               <item
@@ -50,12 +50,12 @@
             </div>
             <div
               v-else
-              class="col-xs-12 col-md-5 wrapper overflow-auto d-flex justify-content-center align-items-center"
+              class="col-xs-12 col-lg-5 wrapper overflow-auto d-flex justify-content-center align-items-center"
             >
               Pas de clients, merci de changer votre filtre
             </div>
-            <div class="col-xs-12 col-md-7">
-              <div class="mt-4 d-md-none"></div>
+            <div class="col-xs-12 col-lg-7">
+              <div class="mt-4 d-lg-none"></div>
               <client-summary v-if="selected" :data="selected" />
             </div>
           </div>

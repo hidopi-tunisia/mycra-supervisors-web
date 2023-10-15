@@ -3,19 +3,19 @@
     <div class="mt-4 d-md-none"></div>
     <div class="col-12">
       <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Nom</div>
           <div class="fw-bold">
             {{ props.data.name }}
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div>Catégorie</div>
           <div class="fw-bold my-2">
             {{ props.data.category }}
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div>Statut</div>
           <span class="badge bg-label-success me-1" v-show="props.data!.status === 'active'">
             Active
@@ -26,19 +26,19 @@
         </div>
       </div>
       <div class="row my-2">
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Code</div>
           <div class="fw-bold my-2 text-uppercase">
             {{ props.data.projectCode.substring(0, 8) }}
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Client</div>
           <div class="fw-bold my-2 text-uppercase">
             {{ props.data.client }}
           </div>
         </div>
-        <div class="mb-3 col-md-4">
+        <div class="mb-3 col-md-6 col-lg-4">
           <label for="skills" class="form-label"
             >Consultants ({{ props.data?.consultants?.length }})</label
           >
@@ -58,19 +58,19 @@
         </div>
       </div>
       <div class="row my-2">
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div>Date de début</div>
           <div class="fw-bold my-2">
             {{ props.data.startDate.substring(0, 10) }}
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div>Date de fin</div>
           <div class="fw-bold my-2">
             {{ props.data.endDate.substring(0, 10) }}
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div>Date de création</div>
           <div class="fw-bold my-2">
             {{ props.data.createdAt.substring(0, 10) }}
