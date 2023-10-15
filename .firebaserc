@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "mycra-dev"
+  },
+  "targets": {
+    "mycra-dev": {
+      "hosting": {
+        "demo": [
+          "my-cra-demo"
+        ],
+        "dev": [
+          "mycra-dev"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
