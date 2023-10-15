@@ -4,7 +4,7 @@
       <h5 class="card-header">Profil du consultant</h5>
       <div class="card-body">
         <div class="row">
-          <div class="col-6">
+          <div class="col-xs-12 col-lg-6">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
               <img
                 :src="
@@ -38,15 +38,16 @@
               </div>
             </div>
           </div>
-          <div class="col-6" v-if="props.isUpdate">
+          <div class="mb-4 d-lg-none"></div>
+          <div class="col-xs-12 col-lg-6" v-if="props.isUpdate">
             <div class="row">
-              <div class="col-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="mb-2">Nom et prénom</div>
                 <div class="fw-bold">
                   {{ newProfile.civility }} {{ newProfile.firstName }} {{ newProfile.lastName }}
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-xs-12 col-sm-6">
                 <div>Email</div>
                 <div class="fw-bold my-2">
                   <a :href="'mailto:' + newProfile.phone">{{ newProfile.email }}</a>
@@ -54,11 +55,11 @@
               </div>
             </div>
             <div class="row my-2">
-              <div class="col-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="mb-2">Poste</div>
                 <div class="fw-bold my-2">{{ newProfile.position }}</div>
               </div>
-              <div class="col-6">
+              <div class="col-xs-12 col-sm-6">
                 <div>Téléphone</div>
                 <div class="fw-bold my-2">
                   <a :href="'tel:' + newProfile.phone">{{ newProfile.phone }}</a>
