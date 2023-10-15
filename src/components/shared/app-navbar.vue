@@ -5,7 +5,10 @@
     class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
     id="layout-navbar"
   >
-    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+    <div
+      class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none"
+      @click="handleClickToggle"
+    >
       <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
         <i class="bx bx-menu bx-sm"></i>
       </a>
@@ -44,32 +47,32 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <a class="dropdown-item" href="#">
-                <div class="d-flex">
-                  <div class="flex-shrink-0 me-3">
-                    <div class="avatar avatar-online">
-                      <img
-                        src="../../../assets/img/avatars/company.jpg"
-                        alt=""
-                        class="w-px-40 h-auto rounded-circle"
-                      />
+              <router-link to="/me">
+                <a class="dropdown-item" href="javascript:void(0)">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0 me-3">
+                      <div class="avatar avatar-online">
+                        <img
+                          src="../../../assets/img/avatars/company.jpg"
+                          alt=""
+                          class="w-px-40 h-auto rounded-circle"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <router-link to="/me">
                     <div class="flex-grow-1">
                       <span class="fw-semibold d-block">John Doe</span>
                       <small class="text-muted">Superviseur</small>
                     </div>
-                  </router-link>
-                </div>
-              </a>
+                  </div>
+                </a>
+              </router-link>
             </li>
             <li>
               <div class="dropdown-divider"></div>
             </li>
             <li>
               <router-link to="/me">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="javascript:void(0)">
                   <i class="bx bx-user me-2"></i>
                   <span class="align-middle">Mon profil</span>
                 </a>
@@ -79,7 +82,7 @@
               <div class="dropdown-divider"></div>
             </li>
             <li @click="handleClickLogout">
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="javascript:void(0)">
                 <i class="bx bx-power-off me-2"></i>
                 <span class="align-middle">Se déconnecter</span>
               </a>
@@ -120,6 +123,9 @@ const handleClickLogout = () => {
       signOut()
     }
   })
+}
+const handleClickToggle = () => {
+  window.Helpers.toggleCollapsed()
 }
 </script>
 
