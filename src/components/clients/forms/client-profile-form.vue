@@ -4,7 +4,7 @@
       <h5 class="card-header">Profil du client</h5>
       <div class="card-body">
         <div class="row">
-          <div class="col-6">
+          <div class="col-xs-12 col-lg-6">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
               <img
                 :src="
@@ -38,7 +38,8 @@
               </div>
             </div>
           </div>
-          <div class="col-6" v-if="props.isUpdate">
+          <div class="mb-4 d-lg-none"></div>
+          <div class="col-xs-12 col-lg-6" v-if="props.isUpdate">
             <div class="row">
               <div class="col-6">
                 <div class="mb-2">Nom et prénom</div>
