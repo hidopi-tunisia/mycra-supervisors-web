@@ -174,9 +174,7 @@ const handleAssignClient = () => {
     try {
       const c = await ClientsPicker.pick()
       console.log(c)
-
       console.log(c._id)
-
       client.value = c
     } catch (error) {
       console.log(error)

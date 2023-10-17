@@ -68,6 +68,8 @@
       @change="handleChangeYear"
       @select="handleChangeSelected"
       @click-day="handleClickDay"
+      @reject="handleReject"
+      @approve="handleApprove"
     />
   </form>
 </template>
@@ -104,6 +106,41 @@ const handleClickDay = (d) => {
     title: `${d} ${selected.value.month} ${current.value}`,
     text: `La reason d'absence est "` + reason + '"',
     icon: 'info',
+    confirmButtonText: 'OK'
+  })
+}
+
+const handleReject = () => {
+  Swal.fire({
+    title: 'La raison de rejet ?',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Confirmer',
+    cancelButtonText: 'Annuler',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      console.log(login)
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Rejetté`,
+        text: `Le CRA a été rejetté avec succès`,
+        icon: 'info',
+        confirmButtonText: 'OK'
+      })
+    }
+  })
+}
+const handleApprove = () => {
+  Swal.fire({
+    title: `Approuvé`,
+    text: `Le CRA a été approuvé avec succès`,
+    icon: 'success',
     confirmButtonText: 'OK'
   })
 }

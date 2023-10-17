@@ -57,10 +57,17 @@
     :currentSize="currentSize"
     @search="handleSearch"
     @delete="handleDeleteConsultant"
+    @view-cra="handleViewCRA"
     @notify="handleNotifyConsultant"
     @assign-project="handleAssignProject"
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
+  />
+  <consultant-cra
+    ref="modalConsultantCRA"
+    @day="handleClickDay"
+    @approve="handleApprove"
+    @reject="handleReject"
   />
 </template>
 
@@ -68,6 +75,7 @@
 import { getClients } from '@/api/clients'
 import { getConsultants } from '@/api/consultants'
 import ConsultantsTable from '@/components/consultants/table/consultants-table.vue'
+import ConsultantCra from '@/components/consultants/modals/cra/consultant-cra.vue'
 import ConsultantsNotifier from '@/components/shared/notifiers/consultants-notifier'
 import Picker from '@/components/shared/pickers/projects-picker'
 import Swal from 'sweetalert2'
@@ -178,6 +186,56 @@ const handleNotifyConsultant = (id) => {
     }
   }
   fn()
+}
+const modalConsultantCRA = ref(null)
+const handleViewCRA = (id) => {
+  console.log('ffff', id)
+
+  modalConsultantCRA.value.show()
+}
+const reasons = ['CP', 'Maternité', 'Absence', 'Congé maladie', 'Déménagement']
+const handleClickDay = (d) => {
+  const reason = reasons[Math.floor(Math.random() * reasons.length)]
+  Swal.fire({
+    title: `${d}`,
+    text: `La reason d'absence est "` + reason + '"',
+    icon: 'info',
+    confirmButtonText: 'OK'
+  })
+}
+const handleReject = () => {
+  Swal.fire({
+    title: 'La raison de rejet ?',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Confirmer',
+    cancelButtonText: 'Annuler',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      console.log(login)
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Rejetté`,
+        text: `Le CRA a été rejetté avec succès`,
+        icon: 'info',
+        confirmButtonText: 'OK'
+      })
+    }
+  })
+}
+const handleApprove = () => {
+  Swal.fire({
+    title: `Approuvé`,
+    text: `Le CRA a été approuvé avec succès`,
+    icon: 'success',
+    confirmButtonText: 'OK'
+  })
 }
 </script>
 

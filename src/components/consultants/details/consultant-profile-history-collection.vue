@@ -65,6 +65,29 @@
           <p>
             {{ selected.motive }}
           </p>
+          <div class="row" v-if="selected.status === 'submitted'">
+            <p>Actions</p>
+            <div class="d-flex flex-row vw-100 justify-content-between">
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  data-bs-dismiss="modal"
+                  @click="emit('reject')"
+                >
+                  Rejetter
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-success mx-2"
+                  data-bs-dismiss="modal"
+                  @click="emit('approve')"
+                >
+                  Approver
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -75,7 +98,7 @@
 import ConsultantProfileHistoryCollectionItem from '@/components/consultants/details/consultant-profile-history-collection-item.vue'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
 const props = defineProps(['history', 'selected', 'years', 'current'])
-const emit = defineEmits(['change', 'select', 'click-day'])
+const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve'])
 const handleClickDay = (d) => {
   emit('click-day', d)
 }

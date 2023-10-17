@@ -31,6 +31,7 @@
             :item="item"
             @delete="handleDelete"
             @notify="handleNotify"
+            @view-cra="handleViewCRA"
             @assign-project="handleAssignProject"
           />
         </tbody>
@@ -69,6 +70,7 @@ const emit = defineEmits([
   'delete',
   'pagination-change',
   'size-change',
+  "view-cra",
   'notify',
   'assign-project'
 ])
@@ -78,6 +80,9 @@ const handleInputSearch = ({ target }) => {
 }
 const handleDelete = (id) => {
   emit('delete', id)
+}
+const handleViewCRA = (id) => {
+  emit('view-cra', id)
 }
 const handleNotify = (id) => {
   emit('notify', id)
