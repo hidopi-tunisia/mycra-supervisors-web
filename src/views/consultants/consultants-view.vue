@@ -69,6 +69,12 @@
     @approve="handleApprove"
     @reject="handleReject"
   />
+  <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
+    <div class="spinner-border mx-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    Chargement des données
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -85,13 +91,13 @@ const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
 const pages = ref(5)
-const currentPage = ref(1)
-const sizes = ref([5, 10, 25, 50, 100])
+const currentPage = ref(0)
+const sizes = ref([1, 5, 10, 25, 50, 100])
 const currentSize = ref(10)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getConsultants()
+    const { data } = await getConsultants({ page: currentPage.value, limit: currentSize.value })
     results.value = data
     filtered.value = data
     loading.value = false
@@ -137,10 +143,12 @@ const handleDeleteConsultant = (id) => {
   })
 }
 const handlePaginationChange = (p) => {
-  currentPage.value = p
+  currentPage.value = Number(p)
+  fn()
 }
 const handleSizeChange = (s) => {
-  currentSize.value = s
+  currentSize.value = Number(s)
+  fn()
 }
 const handleClickNotifyRest = () => {
   const fn = async () => {

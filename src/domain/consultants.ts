@@ -13,14 +13,25 @@ const createConsultant = async (payload) => {
 
 type GetConsultantsOptions = {
   populate?: string
+  page?: number
+  limit?: number
+  sort?: string
 }
-const getConsultants = async ({ populate = '' }: GetConsultantsOptions = {}) => {
+const getConsultants = async ({
+  populate = '',
+  page = 0,
+  limit = 10,
+  sort = 'asc'
+}: GetConsultantsOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/consultants?populate=${populate}`, {
-    headers: {
-      authorization
+  return axios.get(
+    `${ENDPOINT}/consultants?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`,
+    {
+      headers: {
+        authorization
+      }
     }
-  })
+  )
 }
 
 type GetConsultantOptions = {

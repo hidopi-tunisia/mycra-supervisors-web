@@ -18,6 +18,12 @@
     @submit="handleSubmit"
     isUpdate="true"
   />
+  <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
+    <div class="spinner-border mx-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    Chargement des données
+  </div>
 </template>
 
 <script setup lang="ts">

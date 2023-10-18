@@ -5,7 +5,7 @@ import { ENDPOINT } from '@/constants'
 type GetProfileOptions = {
   populate?: string
 }
-const getProfile = async ({ populate }: GetProfileOptions) => {
+const getProfile = async ({ populate }: GetProfileOptions = {}) => {
   const authorization = await getAuthorization()
   return axios.get(`${ENDPOINT}/me?populate=${populate}`, {
     headers: {
