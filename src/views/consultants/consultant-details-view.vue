@@ -42,11 +42,17 @@
     isUpdate="true"
     v-if="tab === 'history'"
   />
+  <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
+    <div class="spinner-border mx-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    Chargement des données
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { getConsultant, getHistory } from '@/api/consultants'
+import { getConsultant } from '@/domain/consultants'
 import ConsultantProfileForm from '@/components/consultants/forms/consultant-profile-form.vue'
 import ConsultantProfileHistory from '@/components/consultants/details/consultant-profile-history.vue'
 import { ref } from 'vue'
@@ -59,9 +65,9 @@ const fn = async () => {
   try {
     loading.value = true
     const { data } = await getConsultant(id)
-    const { data: historyData } = await getHistory()
+    // const { data: historyData } = await getHistory()
     result.value = data
-    history.value = historyData
+    history.value = []
     loading.value = false
   } catch (error) {
     loading.value = false

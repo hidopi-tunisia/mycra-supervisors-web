@@ -226,14 +226,14 @@
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="note" class="form-label">Note</label>
+            <label for="observation" class="form-label">Note</label>
             <textarea
               class="form-control"
-              id="note"
-              name="note"
+              id="observation"
+              name="observation"
               rows="4"
               placeholder="Ex : John Doe est un excellent développeur"
-              :value="newProfile.note"
+              :value="newProfile.observation"
             ></textarea>
           </div>
           <div class="mb-3 col-md-6">

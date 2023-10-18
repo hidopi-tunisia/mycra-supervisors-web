@@ -3,7 +3,8 @@
     <td>
       <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <router-link :to="'consultants/' + props.item._id">
-        <img class="avatar rounded" :src="props.item.profilePhoto" />
+        <img class="avatar rounded" v-if="props.item.profilePhoto" :src="props.item.profilePhoto" />
+        <img class="avatar rounded" v-else :src="getAvatar()" />
         <strong class="text-gray mx-2"
           >{{ props.item!.firstName }} {{ props.item!.lastName }}</strong
         >
@@ -56,8 +57,12 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar'
 const props = defineProps({ item: Object })
 const emit = defineEmits(['view-cra', 'notify', 'update', 'delete', 'assign-project'])
+const getAvatar = () => {
+  return `data:image/svg+xml;utf8,${generateFromString(props.item._id)}`
+}
 </script>
 
 <style scoped>

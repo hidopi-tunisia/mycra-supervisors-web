@@ -55,11 +55,16 @@
     :project="project"
     @submit="handleUpdateProject"
   />
+  <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
+    <div class="spinner-border mx-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    Chargement des données
+  </div>
 </template>
 
 <script setup lang="ts">
-import { getClients } from '@/api/clients'
-import { getProjects } from '@/api/projects'
+import { getClients } from '@/domain/clients'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
@@ -72,13 +77,13 @@ const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
 const pages = ref(5)
-const currentPage = ref(1)
+const currentPage = ref(0)
 const sizes = ref([5, 10, 25, 50, 100])
-const currentSize = ref(10)
+const currentSize = ref(25)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getProjects()
+    const { data } = await getClients({ page: currentPage.value, limit: currentSize.value })
     results.value = data
     filtered.value = data
     loading.value = false
@@ -150,10 +155,12 @@ const handleDeleteProject = (id) => {
   })
 }
 const handlePaginationChange = (p) => {
-  currentPage.value = p
+  currentPage.value = Number(p)
+  fn()
 }
 const handleSizeChange = (s) => {
-  currentSize.value = s
+  currentSize.value = Number(s)
+  fn()
 }
 const modalCreateProject = ref(null)
 const modalUpdateProject = ref(null)

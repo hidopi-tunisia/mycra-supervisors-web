@@ -45,7 +45,7 @@
                 id="address"
                 name="address"
                 rows="4"
-                placeholder="Pensez à saisir votre CRA"
+                placeholder="Ex : Pensez à saisir votre CRA"
                 :value="message"
                 @input="handleInputSearch"
               ></textarea>

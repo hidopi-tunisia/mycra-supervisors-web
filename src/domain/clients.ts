@@ -4,7 +4,7 @@ import { ENDPOINT } from '@/constants'
 
 const createClient = async (payload) => {
   const authorization = await getAuthorization()
-  return axios.post(`${ENDPOINT}/consultants`, payload, {
+  return axios.post(`${ENDPOINT}/clients`, payload, {
     headers: {
       authorization
     }
@@ -13,10 +13,18 @@ const createClient = async (payload) => {
 
 type GetClientsOptions = {
   populate?: string
+  page?: number
+  limit?: number
+  sort?: string
 }
-const getClients = async ({ populate = '' }: GetClientsOptions = {}) => {
+const getClients = async ({
+  populate = '',
+  page = 0,
+  limit = 10,
+  sort = 'asc'
+}: GetClientsOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/consultants?populate=${populate}`, {
+  return axios.get(`${ENDPOINT}/clients?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`, {
     headers: {
       authorization
     }
@@ -29,7 +37,7 @@ type GetClientOptions = {
 }
 const getClient = async (id, { populate = '', count = '' }: GetClientOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/consultants/${id}?populate=${populate}&count=${count}`, {
+  return axios.get(`${ENDPOINT}/clients/${id}?populate=${populate}&count=${count}`, {
     headers: {
       authorization
     }
@@ -45,7 +53,7 @@ const deleteClient = async (
   }
 ) => {
   const authorization = await getAuthorization()
-  return axios.delete(`${ENDPOINT}/consultants/${id}?keep-identity=${keepIdentity}`, {
+  return axios.delete(`${ENDPOINT}/clients/${id}?keep-identity=${keepIdentity}`, {
     headers: {
       authorization
     }

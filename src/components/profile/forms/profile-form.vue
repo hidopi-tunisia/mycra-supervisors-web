@@ -149,7 +149,7 @@
             id="lastName"
             placeholder="Ex : 123456789"
             disabled
-            :value="props.profile.phone"
+            :value="props.profile?.company?.phone"
           />
         </div>
         <div class="mb-3 col-md-3">
