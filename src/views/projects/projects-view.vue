@@ -58,8 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { getClients } from '@/api/clients'
-import { getProjects } from '@/api/projects'
+import { getClients } from '@/domain/clients'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
@@ -78,7 +77,9 @@ const currentSize = ref(10)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getProjects()
+    const { data } = await getClients()
+    console.log(data);
+    
     results.value = data
     filtered.value = data
     loading.value = false
