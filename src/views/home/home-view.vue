@@ -36,16 +36,7 @@
       </div>
     </div>
     <!-- Absences -->
-    <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
-      <div class="card">
-        <div class="row row-bordered g-0">
-          <div class="col-md-12">
-            <h5 class="card-header m-0 me-2 pb-3">Taux d'absence chaques années</h5>
-            <div id="chart-consultants-absence" class="px-2"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <absences-chart />
     <!--/ Total Revenue -->
     <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
       <div class="row">
@@ -67,7 +58,7 @@
                     <h3 class="mb-0">39/50</h3>
                   </div>
                 </div>
-                <div id="growthChart"></div>
+                <cras-chart />
               </div>
             </div>
           </div>
@@ -78,9 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import { drawAnalytics } from '../../../assets/js/dashboards-analytics'
 import { getProfile } from '@/domain/me'
 import CountCards from '@/components/home/count-cards.vue'
+import AbsencesChart from '@/components/home/absences-chart/chart.vue'
+import CrasChart from '@/components/home/cras-chart/chart.vue'
 import { onMounted, ref } from 'vue'
 const profile = ref(null)
 const fn = async () => {
@@ -93,9 +85,6 @@ const fn = async () => {
   }
 }
 // fn()
-setTimeout(() => {
-  drawAnalytics()
-}, 500)
 const positions = ref([])
 const handleMove = (o, n) => {
   const arr = { ...positions.value }

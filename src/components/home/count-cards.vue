@@ -1,7 +1,7 @@
 <template>
   <count-cards-item
     text="Projects"
-    count="25"
+    count="80"
     menu-text="Voir les projets"
     icon="bx bx-code-block bx-sm align-middle icon-projects"
     name="projects"
@@ -12,7 +12,7 @@
   />
   <count-cards-item
     text="Clients"
-    count="25"
+    count="10"
     menu-text="Voir les clients"
     icon="bx bx-user bx-sm align-middle icon-clients"
     name="clients"
@@ -34,7 +34,7 @@
   />
   <count-cards-item
     text="Alerts"
-    count="25"
+    count="4"
     menu-text="Voir les alerts"
     icon="bx bx-bell bx-sm align-middle icon-alert"
     name="alerts"
