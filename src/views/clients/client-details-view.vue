@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { getClient } from '@/api/clients'
+import { getClient } from '@/domain/clients'
 import ClientProfileForm from '@/components/clients/forms/client-profile-form.vue'
 import { ref } from 'vue'
 const { params } = useRoute()
