@@ -59,8 +59,6 @@ const fn = async () => {
   try {
     loading.value = true
     const { data } = await getClients()
-    console.log(data);
-    
     results.value = data
     filtered.value = data
     loading.value = false

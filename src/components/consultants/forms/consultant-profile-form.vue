@@ -7,16 +7,22 @@
           <div class="col-xs-12 col-lg-6">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
               <img
-                :src="
-                  newProfile.profilePhoto
-                    ? newProfile.profilePhoto
-                    : '/assets/img/avatars/avatar-placeholder.jpg'
-                "
+                :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
                 alt="user-avatar"
                 class="d-block rounded"
                 height="100"
                 width="100"
                 id="profilePhoto"
+                v-if="props.isUpdate"
+              />
+              <img
+                src="/assets/img/avatars/avatar-placeholder.jpg"
+                alt="user-avatar"
+                class="d-block rounded"
+                height="100"
+                width="100"
+                id="profilePhoto"
+                v-else
               />
               <div class="button-wrapper">
                 <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
@@ -116,7 +122,13 @@
             <label for="currency" class="form-label">Expérience dans le poste</label>
             <select id="currency" class="select2 form-select">
               <option disabled selected>Sélectionner</option>
-              <option v-for="y in 10" :key="y" :value="y">{{ y }}</option>
+              <option
+                v-for="y in 10"
+                :key="y"
+                :value="y"
+                :selected="y === newProfile.yearsOfExperience"
+                >{{ y }}</option
+              >
             </select>
           </div>
           <div class="mb-3 col-md-6">
@@ -246,6 +258,7 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar'
 const props = defineProps(['profile', 'isUpdate'])
 let newProfile = {}
 if (props.isUpdate) {
@@ -253,8 +266,11 @@ if (props.isUpdate) {
 }
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
-  const payload = {}
+  const payload = {...newProfile}
   emit('submit', payload)
+}
+const getAvatar = () => {
+  return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
 }
 </script>
 
