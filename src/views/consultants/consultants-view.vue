@@ -93,7 +93,7 @@ const loading = ref(false)
 const pages = ref(5)
 const currentPage = ref(0)
 const sizes = ref([1, 5, 10, 25, 50, 100])
-const currentSize = ref(10)
+const currentSize = ref(25)
 const fn = async () => {
   try {
     loading.value = true
