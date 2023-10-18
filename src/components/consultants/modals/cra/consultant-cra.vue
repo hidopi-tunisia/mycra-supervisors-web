@@ -11,7 +11,11 @@
         <div class="modal-header">
           <div class="row d-flex">
             <div class="col">
-              <h5 class="modal-title" id="consultants-cra-modal-title">My CRA</h5>
+              <h5 class="modal-title" id="consultants-cra-modal-title">
+                My CRA<span v-if="cra">
+                  - {{ cra.working + cra.remote + 0.5 * cra.half }} jours travaillés</span
+                >
+              </h5>
             </div>
           </div>
           <button

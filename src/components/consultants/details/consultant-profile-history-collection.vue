@@ -30,6 +30,9 @@
       <div class="card">
         <h5 class="card-header">
           CRA du {{ selected.month }} {{ selected.year }}
+          <span v-if="selected">
+            - {{ selected.working + selected.remote + 0.5 * selected.half }} jours travaillés</span
+          >
           <span class="badge bg-primary float-end" v-if="selected.status === 'submitted'"
             >Envoyé</span
           >
