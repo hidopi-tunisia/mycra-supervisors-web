@@ -73,33 +73,31 @@
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-2">Welcome tddo Sneat! 👋</h4>
-            <p class="mb-4">Please sign-in to your account and start the adventure</p>
+            <h4 class="mb-2">Bienvenu dans My CRA! 👋</h4>
+            <p class="mb-4">Merci de vous connecter via votre compte</p>
 
             <form id="formAuthentication" class="mb-3" @submit.prevent="handleSubmit">
               <div class="mb-3">
-                <label for="email" class="form-label">Email or Username</label>
+                <label for="email" class="form-label">Email</label>
                 <input
                   type="text"
                   class="form-control"
                   id="email"
                   name="email-username"
-                  placeholder="Enter your email or username"
+                  placeholder="Ex : john.doe@example.com"
                   autofocus
                   :value="email"
                   @input="(event) => (email = (event.target as HTMLTextAreaElement).value)"
                 />
               </div>
               <div class="mb-3 form-password-toggle">
-                <div class="d-flex justify-content-between">
-                  <label class="form-label" for="password">Password</label>
-                  <a href="auth-forgot-password-basic.html">
-                    <small>Forgot Password?</small>
-                  </a>
+                <div class="d-flex justify-content-between with-pointer" @click="handleClickResetPassword">
+                  <label class="form-label" for="password">Mot de passe</label>
+                  <small>Mot de passe oublié ?</small>
                 </div>
                 <div class="input-group input-group-merge">
                   <input
-                    type="password"
+                    :type="shown ? 'text' : 'password'"
                     id="password"
                     class="form-control"
                     name="password"
@@ -108,26 +106,46 @@
                     :value="password"
                     @input="(event) => (password = (event.target as HTMLTextAreaElement).value)"
                   />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  <span
+                    class="input-group-text cursor-pointer"
+                    v-show="shown"
+                    @click="handleClickToggleShown(true)"
+                    ><i class="bx bx-hide"></i
+                  ></span>
+                  <span
+                    class="input-group-text cursor-pointer"
+                    v-show="!shown"
+                    @click="handleClickToggleShown(false)"
+                    ><i class="bx bx-show"></i
+                  ></span>
                 </div>
               </div>
               <div class="mb-3">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="remember-me" />
-                  <label class="form-check-label" for="remember-me"> Remember Me </label>
+                  <label class="form-check-label" for="remember-me"> Se souvenir de moi </label>
                 </div>
               </div>
               <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                <button
+                  class="btn btn-primary d-grid w-100 d-flex justify-content-center"
+                  type="submit"
+                  v-if="loading"
+                  :disabled="loading"
+                >
+                  <div class="spinner-grow" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+                <button
+                  class="btn btn-primary d-grid w-100 btn-sign-in d-flex justify-content-center align-items-center"
+                  type="submit"
+                  v-else
+                >
+                  Se connecter
+                </button>
               </div>
             </form>
-
-            <p class="text-center">
-              <span>New on our platform?</span>
-              <a href="auth-register-basic.html">
-                <span>Create an account</span>
-              </a>
-            </p>
           </div>
         </div>
         <!-- /Register -->
@@ -138,13 +156,45 @@
 
 <script setup lang="ts">
 import { signIn } from '@/domain/auth'
+import Swal from 'sweetalert2'
+import { ref } from 'vue'
 let email
 let password = ''
+const loading = ref(false)
+const shown = ref(false)
+const handleClickResetPassword = () => {
+  Swal.fire({
+    title: `Réintialiser le mot de passe`,
+    text: 'Un email va vous sera envoyé pour réintialiser votre votre mot de passe.',
+    icon: 'info',
+    confirmButtonText: 'OK'
+  })
+}
 const handleSubmit = () => {
-  signIn(email, password)
+  const fn = async () => {
+    try {
+      loading.value = true
+      await signIn(email, password)
+    } catch (error) {
+      loading.value = false
+      Swal.fire({
+        title: `Échec de connexion`,
+        text: 'La connexion a échoué',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
+}
+const handleClickToggleShown = (s) => {
+  shown.value = !s
 }
 </script>
 
 <style lang="css" scoped>
-@import '../../assets/vendor/css/pages/page-auth.css';
+@import './sign-in-view.css';
+.btn-sign-in {
+  height: 48px;
+}
 </style>

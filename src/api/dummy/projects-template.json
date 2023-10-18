@@ -1,0 +1,23 @@
+[
+  "{{repeat(12, 17)}}",
+  {
+    "_id": "{{objectId()}}",
+    "name": "{{lorem(1, 'words')}}",
+    "projectCode": "{{guid()}}",
+    "description": "{{lorem(1, 'paragraphs')}}",
+    "startDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
+    "endDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
+    "category": "{{random('Web', 'Desktop', 'Mobile', 'Réseau', 'Cloud', 'Database', 'Hardware')}}",
+    "client": "{{firstName()}} {{surname()}}",
+    "consultants": [
+      "{{repeat(1, 3)}}",
+      {
+        "id": "{{index()}}",
+        "name": "{{firstName()}} {{surname()}}",
+        "profilePhoto":"https://randomuser.me/api/portraits/{{random('men', 'women')}}/{{integer(0, 99)}}.jpg"
+      }
+    ],
+    "status": "{{random('active', 'inactive')}}",
+    "createdAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}"
+  }
+]
