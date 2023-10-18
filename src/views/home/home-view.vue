@@ -11,9 +11,7 @@
                 <span class="fw-bold">Consulter mon profil</span>.
               </p>
               <router-link to="/me">
-                <a href="#" class="btn btn-sm btn-outline-primary"
-                  >Consulter mon profil</a
-                >
+                <a href="#" class="btn btn-sm btn-outline-primary">Consulter mon profil</a>
               </router-link>
             </div>
           </div>
@@ -33,72 +31,8 @@
     </div>
     <div class="col-lg-4 col-md-4 order-1">
       <div class="row">
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title d-flex align-items-start justify-content-between">
-                <div class="avatar flex-shrink-0">
-                  <div class="rounded-avatar bg-consultants">
-                    <i class="bx bxs-user-badge bx-sm align-middle icon-consultants"></i>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <button
-                    class="btn p-0"
-                    type="button"
-                    id="cardOpt3"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="bx bx-dots-vertical-rounded"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                    <router-link to="/consultants">
-                      <a class="dropdown-item" href="#">Voir les consultants</a>
-                    </router-link>
-                    <a class="dropdown-item" href="javascript:void(0);">Déplacer</a>
-                  </div>
-                </div>
-              </div>
-              <span class="fw-semibold d-block mb-1">Consultants</span>
-              <h3 class="card-title mb-2">25</h3>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title d-flex align-items-start justify-content-between">
-                <div class="avatar flex-shrink-0">
-                  <div class="rounded-avatar bg-clients">
-                    <i class="bx bx-user bx-sm align-middle icon-clients"></i>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <button
-                    class="btn p-0"
-                    type="button"
-                    id="cardOpt6"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="bx bx-dots-vertical-rounded"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                    <router-link to="/clients">
-                      <a class="dropdown-item" href="#">Voir les clients</a>
-                    </router-link>
-                    <a class="dropdown-item" href="#">Déplacer</a>
-                  </div>
-                </div>
-              </div>
-              <span>Clients</span>
-              <h3 class="card-title text-nowrap mb-1">10</h3>
-            </div>
-          </div>
-        </div>
+        <count-cards :position="0" :item="positions[0]" @move="(n) => handleMove(0, n)" />
+        <count-cards :position="1" :item="positions[1]" @move="(n) => handleMove(1, n)" />
       </div>
     </div>
     <!-- Absences -->
@@ -115,73 +49,8 @@
     <!--/ Total Revenue -->
     <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
       <div class="row">
-        <div class="col-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title d-flex align-items-start justify-content-between">
-                <div class="avatar flex-shrink-0">
-                  <div class="rounded-avatar bg-projects">
-                    <i class="bx bx-code-block bx-sm align-middle icon-projects"></i>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <button
-                    class="btn p-0"
-                    type="button"
-                    id="cardOpt4"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="bx bx-dots-vertical-rounded"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                    <router-link to="/projects">
-                      <a class="dropdown-item" href="#">Voir les projets</a>
-                    </router-link>
-                    <a class="dropdown-item" href="javascript:void(0);">Déplacer</a>
-                  </div>
-                </div>
-              </div>
-              <span class="d-block mb-1">Projets</span>
-              <h3 class="card-title text-nowrap mb-2">80</h3>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title d-flex align-items-start justify-content-between">
-                <div class="avatar flex-shrink-0">
-                  <div class="rounded-avatar bg-alerts">
-                    <i class="bx bx-bell bx-sm align-middle icon-alert"></i>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <button
-                    class="btn p-0"
-                    type="button"
-                    id="cardOpt1"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="bx bx-dots-vertical-rounded"></i>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                    <router-link to="/alerts">
-                      <a class="dropdown-item" href="#">Voir les alerts</a> </router-link
-                    ><a class="dropdown-item" href="javascript:void(0);">Déplacer</a>
-                  </div>
-                </div>
-              </div>
-              <span class="fw-semibold d-block mb-1">Alerts</span>
-              <h3 class="card-title mb-2">4</h3>
-            </div>
-          </div>
-        </div>
-        <!-- </div>
-    <div class="row"> -->
+        <count-cards :position="2" :item="positions[2]" @move="(n) => handleMove(2, n)" />
+        <count-cards :position="3" :item="positions[3]" @move="(n) => handleMove(3, n)" />
         <div class="col-12 mb-4">
           <div class="card">
             <div class="card-body">
@@ -211,7 +80,8 @@
 <script setup lang="ts">
 import { drawAnalytics } from '../../../assets/js/dashboards-analytics'
 import { getProfile } from '@/domain/me'
-import { ref } from 'vue'
+import CountCards from '@/components/home/count-cards.vue'
+import { onMounted, ref } from 'vue'
 const profile = ref(null)
 const fn = async () => {
   try {
@@ -226,40 +96,23 @@ const fn = async () => {
 setTimeout(() => {
   drawAnalytics()
 }, 500)
+const positions = ref([])
+const handleMove = (o, n) => {
+  const arr = { ...positions.value }
+  const b = arr[o]
+  arr[o] = arr[n]
+  arr[n] = b
+  positions.value = Object.values(arr)
+  localStorage.setItem('home-cards-positions', [...Object.values(arr)].join(','))
+}
+onMounted(() => {
+  const p = localStorage.getItem('home-cards-positions')
+  if (p) {
+    positions.value = p.split(',')
+  } else {
+    const ps = 'projects,clients,consultants,alerts'
+    localStorage.setItem('home-cards-positions', ps)
+    positions.value = ps.split(',')
+  }
+})
 </script>
-
-<style lang="css" scoped>
-.rounded-avatar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 36px;
-  width: 36px;
-  border-radius: 4px;
-}
-.bg-consultants {
-  background-color: #f4433633;
-}
-.bg-clients {
-  background-color: #4caf5033;
-}
-.bg-projects {
-  background-color: #03a9f433;
-}
-.bg-alerts {
-  background-color: #ffc10733;
-}
-.icon-consultants {
-  color: #f44336;
-}
-.icon-clients {
-  color: #4caf50;
-}
-.icon-projects {
-  color: #03a9f4;
-}
-.icon-alert {
-  color: #ffc107;
-}
-</style>
-../../../assets/js/dashboards-analytics
