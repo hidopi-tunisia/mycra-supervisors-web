@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { getClients } from '@/api/clients'
+import { getClients } from '@/domain/clients'
 import ClientsTable from '@/components/clients/table/clients-table.vue'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
@@ -59,6 +59,8 @@ const fn = async () => {
   try {
     loading.value = true
     const { data } = await getClients()
+    console.log(data);
+    
     results.value = data
     filtered.value = data
     loading.value = false
