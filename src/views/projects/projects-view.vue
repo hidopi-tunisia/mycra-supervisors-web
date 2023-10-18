@@ -77,15 +77,13 @@ const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
 const pages = ref(5)
-const currentPage = ref(1)
+const currentPage = ref(0)
 const sizes = ref([5, 10, 25, 50, 100])
 const currentSize = ref(10)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getClients()
-    console.log(data);
-    
+    const { data } = await getClients({ page: currentPage.value, limit: currentSize.value })
     results.value = data
     filtered.value = data
     loading.value = false
@@ -157,10 +155,12 @@ const handleDeleteProject = (id) => {
   })
 }
 const handlePaginationChange = (p) => {
-  currentPage.value = p
+  currentPage.value = Number(p)
+  fn()
 }
 const handleSizeChange = (s) => {
-  currentSize.value = s
+  currentSize.value = Number(s)
+  fn()
 }
 const modalCreateProject = ref(null)
 const modalUpdateProject = ref(null)

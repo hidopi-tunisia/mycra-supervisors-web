@@ -13,10 +13,18 @@ const createClient = async (payload) => {
 
 type GetClientsOptions = {
   populate?: string
+  page?: number
+  limit?: number
+  sort?: string
 }
-const getClients = async ({ populate = '' }: GetClientsOptions = {}) => {
+const getClients = async ({
+  populate = '',
+  page = 0,
+  limit = 10,
+  sort = 'asc'
+}: GetClientsOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/clients?populate=${populate}`, {
+  return axios.get(`${ENDPOINT}/clients?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`, {
     headers: {
       authorization
     }
