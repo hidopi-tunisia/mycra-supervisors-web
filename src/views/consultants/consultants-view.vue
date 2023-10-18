@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { getClients } from '@/api/clients'
-import { getConsultants } from '@/api/consultants'
+import { getConsultants } from '@/domain/consultants'
 import ConsultantsTable from '@/components/consultants/table/consultants-table.vue'
 import ConsultantCra from '@/components/consultants/modals/cra/consultant-cra.vue'
 import ConsultantsNotifier from '@/components/shared/notifiers/consultants-notifier'
@@ -189,7 +189,7 @@ const handleNotifyConsultant = (id) => {
 }
 const modalConsultantCRA = ref(null)
 const handleViewCRA = (id) => {
-  console.log('ffff', id)
+  console.log('CRA ID: ', id)
 
   modalConsultantCRA.value.show()
 }
