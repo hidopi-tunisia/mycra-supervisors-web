@@ -55,7 +55,7 @@
           >
             <div class="avatar avatar-online">
               <img
-                src="../../../assets/img/avatars/company.jpg"
+                :src="result?.company?.logo"
                 alt=""
                 class="w-px-40 h-auto rounded-circle"
               />
@@ -69,7 +69,7 @@
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
                         <img
-                          src="../../../assets/img/avatars/company.jpg"
+                          :src="result?.company?.logo"
                           alt=""
                           class="w-px-40 h-auto rounded-circle"
                         />

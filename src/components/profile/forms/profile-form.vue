@@ -27,7 +27,7 @@
             <div class="col-6 col-md-4">
               <div>Email</div>
               <div class="fw-bold my-2">
-                <a :href="'mailto:' + props.profile.phone">{{ props.profile.email }}</a>
+                <a :href="'mailto:' + props.profile?.company?.phone">{{ props.profile?.company?.phone }}</a>
               </div>
             </div>
             <div class="col-12 col-md-4">
@@ -86,8 +86,6 @@
             :value="props.profile?.company?.name"
           />
         </div>
-      </div>
-      <div class="row">
         <div class="mb-3 col-md-6">
           <label for="lastName" class="form-label">SIRET</label>
           <input
@@ -98,18 +96,6 @@
             placeholder="Ex : Doe"
             disabled
             :value="props.profile?.company?.siret"
-          />
-        </div>
-        <div class="mb-3 col-md-6">
-          <label for="lastName" class="form-label">Responsable</label>
-          <input
-            class="form-control"
-            type="text"
-            name="lastName"
-            id="lastName"
-            placeholder="Ex : Doe"
-            disabled
-            :value="props.profile?.company?.representative"
           />
         </div>
       </div>
