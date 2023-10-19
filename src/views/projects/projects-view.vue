@@ -54,7 +54,8 @@
     ref="modalUpdateProject"
     :clients="resultsClients"
     :project="project"
-    @submit="handleUpdateProject"
+    @assign-client="handleAssignClient"
+   @submit="handleUpdateProject"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
@@ -115,11 +116,6 @@ const handleSearch = (value) => {
       d.category.toLowerCase().includes(value.toLowerCase())
     )
   })
-}
-const project = ref(null)
-const handleUpdateProject = (project) => {
-  console.log(project)
-  modalUpdateProject.value.hide()
 }
 const handleShowUpdateProject = (id) => {
   modalUpdateProject.value.show()
@@ -193,6 +189,16 @@ const handleAssignClient = () => {
 const handleCreateProject = (p) => {
   if (client.value && client.value._id) {
     console.log({ client: client.value._id, ...p })
+    client.value = null
+    modalCreateProject.value.hide()
+  }
+}
+const project = ref(null)
+const handleUpdateProject = (p) => {
+  if (client.value && client.value._id) {
+    console.log({ client: client.value._id, ...p })
+    client.value = null
+    modalUpdateProject.value.hide()
   }
 }
 </script>

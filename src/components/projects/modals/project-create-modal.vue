@@ -73,8 +73,8 @@
                 id="create-project-code"
                 class="form-control"
                 placeholder="Ex : ABC-12345"
-                :value="payload.code"
                 required
+                :value="payload.code"
                 @input="({ target }) => (payload.code = target.value)"
               />
             </div>
