@@ -48,6 +48,7 @@
     :clients="resultsClients"
     :client="client"
     @assign-client="handleAssignClient"
+    @submit="handleCreateProject"
   />
   <project-update-modal
     ref="modalUpdateProject"
@@ -188,6 +189,11 @@ const handleAssignClient = () => {
     }
   }
   fn()
+}
+const handleCreateProject = (p) => {
+  if (client.value && client.value._id) {
+    console.log({ client: client.value._id, ...p })
+  }
 }
 </script>
 
