@@ -114,6 +114,7 @@
               name="position"
               placeholder="Ex : Développeur web"
               :value="newProfile.position"
+              @input="({ target }) => (newProfile.position = target.value)"
             />
           </div>
         </div>
@@ -127,8 +128,9 @@
                 :key="y"
                 :value="y"
                 :selected="y === newProfile.yearsOfExperience"
-                >{{ y }}</option
               >
+                {{ y }}
+              </option>
             </select>
           </div>
           <div class="mb-3 col-md-6">
@@ -152,7 +154,8 @@
               name="lastName"
               id="lastName"
               placeholder="Ex : Doe"
-              :value="newProfile.firstName"
+              :value="newProfile.lastName"
+              @input="({ target }) => (newProfile.lastName = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -163,7 +166,8 @@
               id="firstName"
               name="firstName"
               placeholder="Ex : Prénom"
-              :value="newProfile.lastName"
+              :value="newProfile.firstName"
+              @input="({ target }) => (newProfile.firstName = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -175,18 +179,20 @@
               name="email"
               placeholder="Ex : john.doe@example.com"
               :value="newProfile.email"
+              @input="({ target }) => (newProfile.email = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label class="form-label" for="phoneNumber">Téléphone</label>
+            <label class="form-label" for="phone">Téléphone</label>
             <div class="input-group input-group-merge">
               <input
                 type="text"
-                id="phoneNumber"
-                name="phoneNumber"
+                id="phone"
+                name="phone"
                 class="form-control"
                 placeholder="Ex : 123456789"
                 :value="newProfile.phone"
+                @input="({ target }) => (newProfile.phone = target.value)"
               />
             </div>
           </div>
@@ -199,6 +205,7 @@
               name="address"
               placeholder="Ex : https://www.linkedin.com/in/john.doe"
               :value="newProfile.linkedIn"
+              @input="({ target }) => (newProfile.linkedIn = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -210,6 +217,7 @@
               name="zipCode"
               placeholder="Ex : 123456"
               :value="newProfile.zipCode"
+              @input="({ target }) => (newProfile.zipCode = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -220,6 +228,7 @@
               id="availableAt"
               name="availableAt"
               :value="newProfile.availableAt"
+              @input="({ target }) => (newProfile.availableAt = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -230,6 +239,7 @@
               id="hiredAt"
               name="hiredAt"
               :value="newProfile.hiredAt"
+              @input="({ target }) => (newProfile.hiredAt = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -241,6 +251,7 @@
               rows="4"
               placeholder="Ex : John Doe est un excellent développeur"
               :value="newProfile.note"
+              @input="({ target }) => (newProfile.note = target.value)"
             ></textarea>
           </div>
           <div class="mb-3 col-md-6">
@@ -266,7 +277,7 @@ if (props.isUpdate) {
 }
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
-  const payload = {...newProfile}
+  const payload = { ...newProfile }
   emit('submit', payload)
 }
 const getAvatar = () => {

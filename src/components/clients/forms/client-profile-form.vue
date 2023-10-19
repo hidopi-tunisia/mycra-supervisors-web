@@ -50,7 +50,7 @@
               <div class="col-6">
                 <div>Email</div>
                 <div class="fw-bold my-2">
-                  <a :href="'mailto:' + newProfile.phone">{{ newProfile.email }}</a>
+                  <a :href="'mailto:' + newProfile.email">{{ newProfile.email }}</a>
                 </div>
               </div>
             </div>
@@ -100,38 +100,48 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="position" class="form-label">Nom social</label>
+            <label for="companyName" class="form-label">Nom social</label>
             <input
               class="form-control"
               type="text"
-              id="position"
-              name="position"
+              id="companyName"
+              name="companyName"
               placeholder="Ex : ACME Corp"
               :value="newProfile?.company?.name"
+              @input="
+                ({ target }) => (newProfile.company = { ...newProfile.company, name: target.value })
+              "
             />
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="lastName" class="form-label">SIRET</label>
+            <label for="siret" class="form-label">SIRET</label>
             <input
               class="form-control"
               type="text"
-              name="lastName"
-              id="lastName"
+              name="siret"
+              id="siret"
               placeholder="Ex : Doe"
-              :value="newProfile?.company?.siret"
+              :value="newProfile.company?.siret"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = { ...newProfile.company, siret: target.value })
+              "
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="lastName" class="form-label">Responsable</label>
+            <label for="representative" class="form-label">Responsable</label>
             <input
               class="form-control"
               type="text"
-              name="lastName"
-              id="lastName"
+              name="representative"
+              id="representative"
               placeholder="Ex : Doe"
-              :value="newProfile?.company?.representative"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = { ...newProfile.company, representative: target.value })
+              "
             />
           </div>
         </div>
@@ -145,45 +155,61 @@
               name="email"
               placeholder="Ex : john.doe@example.com"
               :value="newProfile.email"
+              @input="({ target }) => (newProfile.email = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="note" class="form-label">Adresse postale</label>
+            <label for="street" class="form-label">Adresse postale</label>
             <textarea
               class="form-control"
-              id="address"
-              name="address"
+              id="street"
+              name="street"
               rows="2"
               placeholder="Ex : 123 rue des Oranges"
               :value="newProfile?.company?.address?.street"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = {
+                    ...newProfile.company,
+                    address: { ...newProfile.company?.address, street: target.value }
+                  })
+              "
             ></textarea>
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-3">
-            <label for="lastName" class="form-label">Téléphone 1</label>
+            <label for="phone" class="form-label">Téléphone 1</label>
             <input
               class="form-control"
               type="text"
-              name="lastName"
-              id="lastName"
+              name="phone"
+              id="phone"
               placeholder="Ex : 123456789"
-              :value="newProfile.phone"
+              :value="newProfile.company?.phone"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = { ...newProfile.company, phone: target.value })
+              "
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="firstName" class="form-label">Téléphone 2</label>
+            <label for="secondPhone" class="form-label">Téléphone 2</label>
             <input
               class="form-control"
               type="text"
-              id="firstName"
-              name="firstName"
+              id="secondPhone"
+              name="secondPhone"
               placeholder="Ex : 123456789"
-              :value="newProfile.secondPhone"
+              :value="newProfile.company?.secondPhone"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = { ...newProfile.company, secondPhone: target.value })
+              "
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="email" class="form-label">Ville</label>
+            <label for="city" class="form-label">Ville</label>
             <input
               class="form-control"
               type="text"
@@ -191,38 +217,54 @@
               name="city"
               placeholder="Ex : Paris"
               :value="newProfile?.company?.address?.city"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = {
+                    ...newProfile.company,
+                    address: { ...newProfile.company?.address, city: target.value }
+                  })
+              "
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="email" class="form-label">Code postal</label>
+            <label for="zipCode" class="form-label">Code postal</label>
             <input
               class="form-control"
               type="text"
-              id="email"
-              name="email"
+              id="zipCode"
+              name="zipCode"
               placeholder="Ex : 12345"
               :value="newProfile?.company?.address?.zipCode"
+              @input="
+                ({ target }) =>
+                  (newProfile.company = {
+                    ...newProfile.company,
+                    address: { ...newProfile.company?.address, zipCode: target.value }
+                  })
+              "
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="availableAt" class="form-label">Date du signature</label>
+            <label for="signatureDate" class="form-label">Date du signature</label>
             <input
               type="date"
               class="form-control"
               id="signatureDate"
               name="signatureDate"
               :value="newProfile.signatureDate"
+              @input="({ target }) => (newProfile.signatureDate = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="hiredAt" class="form-label">Compétences</label>
+            <label for="skills" class="form-label">Compétences</label>
             <input
               class="form-control"
               type="text"
-              id="email"
-              name="email"
+              id="skills"
+              name="skills"
               placeholder="Ex : BP, CP, Développement du backend, Développement du frontend..."
               :value="newProfile.skills"
+              @input="({ target }) => (newProfile.skills = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -234,6 +276,7 @@
               rows="4"
               placeholder="Ex : John Doe est un excellent développeur"
               :value="newProfile.observation"
+              @input="({ target }) => (newProfile.observation = target.value)"
             ></textarea>
           </div>
           <div class="mb-3 col-md-6">
@@ -258,7 +301,7 @@ if (props.isUpdate) {
 }
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
-  const payload = {}
+  const payload = { ...newProfile }
   emit('submit', payload)
 }
 </script>

@@ -7,7 +7,7 @@
     ref="project-create-modal"
   >
     <div class="modal-dialog">
-      <form class="modal-content">
+      <form class="modal-content" @submit.prevent="handleSubmit">
         <div class="modal-header">
           <h5 class="modal-title" id="project-create-modal-title">Nouveau projet</h5>
           <button
@@ -26,6 +26,8 @@
                 id="create-project-name"
                 class="form-control"
                 placeholder="Ex : Création d'une application mobile"
+                :value="newProject.name"
+                @input="({ target }) => (newProject.name = target.value)"
               />
             </div>
           </div>
@@ -40,7 +42,8 @@
                 @click="handleClickAssignClient"
               >
                 <span v-if="props.client"
-                  >{{ props.client.company.name }} - {{ props.client.firstName }} {{ props.client.lastName }}</span
+                  >{{ props.client.company.name }} - {{ props.client.firstName }}
+                  {{ props.client.lastName }}</span
                 >
                 <span v-else> Sélectionner un client</span>
               </button>
@@ -54,6 +57,8 @@
                 id="create-project-description"
                 class="form-control"
                 placeholder="Ex : Créer une application mobile pour la gestion des stocks."
+                :value="newProject.description"
+                @input="({ target }) => (newProject.description = target.value)"
               ></textarea>
             </div>
           </div>
@@ -65,6 +70,8 @@
                 id="create-project-code"
                 class="form-control"
                 placeholder="Ex : ABC-12345"
+                :value="newProject.observation"
+                @input="({ target }) => (newProject.observation = target.value)"
               />
             </div>
             <div class="col mb-0">
@@ -74,6 +81,8 @@
                 id="create-project-category"
                 class="form-control"
                 placeholder="Ex : Réseau"
+                :value="newProject.category"
+                @input="({ target }) => (newProject.category = target.value)"
               />
             </div>
           </div>
@@ -85,6 +94,8 @@
                 id="create-project-start-date"
                 class="form-control"
                 placeholder="DD / MM / YYYY"
+                :value="newProject.startDate"
+                @input="({ target }) => (newProject.startDate = target.value)"
               />
             </div>
             <div class="col mb-0">
@@ -94,6 +105,8 @@
                 id="create-project-end-date"
                 class="form-control"
                 placeholder="DD / MM / YYYY"
+                :value="newProject.endDate"
+                @input="({ target }) => (newProject.endDate = target.value)"
               />
             </div>
           </div>
@@ -102,7 +115,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             Annuler
           </button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Enregistrer</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
         </div>
       </form>
     </div>
@@ -114,6 +127,16 @@ import { ref } from 'vue'
 const $ = window.jQuery
 const props = defineProps({ clients: Array<Object>, client: Object })
 const emit = defineEmits(['assign-client'])
+let newProject = {}
+if (props.isUpdate) {
+  newProject = { ...props.profile }
+}
+const handleSubmit = () => {
+  const payload = { ...newProject }
+  console.log(payload);
+  
+  // emit('submit', payload)
+}
 const handleClickAssignClient = () => {
   emit('assign-client')
 }

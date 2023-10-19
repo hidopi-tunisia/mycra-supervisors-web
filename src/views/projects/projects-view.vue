@@ -1,5 +1,5 @@
 <template>
-  <div class="row" v-if="results">
+  <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
       <div class="card">
         <div class="card-body">
@@ -16,7 +16,7 @@
             </div>
           </div>
           <span class="d-block mb-1">Projets</span>
-          <h3 class="card-title text-nowrap mb-2">{{ results.length }}</h3>
+          <h3 class="card-title text-nowrap mb-2" v-if="results">{{ results.length }}</h3>
         </div>
       </div>
     </div>
