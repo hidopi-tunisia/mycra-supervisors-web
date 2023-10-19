@@ -24,8 +24,23 @@
             class="form-control border-0 shadow-none"
             placeholder="Rechercher..."
             aria-label="Rechercher..."
+            :value="search"
             @input="({ target }) => handleSearch(target.value)"
           />
+
+          <ul
+            class="dropdown-menu dropdown-menu-end dropdown-search"
+            :class="shown ? 'd-block' : ''"
+          >
+            <li v-for="l in filtered" :key="l.link">
+              <router-link :to="l.link">
+                <a class="dropdown-item" href="javascript:void(0)" @click="handleSearchItemClick">
+                  <i class="me-2" :class="l.icon"></i>
+                  <span class="align-middle text-capitalize">{{ l.text }}</span>
+                </a>
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
       <!-- /Search -->
@@ -150,21 +165,58 @@ const handleClickToggle = () => {
 }
 
 const links = [
-  'projet',
-  'clients',
-  'créer un client',
-  'consultant',
-  'créer un consultant',
-  'notifications'
+  {
+    text: 'mes projets',
+    link: '/projects',
+    icon: 'bx bx-code-block bx-sm'
+  },
+  {
+    text: 'mes clients',
+    link: '/clients',
+    icon: 'bx bx-user bx-sm'
+  },
+  {
+    text: 'créer un client',
+    link: '/clients/new',
+    icon: 'bx bx-user bx-sm'
+  },
+  {
+    text: 'mes consultants',
+    link: '/consultants',
+    icon: 'bx bxs-user-badge bx-sm'
+  },
+  {
+    text: 'créer un consultant',
+    link: '/consultants/new',
+    icon: 'bx bxs-user-badge bx-sm'
+  },
+  {
+    text: 'notifications',
+    link: '/notifications/new',
+    icon: 'bx bx-bell bx-sm'
+  }
 ]
+const search = ref('')
+const shown = ref(false)
 const filtered = ref(links)
 const handleSearch = (v) => {
-  console.log(v);
-  
-  const x = links.filter((l) => l.toLowerCase() === v.toLowerCase())
-  console.log(x);
-  
+  search.value = v
+  const arr = links.filter(({ text }) => text.toLowerCase().includes(v.toLowerCase()))
+  if (v.length >= 1 && arr.length > 0) {
+    filtered.value = arr
+    shown.value = true
+  } else {
+    shown.value = false
+  }
+}
+const handleSearchItemClick = () => {
+  search.value = ''
+  shown.value = false
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.dropdown-search {
+  top: 56px;
+}
+</style>
