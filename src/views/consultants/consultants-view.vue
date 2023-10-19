@@ -49,7 +49,7 @@
     </ol>
   </nav>
   <consultants-table
-    v-if="results"
+    v-if="!loading && results && results.length > 0"
     :items="filtered"
     :pages="pages"
     :currentPage="currentPage"
@@ -63,6 +63,15 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
+  <div
+    class="card h-50 d-flex justify-content-center align-items-center"
+    v-if="!loading && results && results.length === 0"
+  >
+    <p>Pas de consultants</p>
+    <router-link to="/consultants/new">
+      <a class="btn btn-primary" href="#"> Créer un consultant</a>
+    </router-link>
+  </div>
   <consultant-cra
     ref="modalConsultantCRA"
     @day="handleClickDay"

@@ -29,7 +29,7 @@
     </ol>
   </nav>
   <projects-table
-    v-if="results"
+    v-if="!loading && results && results.length > 0"
     :items="filtered"
     :pages="pages"
     :currentPage="currentPage"
@@ -43,6 +43,13 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
+  <div
+    class="card h-50 d-flex justify-content-center align-items-center"
+    v-if="!loading && results && results.length === 0"
+  >
+    <p>Pas de projets</p>
+    <button class="btn btn-primary" @click="modalCreateProject.show()">Créer un projet</button>
+  </div>
   <project-create-modal
     ref="modalCreateProject"
     :clients="resultsClients"
@@ -55,7 +62,7 @@
     :clients="resultsClients"
     :project="project"
     @assign-client="handleAssignClient"
-   @submit="handleUpdateProject"
+    @submit="handleUpdateProject"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">

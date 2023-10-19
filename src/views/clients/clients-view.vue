@@ -29,7 +29,7 @@
     </ol>
   </nav>
   <clients-table
-    v-if="results"
+    v-if="!loading && results && results.length > 0"
     :items="filtered"
     :pages="pages"
     :currentPage="currentPage"
@@ -40,6 +40,15 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
+  <div
+    class="card h-50 d-flex justify-content-center align-items-center"
+    v-if="!loading && results && results.length === 0"
+  >
+    <p>Pas de clients</p>
+    <router-link to="/clients/new">
+      <a class="btn btn-primary" href="#"> Créer un client</a>
+    </router-link>
+  </div>
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
       <span class="visually-hidden">Loading...</span>
