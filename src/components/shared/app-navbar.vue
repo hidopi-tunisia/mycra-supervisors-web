@@ -24,6 +24,7 @@
             class="form-control border-0 shadow-none"
             placeholder="Rechercher..."
             aria-label="Rechercher..."
+            @input="({ target }) => handleSearch(target.value)"
           />
         </div>
       </div>
@@ -60,7 +61,9 @@
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-semibold d-block">John Doe</span>
+                      <span class="fw-semibold d-block" v-if="result">
+                        {{ result.firstName }} {{ result.lastName }}
+                      </span>
                       <small class="text-muted">Superviseur</small>
                     </div>
                   </div>
@@ -97,10 +100,28 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { getAuthorization } from '@/domain/auth'
 import { signOut } from '@/domain/auth'
 import Swal from 'sweetalert2'
+import { getProfile } from '@/domain/me'
 
+const result = ref(null)
+const loading = ref(false)
+
+const fn = async () => {
+  try {
+    loading.value = true
+    const { data } = await getProfile({ populate: '' })
+    result.value = data
+    loading.value = false
+  } catch (error) {
+    loading.value = false
+    console.log(error)
+    console.log(error.response.data)
+  }
+}
+fn()
 const handleClickCopyToken = () => {
   const fn = async () => {
     const authorization = await getAuthorization()
@@ -126,6 +147,23 @@ const handleClickLogout = () => {
 }
 const handleClickToggle = () => {
   window.Helpers.toggleCollapsed()
+}
+
+const links = [
+  'projet',
+  'clients',
+  'créer un client',
+  'consultant',
+  'créer un consultant',
+  'notifications'
+]
+const filtered = ref(links)
+const handleSearch = (v) => {
+  console.log(v);
+  
+  const x = links.filter((l) => l.toLowerCase() === v.toLowerCase())
+  console.log(x);
+  
 }
 </script>
 

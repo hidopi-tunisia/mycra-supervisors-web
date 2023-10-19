@@ -19,9 +19,7 @@ const loading = ref(false)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getProfile({populate:""})
-    console.log(data)
-
+    const { data } = await getProfile({ populate: '' })
     result.value = data
     loading.value = false
   } catch (error) {
