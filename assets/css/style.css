@@ -1,3 +1,13 @@
 .with-pointer {
     cursor: pointer;
 }
+.icon-social {
+    background-color: #212121;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 21px;
+    color: white;
+}
