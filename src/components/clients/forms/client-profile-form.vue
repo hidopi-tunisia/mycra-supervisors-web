@@ -204,7 +204,7 @@
               class="form-control"
               id="signedAt"
               name="signedAt"
-              :value="newProfile.contract?.signedAt"
+              :value="newProfile.contract?.signedAt?.substring(0, 10)"
               @input="
                 ({ target }) =>
                   (newProfile.contract = {

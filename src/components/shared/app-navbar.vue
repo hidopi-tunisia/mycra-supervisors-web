@@ -22,8 +22,8 @@
           <input
             type="text"
             class="form-control border-0 shadow-none"
-            placeholder="Rechercher..."
-            aria-label="Rechercher..."
+            placeholder="Accès rapide..."
+            aria-label="Accès rapide..."
             :value="search"
             @input="({ target }) => handleSearch(target.value)"
           />
@@ -91,7 +91,7 @@
             <li>
               <router-link to="/me">
                 <a class="dropdown-item" href="javascript:void(0)">
-                  <i class="bx bx-user me-2"></i>
+                  <i class="bx bx-user-circle me-2"></i>
                   <span class="align-middle">Mon profil</span>
                 </a>
               </router-link>
@@ -194,6 +194,11 @@ const links = [
     text: 'notifications',
     link: '/notifications/new',
     icon: 'bx bx-bell bx-sm'
+  },
+  {
+    text: 'mon profil',
+    link: '/me',
+    icon: 'bx bx-user-circle bx-sm'
   }
 ]
 const search = ref('')

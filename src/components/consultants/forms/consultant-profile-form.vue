@@ -32,8 +32,8 @@
                     type="file"
                     id="upload"
                     class="account-file-input"
-                    hidden
                     accept="image/png, image/jpeg"
+                    hidden
                   />
                 </label>
                 <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
@@ -118,24 +118,11 @@
               id="position"
               name="position"
               placeholder="Ex : Développeur web"
+              required
               :value="newProfile.position"
               @input="({ target }) => (newProfile.position = target.value)"
             />
           </div>
-          <div class="mb-3 col-md-6">
-            <label for="position" class="form-label">Années d'expérience dans le poste</label>
-            <input
-              class="form-control"
-              id="position"
-              name="position"
-              placeholder="Ex : Développeur web"
-              v-model.number="newProfile.yearsOfExperience"
-              type="number"
-              step="1"
-            />
-          </div>
-        </div>
-        <div class="row">
           <div class="mb-3 col-md-6">
             <label for="linkedInLink" class="form-label">Profil LinkedIn</label>
             <input
@@ -148,22 +135,44 @@
               @input="({ target }) => (newProfile.linkedInLink = target.value)"
             />
           </div>
-          <div class="mb-3 col-md-4">
-            <label for="skills" class="form-label">Compétences</label>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-6">
+            <div class="d-flex justify-content-between">
+              <label for="skills" class="form-label"
+                >Compétences - {{ skillsArray ? skillsArray.length : skillsLimit }}/{{
+                  skillsLimit
+                }}</label
+              >
+              <small class="with-pointer" @click="handleClickEmptySkills">Vider</small>
+            </div>
             <tags-input
               placeholder="Ex : Java, Python, Jira"
-              :limit="3"
+              :limit="skillsLimit"
               :allow-duplicates="false"
-              :tags="newProfile.skills?.array"
+              :tags="skillsArray"
               @tags-changed="handleSkillsChanged"
             />
             <small id="noteHelp" class="form-text text-muted"
-              >{{ skillsArray ? 3 - skillsArray.length : 3 }} compétences restantes</small
+              >Appuyez le bouton "Entrer" pour confirmer</small
             >
           </div>
-          <div class="mb-3 col-md-2">
+          <div class="mb-3 col-md-4">
             <label for="formFile" class="form-label">Dossier de compétence</label>
             <input class="form-control" type="file" id="formFile" />
+          </div>
+          <div class="mb-3 col-md-2">
+            <label for="position" class="form-label">Années d'expérience</label>
+            <input
+              class="form-control"
+              id="position"
+              name="position"
+              placeholder="Ex : 6"
+              type="number"
+              step="1"
+              required
+              v-model.number="newProfile.yearsOfExperience"
+            />
           </div>
         </div>
         <div class="row">
@@ -175,6 +184,7 @@
               id="firstName"
               name="firstName"
               placeholder="Ex : Prénom"
+              required
               :value="newProfile.firstName"
               @input="({ target }) => (newProfile.firstName = target.value)"
             />
@@ -187,6 +197,7 @@
               name="lastName"
               id="lastName"
               placeholder="Ex : Doe"
+              required
               :value="newProfile.lastName"
               @input="({ target }) => (newProfile.lastName = target.value)"
             />
@@ -201,6 +212,7 @@
               id="email"
               name="email"
               placeholder="Ex : john.doe@example.com"
+              required
               :value="newProfile.email"
               @input="({ target }) => (newProfile.email = target.value)"
             />
@@ -228,7 +240,7 @@
               class="form-control"
               id="availableAt"
               name="availableAt"
-              :value="newProfile.availableAt"
+              :value="newProfile.availableAt?.substring(0, 10)"
               @input="({ target }) => (newProfile.availableAt = target.value)"
             />
           </div>
@@ -239,7 +251,7 @@
               class="form-control"
               id="hiredAt"
               name="hiredAt"
-              :value="newProfile.hiredAt"
+              :value="newProfile.hiredAt?.substring(0, 10)"
               @input="({ target }) => (newProfile.hiredAt = target.value)"
             />
           </div>
@@ -266,8 +278,13 @@
           </div>
         </div>
         <div class="mt-2">
-          <button type="submit" class="btn btn-primary me-2">Soumettre</button>
-          <button type="reset" class="btn btn-outline-secondary">Annuler</button>
+          <button type="submit" class="btn btn-primary me-2 btn-submit" :disabled="props.loading">
+            <span v-if="!props.loading"> {{ props.isUpdate ? 'Mettre à jour' : 'Soumettre' }}</span>
+            <div class="spinner-grow spinner-grow-sm" role="status" v-else>
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <button type="reset" class="btn btn-outline-secondary">Réintialiser</button>
         </div>
       </div>
     </div>
@@ -280,20 +297,22 @@ import TagsInput from '@/components/shared/inputs/tags-input.vue'
 import { generateFromString } from 'generate-avatar'
 const note = ref('')
 const skillsArray = ref([])
-const props = defineProps(['profile', 'isUpdate'])
+const skillsLimit = 4
+const props = defineProps(['profile', 'isUpdate', 'loading'])
 let newProfile = {}
 if (props.isUpdate) {
   if (props.profile.note) {
     note.value = props.profile.note
   }
+  if (props.profile.skills?.arr) {
+    skillsArray.value = props.profile.skills?.arr
+  }
   newProfile = { ...props.profile }
 }
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
-  const payload = { ...newProfile, skills: { array: toRaw(skillsArray.value) } }
-  console.log(payload)
-
-  //emit('submit', payload)
+  const payload = { ...newProfile, skills: { arr: toRaw(skillsArray.value) } }
+  emit('submit', payload)
 }
 const getAvatar = () => {
   return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
@@ -301,6 +320,13 @@ const getAvatar = () => {
 const handleSkillsChanged = (v) => {
   skillsArray.value = v
 }
+const handleClickEmptySkills = () => {
+  skillsArray.value = []
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-submit {
+  width: 200px;
+}
+</style>
