@@ -124,11 +124,11 @@ const handleDeleteClient = (id) => {
 }
 const handlePaginationChange = (p) => {
   currentPage.value = Number(p)
-  fn()
+  retrieve()
 }
 const handleSizeChange = (s) => {
   currentSize.value = Number(s)
-  fn()
+  retrieve()
 }
 </script>
 
