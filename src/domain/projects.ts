@@ -2,30 +2,31 @@ import axios from 'axios'
 import { getAuthorization } from '@/domain/auth'
 import { ENDPOINT } from '@/constants'
 
-const createClient = async (payload) => {
+
+const createProject = async (clientId, payload) => {
   const authorization = await getAuthorization()
-  return axios.post(`${ENDPOINT}/clients`, payload, {
+  return axios.post(`${ENDPOINT}/clients/${clientId}/projects`, payload, {
     headers: {
       authorization
     }
   })
 }
 
-type GetClientsOptions = {
+type GetProjectsOptions = {
   populate?: string
   page?: number
   limit?: number
   sort?: string
 }
-const getClients = async ({
+const getProjects = async ({
   populate = '',
   page = 0,
   limit = 10,
   sort = 'asc'
-}: GetClientsOptions = {}) => {
+}: GetProjectsOptions = {}) => {
   const authorization = await getAuthorization()
   return axios.get(
-    `${ENDPOINT}/clients?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`,
+    `${ENDPOINT}/Projects?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`,
     {
       headers: {
         authorization
@@ -34,32 +35,32 @@ const getClients = async ({
   )
 }
 
-type GetClientOptions = {
+type GetProjectOptions = {
   populate?: string
   count?: string
 }
-const getClient = async (id, { populate = '', count = '' }: GetClientOptions = {}) => {
+const getProject = async (id, { populate = '', count = '' }: GetProjectOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/clients/${id}?populate=${populate}&count=${count}`, {
+  return axios.get(`${ENDPOINT}/Projects/${id}?populate=${populate}&count=${count}`, {
     headers: {
       authorization
     }
   })
 }
-type DeleteClientOptions = {
+type DeleteProjectOptions = {
   keepIdentity: boolean
 }
-const deleteClient = async (
+const deleteProject = async (
   id,
-  { keepIdentity = false }: DeleteClientOptions = {
+  { keepIdentity = false }: DeleteProjectOptions = {
     keepIdentity: false
   }
 ) => {
   const authorization = await getAuthorization()
-  return axios.delete(`${ENDPOINT}/clients/${id}?keep-identity=${keepIdentity}`, {
+  return axios.delete(`${ENDPOINT}/Projects/${id}?keep-identity=${keepIdentity}`, {
     headers: {
       authorization
     }
   })
 }
-export { createClient, getClients, getClient, deleteClient }
+export { createProject, getProjects, getProject, deleteProject }

@@ -74,6 +74,7 @@
 
 <script setup lang="ts">
 import { getClients } from '@/domain/clients'
+import { createProject } from '@/domain/projects'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
@@ -194,11 +195,32 @@ const handleAssignClient = () => {
   fn()
 }
 const handleCreateProject = (p) => {
-  if (client.value && client.value._id) {
-    console.log({ client: client.value._id, ...p })
-    client.value = null
-    modalCreateProject.value.hide()
+  const fn = async () => {
+    try {
+      if (client.value && client.value._id) {
+        const clientId = client.value._id
+        client.value = null
+        await createProject(clientId, p)
+        modalCreateProject.value.hide()
+        Swal.fire({
+          title: `Projet crée`,
+          text: 'Le projet a été créé avec succès',
+          icon: 'info',
+          confirmButtonText: 'OK'
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      modalCreateProject.value.hide()
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
   }
+  fn()
 }
 const project = ref(null)
 const handleUpdateProject = (p) => {
