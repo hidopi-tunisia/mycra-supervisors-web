@@ -11,6 +11,15 @@ const createClient = async (payload) => {
   })
 }
 
+const updateClient = async (id, payload) => {
+  const authorization = await getAuthorization()
+  return axios.put(`${ENDPOINT}/clients/${id}`, payload, {
+    headers: {
+      authorization
+    }
+  })
+}
+
 type GetClientsOptions = {
   populate?: string
   page?: number
@@ -24,11 +33,14 @@ const getClients = async ({
   sort = 'asc'
 }: GetClientsOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/clients?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`, {
-    headers: {
-      authorization
+  return axios.get(
+    `${ENDPOINT}/clients?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`,
+    {
+      headers: {
+        authorization
+      }
     }
-  })
+  )
 }
 
 type GetClientOptions = {
@@ -59,4 +71,4 @@ const deleteClient = async (
     }
   })
 }
-export { createClient, getClients, getClient, deleteClient }
+export { createClient, updateClient, getClients, getClient, deleteClient }

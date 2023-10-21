@@ -95,7 +95,7 @@
 import Item from './consultant-picker-modal-item.vue'
 import ConsultantSummary from '@/components/consultants/details/consultant-summary.vue'
 import { ref } from 'vue'
-import { getConsultants } from '@/api/consultants'
+import { getConsultants } from '@/domain/consultants'
 
 const $ = window.jQuery
 

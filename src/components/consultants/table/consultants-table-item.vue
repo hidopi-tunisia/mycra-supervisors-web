@@ -12,7 +12,7 @@
       </router-link>
     </td>
     <td>{{ props.item!.hiredAt.substring(0, 10) }}</td>
-    <td>{{ props.item!.projects[0].name }}</td>
+    <td>{{ props.item!.projects?.[0]?.name }}</td>
     <td>
       <span
         class="badge bg-label-success me-1"

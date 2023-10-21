@@ -20,7 +20,7 @@
         </li>
       </ul>
     </td>
-    <td class="project-code">{{ props.item!.projectCode }}</td>
+    <td class="project-code">{{ props.item!.code }}</td>
     <td>{{ props.item!.category }}</td>
     <td>
       <span class="badge bg-label-success me-1" v-show="props.item!.status === 'active'">{{

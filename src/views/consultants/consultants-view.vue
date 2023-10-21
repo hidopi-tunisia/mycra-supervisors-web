@@ -49,7 +49,7 @@
     </ol>
   </nav>
   <consultants-table
-    v-if="results"
+    v-if="!loading && results && results.length > 0"
     :items="filtered"
     :pages="pages"
     :currentPage="currentPage"
@@ -63,6 +63,15 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
+  <div
+    class="card h-50 d-flex justify-content-center align-items-center"
+    v-if="!loading && results && results.length === 0"
+  >
+    <p>Pas de consultants</p>
+    <router-link to="/consultants/new">
+      <a class="btn btn-primary" href="#"> Créer un consultant</a>
+    </router-link>
+  </div>
   <consultant-cra
     ref="modalConsultantCRA"
     @day="handleClickDay"
@@ -79,7 +88,7 @@
 
 <script setup lang="ts">
 import { getClients } from '@/api/clients'
-import { getConsultants } from '@/domain/consultants'
+import { deleteConsultant, getConsultants } from '@/domain/consultants'
 import ConsultantsTable from '@/components/consultants/table/consultants-table.vue'
 import ConsultantCra from '@/components/consultants/modals/cra/consultant-cra.vue'
 import ConsultantsNotifier from '@/components/shared/notifiers/consultants-notifier'
@@ -94,7 +103,7 @@ const pages = ref(5)
 const currentPage = ref(0)
 const sizes = ref([1, 5, 10, 25, 50, 100])
 const currentSize = ref(25)
-const fn = async () => {
+const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getConsultants({ page: currentPage.value, limit: currentSize.value })
@@ -107,7 +116,7 @@ const fn = async () => {
     console.log(error.response.data)
   }
 }
-fn()
+retrieve()
 const resultsClients = ref(null)
 const fn2 = async () => {
   try {
@@ -128,27 +137,36 @@ const handleSearch = (value) => {
   })
 }
 const handleDeleteConsultant = (id) => {
-  Swal.fire({
-    title: 'Êtes-vous sûr de vouloir supprimer le consultant ?',
-    text: 'Cette action est irriversible',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimer !'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Supprimé !', 'Le consultant a été supprimé avec succès.', 'success')
-    }
-  })
+  const fn = async () => {
+    Swal.fire({
+      title: 'Êtes-vous sûr de vouloir supprimer le consultant ?',
+      text: 'Cette action est irriversible',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer !'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteConsultant(id)
+          retrieve()
+          Swal.fire('Supprimé !', 'Le consultant a été supprimé avec succès.', 'success')
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    })
+  }
+  fn()
 }
 const handlePaginationChange = (p) => {
   currentPage.value = Number(p)
-  fn()
+  retrieve()
 }
 const handleSizeChange = (s) => {
   currentSize.value = Number(s)
-  fn()
+  retrieve()
 }
 const handleClickNotifyRest = () => {
   const fn = async () => {

@@ -13,7 +13,7 @@
           <div class="content-backdrop fade"></div>
         </div>
       </div>
-      <div class="layout-overlay layout-menu-toggle"></div>
+      <div class="layout-overlay layout-menu-toggle" @click="handleMenuToggleClick"></div>
     </div>
 
     <!-- Overlay -->
@@ -24,7 +24,10 @@
 <script setup lang="ts">
 import AppNavbar from '@/components/shared/app-navbar.vue'
 import AppMenu from '@/components/shared/app-menu.vue'
-import AppFooter from '@/components/shared/app-footer.vue'
+
+const handleMenuToggleClick = () => {
+  window.Helpers.toggleCollapsed()
+}
 </script>
 
 <style scoped></style>

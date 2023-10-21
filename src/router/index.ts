@@ -54,8 +54,8 @@ const router = createRouter({
       component: ClientCreateView
     },
     {
-      path: '/notifications',
-      name: 'notifications',
+      path: '/notifications/new',
+      name: 'create-notification',
       component: NotificationsView
     },
     {

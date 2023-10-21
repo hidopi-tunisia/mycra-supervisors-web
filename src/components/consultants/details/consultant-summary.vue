@@ -3,16 +3,22 @@
     <div class="col-xs-12 col-md-3">
       <div class="d-flex align-items-start align-items-sm-center gap-4">
         <img
-          :src="
-            props.data.profilePhoto
-              ? props.data.profilePhoto
-              : '/assets/img/avatars/avatar-placeholder.jpg'
-          "
+          :src="props.data.profilePhoto"
           alt="user-avatar"
           class="d-block rounded"
           height="100"
           width="100"
           id="profilePhoto"
+          v-if="props.data.profilePhoto"
+        />
+        <img
+          :src="getAvatar()"
+          alt="user-avatar"
+          class="d-block rounded"
+          height="100"
+          width="100"
+          id="profilePhoto"
+          v-else
         />
       </div>
     </div>
@@ -59,7 +65,7 @@
       </div>
       <div class="mb-3 col-md-6 col-lg-4">
         <label for="skills" class="form-label">Projets</label>
-        <p>{{props.data.projects.length}}</p>
+        <p>{{ props.data.projects.length }}</p>
       </div>
     </div>
     <div class="row">
@@ -100,7 +106,12 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar';
+
 const props = defineProps(['data'])
+const getAvatar = () => {
+  return `data:image/svg+xml;utf8,${generateFromString(props.data._id)}`
+}
 </script>
 
 <style scoped>

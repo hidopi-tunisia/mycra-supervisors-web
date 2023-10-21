@@ -7,7 +7,7 @@
     ref="project-create-modal"
   >
     <div class="modal-dialog">
-      <form class="modal-content">
+      <form class="modal-content" @submit.prevent="handleSubmit">
         <div class="modal-header">
           <h5 class="modal-title" id="project-create-modal-title">Nouveau projet</h5>
           <button
@@ -26,6 +26,9 @@
                 id="create-project-name"
                 class="form-control"
                 placeholder="Ex : Création d'une application mobile"
+                required
+                :value="payload.name"
+                @input="({ target }) => (payload.name = target.value)"
               />
             </div>
           </div>
@@ -33,20 +36,23 @@
             <div class="col">
               <label for="create-project-name" class="form-label">Client </label>
             </div>
-            <div class="btn-group mb-3">
+            <div class="btn-group">
               <button
                 type="button"
                 class="btn btn-outline-secondary"
+                required
                 @click="handleClickAssignClient"
               >
                 <span v-if="props.client"
-                  >{{ props.client.company.name }} - {{ props.client.firstName }} {{ props.client.lastName }}</span
+                  >{{ props.client.company.name }} - {{ props.client.firstName }}
+                  {{ props.client.lastName }}</span
                 >
                 <span v-else> Sélectionner un client</span>
               </button>
             </div>
+            <small id="errorMissingClient" class="form-text text-danger" v-if="errorMissingClient">Merci de sélectionner un client</small>
           </div>
-          <div class="row g-2">
+          <div class="row g-2 mt-3">
             <div class="col mb-3">
               <label for="create-project-description" class="form-label">Description</label>
               <textarea
@@ -54,6 +60,8 @@
                 id="create-project-description"
                 class="form-control"
                 placeholder="Ex : Créer une application mobile pour la gestion des stocks."
+                :value="payload.description"
+                @input="({ target }) => (payload.description = target.value)"
               ></textarea>
             </div>
           </div>
@@ -65,6 +73,9 @@
                 id="create-project-code"
                 class="form-control"
                 placeholder="Ex : ABC-12345"
+                required
+                :value="payload.code"
+                @input="({ target }) => (payload.code = target.value)"
               />
             </div>
             <div class="col mb-0">
@@ -74,6 +85,9 @@
                 id="create-project-category"
                 class="form-control"
                 placeholder="Ex : Réseau"
+                required
+                :value="payload.category"
+                @input="({ target }) => (payload.category = target.value)"
               />
             </div>
           </div>
@@ -85,6 +99,9 @@
                 id="create-project-start-date"
                 class="form-control"
                 placeholder="DD / MM / YYYY"
+                required
+                :value="payload.startDate"
+                @input="({ target }) => (payload.startDate = new Date(target.value).toISOString())"
               />
             </div>
             <div class="col mb-0">
@@ -94,6 +111,9 @@
                 id="create-project-end-date"
                 class="form-control"
                 placeholder="DD / MM / YYYY"
+                required
+                :value="payload.endDate"
+                @input="({ target }) => (payload.endDate = new Date(target.value).toISOString())"
               />
             </div>
           </div>
@@ -102,7 +122,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             Annuler
           </button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Enregistrer</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
         </div>
       </form>
     </div>
@@ -113,8 +133,18 @@
 import { ref } from 'vue'
 const $ = window.jQuery
 const props = defineProps({ clients: Array<Object>, client: Object })
-const emit = defineEmits(['assign-client'])
+const emit = defineEmits(['assign-client', 'submit'])
+const errorMissingClient = ref(false)
+let payload = {}
+const handleSubmit = () => {
+  errorMissingClient.value = false
+  if (!props.client) {
+    errorMissingClient.value = true
+  }
+  emit('submit', payload)
+}
 const handleClickAssignClient = () => {
+  errorMissingClient.value = false
   emit('assign-client')
 }
 const show = () => {

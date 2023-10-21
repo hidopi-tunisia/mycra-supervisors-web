@@ -1,5 +1,5 @@
 <template>
-  <div class="row" v-if="results">
+  <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
       <div class="card">
         <div class="card-body">
@@ -16,7 +16,7 @@
             </div>
           </div>
           <span class="d-block mb-1">Projets</span>
-          <h3 class="card-title text-nowrap mb-2">{{ results.length }}</h3>
+          <h3 class="card-title text-nowrap mb-2" v-if="results">{{ results.length }}</h3>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
     </ol>
   </nav>
   <projects-table
-    v-if="results"
+    v-if="!loading && results && results.length > 0"
     :items="filtered"
     :pages="pages"
     :currentPage="currentPage"
@@ -43,16 +43,25 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
+  <div
+    class="card h-50 d-flex justify-content-center align-items-center"
+    v-if="!loading && results && results.length === 0"
+  >
+    <p>Pas de projets</p>
+    <button class="btn btn-primary" @click="modalCreateProject.show()">Créer un projet</button>
+  </div>
   <project-create-modal
     ref="modalCreateProject"
     :clients="resultsClients"
     :client="client"
     @assign-client="handleAssignClient"
+    @submit="handleCreateProject"
   />
   <project-update-modal
     ref="modalUpdateProject"
     :clients="resultsClients"
     :project="project"
+    @assign-client="handleAssignClient"
     @submit="handleUpdateProject"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
@@ -65,6 +74,7 @@
 
 <script setup lang="ts">
 import { getClients } from '@/domain/clients'
+import { createProject } from '@/domain/projects'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
 import ProjectUpdateModal from '@/components/projects/modals/project-update-modal.vue'
 import ProjectsTable from '@/components/projects/table/projects-table.vue'
@@ -114,11 +124,6 @@ const handleSearch = (value) => {
       d.category.toLowerCase().includes(value.toLowerCase())
     )
   })
-}
-const project = ref(null)
-const handleUpdateProject = (project) => {
-  console.log(project)
-  modalUpdateProject.value.hide()
 }
 const handleShowUpdateProject = (id) => {
   modalUpdateProject.value.show()
@@ -188,6 +193,42 @@ const handleAssignClient = () => {
     }
   }
   fn()
+}
+const handleCreateProject = (p) => {
+  const fn = async () => {
+    try {
+      if (client.value && client.value._id) {
+        const clientId = client.value._id
+        client.value = null
+        await createProject(clientId, p)
+        modalCreateProject.value.hide()
+        Swal.fire({
+          title: `Projet crée`,
+          text: 'Le projet a été créé avec succès',
+          icon: 'info',
+          confirmButtonText: 'OK'
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      modalCreateProject.value.hide()
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
+}
+const project = ref(null)
+const handleUpdateProject = (p) => {
+  if (client.value && client.value._id) {
+    console.log({ client: client.value._id, ...p })
+    client.value = null
+    modalUpdateProject.value.hide()
+  }
 }
 </script>
 

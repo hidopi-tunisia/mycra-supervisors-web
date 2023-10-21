@@ -18,7 +18,7 @@
       }
     },
     "signatureDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
-    "observation": "{{lorem(1, 'paragraphs')}}",
+    "note": "{{lorem(1, 'paragraphs')}}",
     "project": "{{lorem(2, 'words')}}",
     "createdAt": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
     "consultants": [

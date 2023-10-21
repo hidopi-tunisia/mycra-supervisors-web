@@ -20,7 +20,8 @@
     "generate-avatar": "^1.4.10",
     "sweetalert2": "^11.7.32",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.4",
+    "vue3-tags-input": "^1.0.12"
   },
   "devDependencies": {
     "@popperjs/core": "^2.9.2",

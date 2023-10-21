@@ -6,7 +6,7 @@
         <div class="col-3">
           <div class="d-flex align-items-start align-items-sm-center gap-4">
             <img
-              src="/assets/img/avatars/company.jpg"
+              :src="props.profile.company?.logo"
               alt="user-avatar"
               class="d-block rounded"
               height="100"
@@ -27,7 +27,7 @@
             <div class="col-6 col-md-4">
               <div>Email</div>
               <div class="fw-bold my-2">
-                <a :href="'mailto:' + props.profile.phone">{{ props.profile.email }}</a>
+                <a :href="'mailto:' + props.profile.email">{{ props.profile.email }}</a>
               </div>
             </div>
             <div class="col-12 col-md-4">
@@ -48,7 +48,9 @@
             <div class="col-6 col-md-4">
               <div>Téléphone</div>
               <div class="fw-bold my-2">
-                <a :href="'tel:' + props.profile.phone">{{ props.profile.phone }}</a>
+                <a :href="'tel:' + props.profile.company?.phone">{{
+                  props.profile.company?.phone
+                }}</a>
               </div>
             </div>
             <div class="col-6 col-md-4">
@@ -75,57 +77,19 @@
     <div class="card-body">
       <div class="row">
         <div class="mb-3 col-md-6">
-          <label for="position" class="form-label">Nom social</label>
+          <label for="siret" class="form-label">SIRET</label>
           <input
             class="form-control"
             type="text"
-            id="companyName"
-            name="companyName"
-            placeholder="Ex : ACME Corp"
-            disabled
-            :value="props.profile?.company?.name"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="mb-3 col-md-6">
-          <label for="lastName" class="form-label">SIRET</label>
-          <input
-            class="form-control"
-            type="text"
-            name="lastName"
-            id="lastName"
-            placeholder="Ex : Doe"
+            name="siret"
+            id="siret"
+            placeholder="Ex : 123456789"
             disabled
             :value="props.profile?.company?.siret"
           />
         </div>
-        <div class="mb-3 col-md-6">
-          <label for="lastName" class="form-label">Responsable</label>
-          <input
-            class="form-control"
-            type="text"
-            name="lastName"
-            id="lastName"
-            placeholder="Ex : Doe"
-            disabled
-            :value="props.profile?.company?.representative"
-          />
-        </div>
       </div>
       <div class="row">
-        <div class="mb-3 col-md-6">
-          <label for="email" class="form-label">E-mail</label>
-          <input
-            class="form-control"
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Ex : john.doe@example.com"
-            disabled
-            :value="props.profile.email"
-          />
-        </div>
         <div class="mb-3 col-md-6">
           <label for="note" class="form-label">Adresse postale</label>
           <textarea
@@ -137,6 +101,30 @@
             disabled
             :value="props.profile?.company?.address?.street"
           ></textarea>
+        </div>
+        <div class="mb-3 col-md-3">
+          <label for="email" class="form-label">Ville</label>
+          <input
+            class="form-control"
+            type="text"
+            id="city"
+            name="city"
+            placeholder="Ex : Paris"
+            disabled
+            :value="props.profile?.company?.address?.city"
+          />
+        </div>
+        <div class="mb-3 col-md-3">
+          <label for="email" class="form-label">Code postal</label>
+          <input
+            class="form-control"
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Ex : 12345"
+            disabled
+            :value="props.profile?.company?.address?.zipCode"
+          />
         </div>
       </div>
       <div class="row">
@@ -164,64 +152,48 @@
             :value="props.profile.secondPhone"
           />
         </div>
-        <div class="mb-3 col-md-3">
-          <label for="email" class="form-label">Ville</label>
-          <input
-            class="form-control"
-            type="text"
-            id="city"
-            name="city"
-            placeholder="Ex : Paris"
-            disabled
-            :value="props.profile?.company?.address?.city"
-          />
-        </div>
-        <div class="mb-3 col-md-3">
-          <label for="email" class="form-label">Code postal</label>
-          <input
-            class="form-control"
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Ex : 12345"
-            disabled
-            :value="props.profile?.company?.address?.zipCode"
-          />
-        </div>
         <div class="mb-3 col-md-6">
-          <label for="availableAt" class="form-label">Date du signature</label>
-          <input
-            type="date"
-            class="form-control"
-            id="signatureDate"
-            name="signatureDate"
-            disabled
-            :value="props.profile.signatureDate"
-          />
-        </div>
-        <div class="mb-3 col-md-6">
-          <label for="hiredAt" class="form-label">Facebook</label>
-          <input
-            class="form-control"
-            type="text"
-            id="facebook"
-            name="facebook"
-            placeholder="Ex : https://www.facebook.com/john.doe"
-            disabled
-            :value="props.profile.facebook"
-          />
-        </div>
-        <div class="mb-3 col-md-6">
-          <label for="hiredAt" class="form-label">Twitter</label>
-          <input
-            class="form-control"
-            type="text"
-            id="twitter"
-            name="twitter"
-            placeholder="Ex : https://www.twitter.com/@john.doe"
-            disabled
-            :value="props.profile.twitter"
-          />
+          <label for="availableAt" class="form-label">Social</label>
+          <div class="d-flex flex-row">
+            <a
+              target="_blank"
+              :href="props.profile.company?.website"
+              data-bs-toggle="tooltip"
+              data-popup="tooltip-custom"
+              data-bs-placement="top"
+              title="Site web"
+            >
+              <div class="icon-social bx bxs-mouse with-pointer me-2"></div>
+            </a>
+            <a target="_blank" :href="props.profile.company?.facebookLink"
+              data-bs-toggle="tooltip"
+              data-popup="tooltip-custom"
+              data-bs-placement="top"
+              title="Facebook">
+              <div class="icon-social bx bxl-facebook-circle with-pointer me-2"></div>
+            </a>
+            <a target="_blank" :href="props.profile.company?.instagramPage"
+              data-bs-toggle="tooltip"
+              data-popup="tooltip-custom"
+              data-bs-placement="top"
+              title="Instagram">
+              <div class="icon-social bx bxl-instagram-alt with-pointer me-2"></div>
+            </a>
+            <a target="_blank" :href="props.profile.company?.xLink"
+              data-bs-toggle="tooltip"
+              data-popup="tooltip-custom"
+              data-bs-placement="top"
+              title="Twitter">
+              <div class="icon-social bx bxl-twitter with-pointer me-2"></div>
+            </a>
+            <a target="_blank" :href="props.profile.company?.linkedInLink"
+              data-bs-toggle="tooltip"
+              data-popup="tooltip-custom"
+              data-bs-placement="top"
+              title="LinkedIn">
+              <div class="icon-social bx bxl-linkedin-square with-pointer me-2"></div>
+            </a>
+          </div>
         </div>
       </div>
       <div class="mt-2">

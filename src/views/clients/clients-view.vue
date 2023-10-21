@@ -29,7 +29,7 @@
     </ol>
   </nav>
   <clients-table
-    v-if="results"
+    v-if="!loading && results && results.length > 0"
     :items="filtered"
     :pages="pages"
     :currentPage="currentPage"
@@ -40,6 +40,15 @@
     @pagination-change="handlePaginationChange"
     @size-change="handleSizeChange"
   />
+  <div
+    class="card h-50 d-flex justify-content-center align-items-center"
+    v-if="!loading && results && results.length === 0"
+  >
+    <p>Pas de clients</p>
+    <router-link to="/clients/new">
+      <a class="btn btn-primary" href="#"> Créer un client</a>
+    </router-link>
+  </div>
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -49,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { getClients } from '@/domain/clients'
+import { deleteClient, getClients } from '@/domain/clients'
 import ClientsTable from '@/components/clients/table/clients-table.vue'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
@@ -61,7 +70,7 @@ const pages = ref(5)
 const currentPage = ref(0)
 const sizes = ref([5, 10, 25, 50, 100])
 const currentSize = ref(25)
-const fn = async () => {
+const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getClients({ page: currentPage.value, limit: currentSize.value })
@@ -74,7 +83,7 @@ const fn = async () => {
     console.log(error.response.data)
   }
 }
-fn()
+retrieve()
 const handleSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
@@ -85,27 +94,41 @@ const handleSearch = (value) => {
   })
 }
 const handleDeleteClient = (id) => {
-  Swal.fire({
-    title: 'Êtes-vous sûr de vouloir supprimer le client ?',
-    text: 'Cette action est irriversible',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimer !'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Supprimé !', 'Le client a été supprimé avec succès.', 'success')
+  const fn = async () => {
+    try {
+      Swal.fire({
+        title: 'Êtes-vous sûr de vouloir supprimer le client ?',
+        text: 'Cette action est irriversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, supprimer !'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteClient(id)
+          retrieve()
+          Swal.fire('Supprimé !', 'Le client a été supprimé avec succès.', 'success')
+        }
+      })
+    } catch (error) {
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
     }
-  })
+  }
+  fn()
 }
 const handlePaginationChange = (p) => {
   currentPage.value = Number(p)
-  fn()
+  retrieve()
 }
 const handleSizeChange = (s) => {
   currentSize.value = Number(s)
-  fn()
+  retrieve()
 }
 </script>
 

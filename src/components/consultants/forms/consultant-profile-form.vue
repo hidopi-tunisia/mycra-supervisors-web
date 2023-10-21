@@ -32,8 +32,8 @@
                     type="file"
                     id="upload"
                     class="account-file-input"
-                    hidden
                     accept="image/png, image/jpeg"
+                    hidden
                   />
                 </label>
                 <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
@@ -50,13 +50,16 @@
               <div class="col-xs-12 col-sm-6">
                 <div class="mb-2">Nom et prénom</div>
                 <div class="fw-bold">
-                  {{ newProfile.civility }} {{ newProfile.firstName }} {{ newProfile.lastName }}
+                  <span v-show="newProfile.sex === 'male'">Mr.</span>
+                  <span v-show="newProfile.sex === 'female'">Mme.</span>
+                  {{ newProfile.firstName }}
+                  {{ newProfile.lastName }}
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6">
                 <div>Email</div>
                 <div class="fw-bold my-2">
-                  <a :href="'mailto:' + newProfile.phone">{{ newProfile.email }}</a>
+                  <a :href="'mailto:' + newProfile.email">{{ newProfile.email }}</a>
                 </div>
               </div>
             </div>
@@ -84,10 +87,11 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="civility"
+                name="sex"
                 id="male"
-                value="Mr."
-                :checked="newProfile.civility === 'Mr.'"
+                value="male"
+                :checked="newProfile.sex === 'male'"
+                @input="newProfile.sex = 'male'"
               />
               <label class="form-check-label with-pointer" for="male">Mr.</label>
             </div>
@@ -95,10 +99,11 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="civility"
+                name="sex"
                 id="female"
-                value="Mme."
-                :checked="newProfile.civility === 'Mme.'"
+                value="female"
+                :checked="newProfile.sex === 'female'"
+                @input="newProfile.sex = 'female'"
               />
               <label class="form-check-label with-pointer" for="female">Mme.</label>
             </div>
@@ -106,130 +111,148 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="position" class="form-label">Poste</label>
+            <label for="position" class="form-label required">Poste</label>
             <input
               class="form-control"
               type="text"
               id="position"
               name="position"
               placeholder="Ex : Développeur web"
+              required
               :value="newProfile.position"
+              @input="({ target }) => (newProfile.position = target.value)"
+            />
+          </div>
+          <div class="mb-3 col-md-6">
+            <label for="linkedInLink" class="form-label">Profil LinkedIn</label>
+            <input
+              type="text"
+              class="form-control"
+              id="linkedInLink"
+              name="linkedInLink"
+              placeholder="Ex : https://www.linkedin.com/in/john.doe"
+              :value="newProfile.linkedInLink"
+              @input="({ target }) => (newProfile.linkedInLink = target.value)"
             />
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="currency" class="form-label">Expérience dans le poste</label>
-            <select id="currency" class="select2 form-select">
-              <option disabled selected>Sélectionner</option>
-              <option
-                v-for="y in 10"
-                :key="y"
-                :value="y"
-                :selected="y === newProfile.yearsOfExperience"
-                >{{ y }}</option
+            <div class="d-flex justify-content-between">
+              <label for="skills" class="form-label required"
+                >Compétences - {{ skillsArray ? skillsArray.length : skillsLimit }}/{{
+                  skillsLimit
+                }}</label
               >
-            </select>
+              <small class="with-pointer" @click="handleClickEmptySkills">Vider</small>
+            </div>
+            <tags-input
+              placeholder="Ex : Java, Python, Jira"
+              :limit="skillsLimit"
+              :allow-duplicates="false"
+              :tags="skillsArray"
+              @tags-changed="handleSkillsChanged"
+            />
+            <small id="noteHelp" class="form-text text-muted"
+              >Appuyez le bouton "Entrer" pour confirmer</small
+            >
           </div>
-          <div class="mb-3 col-md-6">
-            <label for="skills" class="form-label">Compétences</label>
+          <div class="mb-3 col-md-4">
+            <label for="formFile" class="form-label">Dossier de compétence</label>
+            <input class="form-control" type="file" id="formFile" />
+          </div>
+          <div class="mb-3 col-md-2">
+            <label for="position" class="form-label required">Années d'expérience</label>
             <input
               class="form-control"
-              type="text"
-              id="skills"
-              name="skills"
-              placeholder="Ex : Node.js, Jira, Angular..."
-              value=""
+              id="position"
+              name="position"
+              placeholder="Ex : 6"
+              type="number"
+              step="1"
+              required
+              v-model.number="newProfile.yearsOfExperience"
             />
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="lastName" class="form-label">Nom</label>
-            <input
-              class="form-control"
-              type="text"
-              name="lastName"
-              id="lastName"
-              placeholder="Ex : Doe"
-              :value="newProfile.firstName"
-            />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="firstName" class="form-label">Prénom</label>
+            <label for="firstName" class="form-label required">Prénom</label>
             <input
               class="form-control"
               type="text"
               id="firstName"
               name="firstName"
               placeholder="Ex : Prénom"
-              :value="newProfile.lastName"
+              required
+              :value="newProfile.firstName"
+              @input="({ target }) => (newProfile.firstName = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="email" class="form-label">E-mail</label>
+            <label for="lastName" class="form-label required">Nom</label>
+            <input
+              class="form-control"
+              type="text"
+              name="lastName"
+              id="lastName"
+              placeholder="Ex : Doe"
+              required
+              :value="newProfile.lastName"
+              @input="({ target }) => (newProfile.lastName = target.value)"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-6">
+            <label for="email" class="form-label required">E-mail</label>
             <input
               class="form-control"
               type="text"
               id="email"
               name="email"
               placeholder="Ex : john.doe@example.com"
+              required
               :value="newProfile.email"
+              @input="({ target }) => (newProfile.email = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label class="form-label" for="phoneNumber">Téléphone</label>
+            <label class="form-label required" for="phone">Téléphone</label>
             <div class="input-group input-group-merge">
               <input
                 type="text"
-                id="phoneNumber"
-                name="phoneNumber"
+                id="phone"
+                name="phone"
                 class="form-control"
                 placeholder="Ex : 123456789"
                 :value="newProfile.phone"
+                @input="({ target }) => (newProfile.phone = target.value)"
               />
             </div>
           </div>
+        </div>
+        <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="address" class="form-label">Profil LinkedIn</label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              name="address"
-              placeholder="Ex : https://www.linkedin.com/in/john.doe"
-              :value="newProfile.linkedIn"
-            />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="zipCode" class="form-label">Code postal</label>
-            <input
-              class="form-control"
-              type="text"
-              id="state"
-              name="zipCode"
-              placeholder="Ex : 123456"
-              :value="newProfile.zipCode"
-            />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="availableAt" class="form-label">Date de disponibilité</label>
+            <label for="availableAt" class="form-label required">Date de disponibilité</label>
             <input
               type="date"
               class="form-control"
               id="availableAt"
               name="availableAt"
-              :value="newProfile.availableAt"
+              :value="newProfile.availableAt?.substring(0, 10)"
+              @input="({ target }) => (newProfile.availableAt = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="hiredAt" class="form-label">Date d'embauche</label>
+            <label for="hiredAt" class="form-label required">Date d'embauche</label>
             <input
               type="date"
               class="form-control"
               id="hiredAt"
               name="hiredAt"
-              :value="newProfile.hiredAt"
+              :value="newProfile.hiredAt?.substring(0, 10)"
+              @input="({ target }) => (newProfile.hiredAt = target.value)"
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -238,19 +261,30 @@
               class="form-control"
               id="note"
               name="note"
-              rows="4"
+              rows="2"
+              maxlength="500"
               placeholder="Ex : John Doe est un excellent développeur"
               :value="newProfile.note"
+              @input="
+                ({ target }) => {
+                  newProfile.note = target.value
+                  note = target.value
+                }
+              "
             ></textarea>
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="formFile" class="form-label">Dossier de compétence</label>
-            <input class="form-control" type="file" id="formFile" />
+            <small id="noteHelp" class="form-text text-muted"
+              >{{ note ? 500 - note.length : 500 }} caractères restants</small
+            >
           </div>
         </div>
         <div class="mt-2">
-          <button type="submit" class="btn btn-primary me-2">Soumettre</button>
-          <button type="reset" class="btn btn-outline-secondary">Annuler</button>
+          <button type="submit" class="btn btn-primary me-2 btn-submit" :disabled="props.loading">
+            <span v-if="!props.loading"> {{ props.isUpdate ? 'Mettre à jour' : 'Soumettre' }}</span>
+            <div class="spinner-grow spinner-grow-sm" role="status" v-else>
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <button type="reset" class="btn btn-outline-secondary">Réintialiser</button>
         </div>
       </div>
     </div>
@@ -258,20 +292,41 @@
 </template>
 
 <script setup lang="ts">
+import { ref, toRaw } from 'vue'
+import TagsInput from '@/components/shared/inputs/tags-input.vue'
 import { generateFromString } from 'generate-avatar'
-const props = defineProps(['profile', 'isUpdate'])
+const note = ref('')
+const skillsArray = ref([])
+const skillsLimit = 4
+const props = defineProps(['profile', 'isUpdate', 'loading'])
 let newProfile = {}
 if (props.isUpdate) {
+  if (props.profile.note) {
+    note.value = props.profile.note
+  }
+  if (props.profile.skills?.arr) {
+    skillsArray.value = props.profile.skills?.arr
+  }
   newProfile = { ...props.profile }
 }
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
-  const payload = {...newProfile}
+  const payload = { ...newProfile, skills: { arr: toRaw(skillsArray.value) } }
   emit('submit', payload)
 }
 const getAvatar = () => {
   return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
 }
+const handleSkillsChanged = (v) => {
+  skillsArray.value = v
+}
+const handleClickEmptySkills = () => {
+  skillsArray.value = []
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-submit {
+  width: 200px;
+}
+</style>

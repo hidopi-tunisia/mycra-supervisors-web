@@ -31,7 +31,12 @@
               >
                 Déplacer vers <i class="tf-icon bx bx-chevron-right"></i>
               </a>
-              <div class="dropdown-menu dropdown-menu-end card-item" v-show="shown">
+
+              <div
+                class="dropdown-menu dropdown-menu-end card-item"
+                :style="position % 2 === 0 ? 'left: 172px;' : 'right: 172px;'"
+                v-show="shown"
+              >
                 <a
                   class="dropdown-item"
                   href="#"
@@ -97,7 +102,6 @@ const handleMouseLeave = () => {
 
 <style scoped>
 .card-item {
-  left: 172px;
   top: 42px;
   position: absolute;
   display: block;

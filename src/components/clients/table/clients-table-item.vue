@@ -7,7 +7,7 @@
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>
     </td>
-    <td>{{ props.item!.signatureDate.substring(0, 10) }}</td>
+    <td>{{ props.item!.contract?.signedAt?.substring(0, 10) }}</td>
     <td>{{ props.item!.project }}</td>
     <td>
       <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
