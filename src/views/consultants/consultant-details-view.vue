@@ -32,9 +32,10 @@
   </ul>
   <consultant-profile-form
     v-if="tab === 'profile' && result"
-    :profile="result"
-    @submit="handleSubmit"
     isUpdate="true"
+    :profile="result"
+    :loading="loading"
+    @submit="handleSubmit"
   />
   <consultant-profile-history
     :profile="result"
@@ -90,11 +91,9 @@ const handleSubmit = (payload) => {
         text: 'Le consultant a été modifié avec succès',
         icon: 'info',
         confirmButtonText: 'OK',
-        showCancelButton: true,
-        cancelButtonText: 'Fermer',
         showDenyButton: true,
         denyButtonText: `Voir liste`,
-        denyButtonColor: "#0288D1",
+        denyButtonColor: '#0288D1'
       }).then(({ isConfirmed, isDenied }) => {
         /* Read more about isConfirmed, isDenied below */
         if (isConfirmed) {
