@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { getClients } from '@/domain/clients'
+import { deleteClient, getClients } from '@/domain/clients'
 import ClientsTable from '@/components/clients/table/clients-table.vue'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
@@ -70,7 +70,7 @@ const pages = ref(5)
 const currentPage = ref(0)
 const sizes = ref([5, 10, 25, 50, 100])
 const currentSize = ref(25)
-const fn = async () => {
+const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getClients({ page: currentPage.value, limit: currentSize.value })
@@ -83,7 +83,7 @@ const fn = async () => {
     console.log(error.response.data)
   }
 }
-fn()
+retrieve()
 const handleSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
@@ -94,19 +94,33 @@ const handleSearch = (value) => {
   })
 }
 const handleDeleteClient = (id) => {
-  Swal.fire({
-    title: 'Êtes-vous sûr de vouloir supprimer le client ?',
-    text: 'Cette action est irriversible',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimer !'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire('Supprimé !', 'Le client a été supprimé avec succès.', 'success')
+  const fn = async () => {
+    try {
+      Swal.fire({
+        title: 'Êtes-vous sûr de vouloir supprimer le client ?',
+        text: 'Cette action est irriversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, supprimer !'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteClient(id)
+          retrieve()
+          Swal.fire('Supprimé !', 'Le client a été supprimé avec succès.', 'success')
+        }
+      })
+    } catch (error) {
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
     }
-  })
+  }
+  fn()
 }
 const handlePaginationChange = (p) => {
   currentPage.value = Number(p)
