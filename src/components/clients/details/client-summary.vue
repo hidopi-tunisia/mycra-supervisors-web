@@ -15,7 +15,7 @@
         <div class="col-xs-12 col-sm-6 col-lg-4">
           <div>Téléphone</div>
           <div class="fw-bold my-2">
-            <a :href="'tel:' + props.data.phone">{{ props.data.phone }}</a>
+            <a :href="'tel:' + props.data.company?.phone">{{ props.data.company?.phone }}</a>
           </div>
         </div>
       </div>
@@ -29,8 +29,19 @@
           <div class="fw-bold my-2">{{ props.data?.company?.siret }}</div>
         </div>
         <div class="col-xs-12 col-sm-6 col-lg-4">
-          <div>Offre</div>
-          <div class="fw-bold my-2 text-uppercase">{{ props.data.offer }}</div>
+          <div>
+            Contrat -
+            <a
+              target="_blank"
+              class="text-gray"
+              href="https://www.africau.edu/images/default/sample.pdf"
+            >
+              Voir <i class="bx bx-link-external text-gray mx-1"></i>
+            </a>
+          </div>
+          <div class="fw-bold my-2 text-uppercase">
+            {{ props.data.contract?.signedAt?.substring(0, 10) }}
+          </div>
         </div>
       </div>
     </div>
@@ -40,11 +51,15 @@
     <div class="row mt-3">
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="currency" class="form-label">Projet</label>
-        <p>{{ props.data.project }}</p>
+        <p v-if="props.data.project">{{ props.data.project }}</p>
+        <p v-else>Pas de projets</p>
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="skills" class="form-label"
-          >Consultants ({{ props.data?.consultants?.length }})</label
+          >Consultants
+          <span v-if="props.data?.consultants?.length > 0"
+            >({{ props.data?.consultants?.length }})</span
+          ></label
         >
         <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
           <li
@@ -59,6 +74,7 @@
             <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
           </li>
         </ul>
+        <span v-if="!props.data?.consultants">Pas de consultant</span>
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="currency" class="form-label">Représentant</label>
@@ -82,11 +98,11 @@
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="availableAt" class="form-label">Date de signature</label>
-        <p>{{ props.data.signatureDate.substring(0, 10) }}</p>
+        <p>{{ props.data.contract?.signedAt?.substring(0, 10) }}</p>
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="availableAt" class="form-label">Date de création</label>
-        <p>{{ props.data.createdAt.substring(0, 10) }}</p>
+        <p>{{ props.data.createdAt?.substring(0, 10) }}</p>
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="formFile" class="form-label">Téléphone 2</label>
@@ -97,8 +113,8 @@
         </p>
       </div>
       <div class="mb-3 col-md-12">
-        <label for="note" class="form-label">Observation</label>
-        <p>{{ props.data.observation }}</p>
+        <label for="note" class="form-label">Note</label>
+        <p>{{ props.data.note }}</p>
       </div>
     </div>
   </div>

@@ -95,7 +95,7 @@
 import Item from './client-picker-modal-item.vue'
 import ClientSummary from '@/components/clients/details/client-summary.vue'
 import { ref } from 'vue'
-import { getClients } from '@/api/clients'
+import { getClients } from '@/domain/clients'
 
 const $ = window.jQuery
 
