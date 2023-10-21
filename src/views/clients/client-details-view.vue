@@ -13,10 +13,11 @@
     </ol>
   </nav>
   <client-profile-form
+    isUpdate="true"
     v-if="result"
     :profile="result"
+    :loading="loading"
     @submit="handleSubmit"
-    isUpdate="true"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
@@ -27,21 +28,23 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { getClient } from '@/domain/clients'
 import ClientProfileForm from '@/components/clients/forms/client-profile-form.vue'
+import { getClient, updateClient } from '@/domain/clients'
+import Swal from 'sweetalert2'
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+const { push } = useRouter()
 const { params } = useRoute()
 const { id } = params
 const result = ref(null)
 const loading = ref(false)
 
-const fn = async () => {
+const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getClient(id)
-    console.log(data);
-    
+    console.log(data)
+
     result.value = data
     loading.value = false
   } catch (error) {
@@ -50,9 +53,39 @@ const fn = async () => {
     console.log(error.response.data)
   }
 }
-fn()
+retrieve()
 const handleSubmit = (payload) => {
-  console.log(payload)
+  const fn = async () => {
+    try {
+      loading.value = true
+      const { data } = await updateClient(id, payload)
+      result.value = data
+      loading.value = false
+      Swal.fire({
+        title: `Client mis à jour`,
+        text: 'Le client a été mis à jour avec succès',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Fermer'
+      }).then(({ isConfirmed }) => {
+        if (isConfirmed) {
+          push('/clients')
+        }
+      })
+    } catch (error) {
+      loading.value = false
+      console.log(error)
+      console.log(error.response.data)
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
 }
 </script>
 

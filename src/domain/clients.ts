@@ -11,6 +11,15 @@ const createClient = async (payload) => {
   })
 }
 
+const updateClient = async (id, payload) => {
+  const authorization = await getAuthorization()
+  return axios.put(`${ENDPOINT}/clients/${id}`, payload, {
+    headers: {
+      authorization
+    }
+  })
+}
+
 type GetClientsOptions = {
   populate?: string
   page?: number
@@ -62,4 +71,4 @@ const deleteClient = async (
     }
   })
 }
-export { createClient, getClients, getClient, deleteClient }
+export { createClient, updateClient, getClients, getClient, deleteClient }
