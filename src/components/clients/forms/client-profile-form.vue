@@ -324,7 +324,7 @@
               "
             ></textarea>
             <small id="noteHelp" class="form-text text-muted"
-              >{{ note ? 500 - note.length : 500 }} caractère(s) restants</small
+              >{{ note ? 500 - note.length : 500 }} caractères restants</small
             >
           </div>
         </div>

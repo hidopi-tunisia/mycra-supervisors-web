@@ -50,13 +50,16 @@
               <div class="col-xs-12 col-sm-6">
                 <div class="mb-2">Nom et prénom</div>
                 <div class="fw-bold">
-                  {{ newProfile.civility }} {{ newProfile.firstName }} {{ newProfile.lastName }}
+                  <span v-show="newProfile.sex === 'male'">Mr.</span>
+                  <span v-show="newProfile.sex === 'female'">Mme.</span>
+                  {{ newProfile.firstName }}
+                  {{ newProfile.lastName }}
                 </div>
               </div>
               <div class="col-xs-12 col-sm-6">
                 <div>Email</div>
                 <div class="fw-bold my-2">
-                  <a :href="'mailto:' + newProfile.phone">{{ newProfile.email }}</a>
+                  <a :href="'mailto:' + newProfile.email">{{ newProfile.email }}</a>
                 </div>
               </div>
             </div>
@@ -84,10 +87,11 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="civility"
+                name="sex"
                 id="male"
-                value="Mr."
-                :checked="newProfile.civility === 'Mr.'"
+                value="male"
+                :checked="newProfile.sex === 'male'"
+                @input="newProfile.sex = 'male'"
               />
               <label class="form-check-label with-pointer" for="male">Mr.</label>
             </div>
@@ -95,10 +99,11 @@
               <input
                 class="form-check-input"
                 type="radio"
-                name="civility"
+                name="sex"
                 id="female"
-                value="Mme."
-                :checked="newProfile.civility === 'Mme.'"
+                value="female"
+                :checked="newProfile.sex === 'female'"
+                @input="newProfile.sex = 'female'"
               />
               <label class="form-check-label with-pointer" for="female">Mme.</label>
             </div>
@@ -117,47 +122,51 @@
               @input="({ target }) => (newProfile.position = target.value)"
             />
           </div>
+          <div class="mb-3 col-md-6">
+            <label for="position" class="form-label">Années d'expérience dans le poste</label>
+            <input
+              class="form-control"
+              id="position"
+              name="position"
+              placeholder="Ex : Développeur web"
+              v-model.number="newProfile.yearsOfExperience"
+              type="number"
+              step="1"
+            />
+          </div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="currency" class="form-label">Expérience dans le poste</label>
-            <select id="currency" class="select2 form-select">
-              <option disabled selected>Sélectionner</option>
-              <option
-                v-for="y in 10"
-                :key="y"
-                :value="y"
-                :selected="y === newProfile.yearsOfExperience"
-              >
-                {{ y }}
-              </option>
-            </select>
+            <label for="linkedInLink" class="form-label">Profil LinkedIn</label>
+            <input
+              type="text"
+              class="form-control"
+              id="linkedInLink"
+              name="linkedInLink"
+              placeholder="Ex : https://www.linkedin.com/in/john.doe"
+              :value="newProfile.linkedInLink"
+              @input="({ target }) => (newProfile.linkedInLink = target.value)"
+            />
           </div>
-          <div class="mb-3 col-md-6">
+          <div class="mb-3 col-md-4">
             <label for="skills" class="form-label">Compétences</label>
-            <input
-              class="form-control"
-              type="text"
-              id="skills"
-              name="skills"
-              placeholder="Ex : Node.js, Jira, Angular..."
-              value=""
+            <tags-input
+              placeholder="Ex : Java, Python, Jira"
+              :limit="3"
+              :allow-duplicates="false"
+              :tags="newProfile.skills?.array"
+              @tags-changed="handleSkillsChanged"
             />
+            <small id="noteHelp" class="form-text text-muted"
+              >{{ skillsArray ? 3 - skillsArray.length : 3 }} compétences restantes</small
+            >
+          </div>
+          <div class="mb-3 col-md-2">
+            <label for="formFile" class="form-label">Dossier de compétence</label>
+            <input class="form-control" type="file" id="formFile" />
           </div>
         </div>
         <div class="row">
-          <div class="mb-3 col-md-6">
-            <label for="lastName" class="form-label">Nom</label>
-            <input
-              class="form-control"
-              type="text"
-              name="lastName"
-              id="lastName"
-              placeholder="Ex : Doe"
-              :value="newProfile.lastName"
-              @input="({ target }) => (newProfile.lastName = target.value)"
-            />
-          </div>
           <div class="mb-3 col-md-6">
             <label for="firstName" class="form-label">Prénom</label>
             <input
@@ -170,6 +179,20 @@
               @input="({ target }) => (newProfile.firstName = target.value)"
             />
           </div>
+          <div class="mb-3 col-md-6">
+            <label for="lastName" class="form-label">Nom</label>
+            <input
+              class="form-control"
+              type="text"
+              name="lastName"
+              id="lastName"
+              placeholder="Ex : Doe"
+              :value="newProfile.lastName"
+              @input="({ target }) => (newProfile.lastName = target.value)"
+            />
+          </div>
+        </div>
+        <div class="row">
           <div class="mb-3 col-md-6">
             <label for="email" class="form-label">E-mail</label>
             <input
@@ -196,30 +219,8 @@
               />
             </div>
           </div>
-          <div class="mb-3 col-md-6">
-            <label for="address" class="form-label">Profil LinkedIn</label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              name="address"
-              placeholder="Ex : https://www.linkedin.com/in/john.doe"
-              :value="newProfile.linkedIn"
-              @input="({ target }) => (newProfile.linkedIn = target.value)"
-            />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="zipCode" class="form-label">Code postal</label>
-            <input
-              class="form-control"
-              type="text"
-              id="state"
-              name="zipCode"
-              placeholder="Ex : 123456"
-              :value="newProfile.zipCode"
-              @input="({ target }) => (newProfile.zipCode = target.value)"
-            />
-          </div>
+        </div>
+        <div class="row">
           <div class="mb-3 col-md-6">
             <label for="availableAt" class="form-label">Date de disponibilité</label>
             <input
@@ -248,15 +249,20 @@
               class="form-control"
               id="note"
               name="note"
-              rows="4"
+              rows="2"
+              maxlength="500"
               placeholder="Ex : John Doe est un excellent développeur"
               :value="newProfile.note"
-              @input="({ target }) => (newProfile.note = target.value)"
+              @input="
+                ({ target }) => {
+                  newProfile.note = target.value
+                  note = target.value
+                }
+              "
             ></textarea>
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="formFile" class="form-label">Dossier de compétence</label>
-            <input class="form-control" type="file" id="formFile" />
+            <small id="noteHelp" class="form-text text-muted"
+              >{{ note ? 500 - note.length : 500 }} caractères restants</small
+            >
           </div>
         </div>
         <div class="mt-2">
@@ -269,19 +275,31 @@
 </template>
 
 <script setup lang="ts">
+import { ref, toRaw } from 'vue'
+import TagsInput from '@/components/shared/inputs/tags-input.vue'
 import { generateFromString } from 'generate-avatar'
+const note = ref('')
+const skillsArray = ref([])
 const props = defineProps(['profile', 'isUpdate'])
 let newProfile = {}
 if (props.isUpdate) {
+  if (props.profile.note) {
+    note.value = props.profile.note
+  }
   newProfile = { ...props.profile }
 }
 const emit = defineEmits(['submit'])
 const handleSubmit = () => {
-  const payload = { ...newProfile }
-  emit('submit', payload)
+  const payload = { ...newProfile, skills: { array: toRaw(skillsArray.value) } }
+  console.log(payload)
+
+  //emit('submit', payload)
 }
 const getAvatar = () => {
   return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
+}
+const handleSkillsChanged = (v) => {
+  skillsArray.value = v
 }
 </script>
 

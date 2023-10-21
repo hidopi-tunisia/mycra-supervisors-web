@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import AppNavbar from '@/components/shared/app-navbar.vue'
 import AppMenu from '@/components/shared/app-menu.vue'
-import { onMounted } from 'vue'
+
 const handleMenuToggleClick = () => {
   window.Helpers.toggleCollapsed()
 }
