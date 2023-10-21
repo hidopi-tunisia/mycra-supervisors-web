@@ -11,6 +11,15 @@ const createConsultant = async (payload) => {
   })
 }
 
+const updateConsultant = async (id, payload) => {
+  const authorization = await getAuthorization()
+  return axios.put(`${ENDPOINT}/consultants/${id}`, payload, {
+    headers: {
+      authorization
+    }
+  })
+}
+
 type GetConsultantsOptions = {
   populate?: string
   page?: number
@@ -62,4 +71,4 @@ const deleteConsultant = async (
     }
   })
 }
-export { createConsultant, getConsultants, getConsultant, deleteConsultant }
+export { createConsultant, updateConsultant, getConsultants, getConsultant, deleteConsultant }

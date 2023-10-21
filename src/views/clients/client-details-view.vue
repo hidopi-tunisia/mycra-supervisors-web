@@ -62,8 +62,8 @@ const handleSubmit = (payload) => {
       result.value = data
       loading.value = false
       Swal.fire({
-        title: `Client mis à jour`,
-        text: 'Le client a été mis à jour avec succès',
+        title: `Client modifié`,
+        text: 'Le client a été modifié avec succès',
         icon: 'info',
         showCancelButton: true,
         confirmButtonText: 'OK',

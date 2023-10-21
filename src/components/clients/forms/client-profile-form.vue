@@ -130,7 +130,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label required">Email</label>
             <input
               class="form-control"
               type="text"
@@ -145,7 +145,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="name" class="form-label">Nom social</label>
+            <label for="name" class="form-label required">Nom social</label>
             <input
               class="form-control"
               type="text"
@@ -160,7 +160,7 @@
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="siret" class="form-label">SIRET</label>
+            <label for="siret" class="form-label required">SIRET</label>
             <input
               class="form-control"
               type="text"
@@ -178,7 +178,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="representative" class="form-label">Responsable</label>
+            <label for="representative" class="form-label required">Responsable</label>
             <input
               class="form-control"
               type="text"
@@ -217,7 +217,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-3">
-            <label for="phone" class="form-label">Téléphone 1</label>
+            <label for="phone" class="form-label required">Téléphone 1</label>
             <input
               class="form-control"
               type="text"
@@ -248,7 +248,7 @@
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="city" class="form-label">Ville</label>
+            <label for="city" class="form-label required">Ville</label>
             <input
               class="form-control"
               type="text"
@@ -267,7 +267,7 @@
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="zipCode" class="form-label">Code postal</label>
+            <label for="zipCode" class="form-label required">Code postal</label>
             <input
               class="form-control"
               type="text"
@@ -288,7 +288,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="street" class="form-label">Adresse postale</label>
+            <label for="street" class="form-label required">Adresse postale</label>
             <textarea
               class="form-control"
               id="street"

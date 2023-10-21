@@ -51,11 +51,13 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { getConsultant } from '@/domain/consultants'
+import { useRoute, useRouter } from 'vue-router'
+import { getConsultant, updateConsultant } from '@/domain/consultants'
 import ConsultantProfileForm from '@/components/consultants/forms/consultant-profile-form.vue'
 import ConsultantProfileHistory from '@/components/consultants/details/consultant-profile-history.vue'
 import { ref } from 'vue'
+import Swal from 'sweetalert2'
+const { push } = useRouter()
 const { params } = useRoute()
 const { id } = params
 const result = ref(null)
@@ -77,7 +79,43 @@ const fn = async () => {
 }
 fn()
 const handleSubmit = (payload) => {
-  console.log(payload)
+  const fn = async () => {
+    try {
+      loading.value = true
+      const { data } = await updateConsultant(id, payload)
+      result.value = data
+      loading.value = false
+      Swal.fire({
+        title: `Consultant modifié`,
+        text: 'Le consultant a été modifié avec succès',
+        icon: 'info',
+        confirmButtonText: 'OK',
+        showCancelButton: true,
+        cancelButtonText: 'Fermer',
+        showDenyButton: true,
+        denyButtonText: `Voir liste`,
+        denyButtonColor: "#0288D1",
+      }).then(({ isConfirmed, isDenied }) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (isConfirmed) {
+          push(`/consultants/${data._id}`)
+        } else if (isDenied) {
+          push(`/consultants`)
+        }
+      })
+    } catch (error) {
+      loading.value = false
+      console.log(error)
+      console.log(error.response.data)
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
 }
 const tab = ref('profile')
 const handleClickTab = (t) => {
