@@ -111,7 +111,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="position" class="form-label">Poste</label>
+            <label for="position" class="form-label required">Poste</label>
             <input
               class="form-control"
               type="text"
@@ -139,7 +139,7 @@
         <div class="row">
           <div class="mb-3 col-md-6">
             <div class="d-flex justify-content-between">
-              <label for="skills" class="form-label"
+              <label for="skills" class="form-label required"
                 >Compétences - {{ skillsArray ? skillsArray.length : skillsLimit }}/{{
                   skillsLimit
                 }}</label
@@ -162,7 +162,7 @@
             <input class="form-control" type="file" id="formFile" />
           </div>
           <div class="mb-3 col-md-2">
-            <label for="position" class="form-label">Années d'expérience</label>
+            <label for="position" class="form-label required">Années d'expérience</label>
             <input
               class="form-control"
               id="position"
@@ -177,7 +177,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="firstName" class="form-label">Prénom</label>
+            <label for="firstName" class="form-label required">Prénom</label>
             <input
               class="form-control"
               type="text"
@@ -190,7 +190,7 @@
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="lastName" class="form-label">Nom</label>
+            <label for="lastName" class="form-label required">Nom</label>
             <input
               class="form-control"
               type="text"
@@ -205,7 +205,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="email" class="form-label">E-mail</label>
+            <label for="email" class="form-label required">E-mail</label>
             <input
               class="form-control"
               type="text"
@@ -218,7 +218,7 @@
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label class="form-label" for="phone">Téléphone</label>
+            <label class="form-label required" for="phone">Téléphone</label>
             <div class="input-group input-group-merge">
               <input
                 type="text"
@@ -234,7 +234,7 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="availableAt" class="form-label">Date de disponibilité</label>
+            <label for="availableAt" class="form-label required">Date de disponibilité</label>
             <input
               type="date"
               class="form-control"
@@ -245,7 +245,7 @@
             />
           </div>
           <div class="mb-3 col-md-6">
-            <label for="hiredAt" class="form-label">Date d'embauche</label>
+            <label for="hiredAt" class="form-label required">Date d'embauche</label>
             <input
               type="date"
               class="form-control"
