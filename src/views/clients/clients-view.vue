@@ -16,7 +16,7 @@
             </div>
           </div>
           <span class="d-block mb-1">Clients</span>
-          <h3 class="card-title text-nowrap mb-2">{{ results.length }}</h3>
+          <h3 class="card-title text-nowrap mb-2">{{ count }}</h3>
         </div>
       </div>
     </div>
@@ -62,7 +62,21 @@ import { deleteClient, getClients } from '@/domain/clients'
 import ClientsTable from '@/components/clients/table/clients-table.vue'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
+import { getClientsCount } from '@/domain/statistics/clients';
 
+const count = ref(null)
+const retrieveCount = () => {
+  const fn = async () => {
+    try {
+      const { data } = await getClientsCount()
+      count.value = data.count
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
+}
+retrieveCount()
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
