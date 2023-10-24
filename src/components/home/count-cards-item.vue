@@ -79,6 +79,9 @@
         </div>
         <span class="fw-semibold d-block mb-1">{{ props.text }}</span>
         <h3 class="card-title mb-2">{{ props.count }}</h3>
+        <div v-show="props.loading" class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +90,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const shown = ref(false)
-const props = defineProps(['text', 'count', 'menuText', 'icon', 'link', 'name', 'position'])
+const props = defineProps([
+  'text',
+  'count',
+  'loading',
+  'menuText',
+  'icon',
+  'link',
+  'name',
+  'position'
+])
 const emit = defineEmits(['move'])
 const handleClickMove = (i) => {
   emit('move', i)

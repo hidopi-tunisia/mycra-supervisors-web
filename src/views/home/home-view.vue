@@ -31,8 +31,20 @@
     </div>
     <div class="col-lg-4 col-md-4 order-1">
       <div class="row">
-        <count-cards :position="0" :item="positions[0]" @move="(n) => handleMove(0, n)" />
-        <count-cards :position="1" :item="positions[1]" @move="(n) => handleMove(1, n)" />
+        <count-cards
+          :position="0"
+          :item="positions[0]"
+          :loading="loadingCounts"
+          :count="counts[positions[0]]"
+          @move="(n) => handleMove(0, n)"
+        />
+        <count-cards
+          :position="1"
+          :item="positions[1]"
+          :loading="loadingCounts"
+          :count="counts[positions[1]]"
+          @move="(n) => handleMove(1, n)"
+        />
       </div>
     </div>
     <!-- Absences -->
@@ -40,8 +52,20 @@
     <!--/ Total Revenue -->
     <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
       <div class="row">
-        <count-cards :position="2" :item="positions[2]" @move="(n) => handleMove(2, n)" />
-        <count-cards :position="3" :item="positions[3]" @move="(n) => handleMove(3, n)" />
+        <count-cards
+          :position="2"
+          :item="positions[2]"
+          :loading="loadingCounts"
+          :count="counts[positions[2]]"
+          @move="(n) => handleMove(2, n)"
+        />
+        <count-cards
+          :position="3"
+          :item="positions[3]"
+          :loading="loadingCounts"
+          :count="counts[positions[3]]"
+          @move="(n) => handleMove(3, n)"
+        />
         <div class="col-12 mb-4">
           <div class="card">
             <div class="card-body">
@@ -74,6 +98,41 @@ import CountCards from '@/components/home/count-cards.vue'
 import AbsencesChart from '@/components/home/absences-chart/chart.vue'
 import CrasChart from '@/components/home/cras-chart/chart.vue'
 import { onMounted, ref } from 'vue'
+import { getClientsCount } from '@/domain/statistics/clients'
+import { getConsultantsCount } from '@/domain/statistics/consultants'
+import { getProjectsCount } from '@/domain/statistics/projects'
+import { getAlertsCount } from '@/domain/statistics/alerts'
+
+const counts = ref({
+  projects: null,
+  clients: null,
+  consultants: null,
+  alerts: null
+})
+const loadingCounts = ref(false)
+const retrieveCounts = () => {
+  const fn = async () => {
+    try {
+      loadingCounts.value = true
+      const [projects, clients, consultants, alerts] = await Promise.allSettled([
+        getProjectsCount({ status: 'active' }),
+        getClientsCount(),
+        getConsultantsCount({ status: 'active' }),
+        getAlertsCount()
+      ])
+      loadingCounts.value = false
+      counts.value['projects'] = projects.value.data?.count
+      counts.value['clients'] = clients.value.data?.count
+      counts.value['consultants'] = consultants.value.data?.count
+      counts.value['alerts'] = alerts.value.data?.count
+    } catch (error) {
+      loadingCounts.value = false
+      console.log(error)
+    }
+  }
+  fn()
+}
+retrieveCounts()
 const profile = ref(null)
 const fn = async () => {
   try {
