@@ -1,0 +1,42 @@
+.wrapper {
+  width: 280px;
+  height: 198px;
+}
+.mockup {
+  width: 280px;
+}
+.mockup-header {
+  width: 140px;
+  height: 20px;
+  position: relative;
+  top: 136px;
+  left: 34px;
+  display: flex;
+  align-items: center;
+}
+.mockup-app-name {
+  font-weight: 400;
+  font-size: smaller;
+  color: #4e4e4e;
+}
+.mockup-app-logo {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+.mockup-content {
+  color: #212121;
+  width: 140px;
+  height: 20px;
+  position: relative;
+  top: 140px;
+  left: 36px;
+  
+}
+.mockup-content-text {
+  font-weight: 700;
+  font-size: smaller;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
+}
