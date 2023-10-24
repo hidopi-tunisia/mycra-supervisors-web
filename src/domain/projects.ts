@@ -26,7 +26,7 @@ const getProjects = async ({
 }: GetProjectsOptions = {}) => {
   const authorization = await getAuthorization()
   return axios.get(
-    `${ENDPOINT}/Projects?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`,
+    `${ENDPOINT}/projects?populate=${populate}&page=${page}&limit=${limit}&sort=${sort}`,
     {
       headers: {
         authorization
@@ -41,7 +41,7 @@ type GetProjectOptions = {
 }
 const getProject = async (id, { populate = '', count = '' }: GetProjectOptions = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/Projects/${id}?populate=${populate}&count=${count}`, {
+  return axios.get(`${ENDPOINT}/projects/${id}?populate=${populate}&count=${count}`, {
     headers: {
       authorization
     }

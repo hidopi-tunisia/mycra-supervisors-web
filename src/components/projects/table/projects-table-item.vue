@@ -4,9 +4,14 @@
       <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <strong>{{ props.item!.name }}</strong>
     </td>
-    <td>{{ props.item!.client }}</td>
     <td>
-      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+      <router-link :to="'clients/' + props.item!.client._id">
+        <strong class="text-gray">{{ props.item!.client.firstName }} {{ props.item!.client.lastName }}</strong>
+        <i class="bx bx-link-external text-gray mx-1"></i>
+      </router-link>
+    </td>
+    <td>
+      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center" v-if="props.item!.consultants && Array.isArray(props.item!.consultants) && props.item!.consultants.length > 0">
         <li
           v-for="c in props.item!.consultants"
           data-bs-toggle="tooltip"
@@ -19,6 +24,7 @@
           <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
         </li>
       </ul>
+      <small v-else>Pas de consultants</small>
     </td>
     <td class="project-code">{{ props.item!.code }}</td>
     <td>{{ props.item!.category }}</td>
