@@ -73,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import { getProjects } from '@/domain/projects'
 import { getClients } from '@/domain/clients'
 import { createProject } from '@/domain/projects'
 import ProjectCreateModal from '@/components/projects/modals/project-create-modal.vue'
@@ -107,7 +108,11 @@ const currentSize = ref(25)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getClients({ page: currentPage.value, limit: currentSize.value })
+    const { data } = await getProjects({
+      populate: 'client',
+      page: currentPage.value,
+      limit: currentSize.value
+    })
     results.value = data
     filtered.value = data
     loading.value = false
@@ -239,7 +244,6 @@ const handleCreateProject = (p) => {
 const project = ref(null)
 const handleUpdateProject = (p) => {
   if (client.value && client.value._id) {
-    console.log({ client: client.value._id, ...p })
     client.value = null
     modalUpdateProject.value.hide()
   }

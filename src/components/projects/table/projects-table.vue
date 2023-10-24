@@ -19,7 +19,7 @@
           <tr>
             <th>Projet</th>
             <th>Client</th>
-            <th>Consultant</th>
+            <th>Consultants</th>
             <th>Code</th>
             <th>Catégorie</th>
             <th>Statut</th>
