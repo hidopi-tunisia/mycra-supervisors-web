@@ -16,7 +16,7 @@
             </div>
           </div>
           <span class="d-block mb-1">Projets</span>
-          <h3 class="card-title text-nowrap mb-2" v-if="results">{{ results.length }}</h3>
+          <h3 class="card-title text-nowrap mb-2">{{ count }}</h3>
         </div>
       </div>
     </div>
@@ -82,7 +82,21 @@ import Swal from 'sweetalert2'
 import ConsultantsPicker from '@/components/shared/pickers/constultants-picker'
 import ClientsPicker from '@/components/shared/pickers/clients-picker'
 import { ref } from 'vue'
+import { getProjectsCount } from '@/domain/statistics/projects'
 
+const count = ref(null)
+const retrieveCount = () => {
+  const fn = async () => {
+    try {
+      const { data } = await getProjectsCount({ status: 'active' })
+      count.value = data.count
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
+}
+retrieveCount()
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
