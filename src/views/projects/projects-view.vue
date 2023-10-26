@@ -63,6 +63,7 @@
     ref="modalUpdateProject"
     :clients="resultsClients"
     :project="project"
+    :client="client"
     @assign-client="handleAssignClient"
     @submit="handleUpdateProject"
   />
@@ -79,7 +80,9 @@ import {
   getProjects,
   deleteProject,
   toggleProjectStatus,
-  assignConsultantToProject
+  assignConsultantToProject,
+  getProject,
+  updateProject
 } from '@/domain/projects'
 import { getClients } from '@/domain/clients'
 import { createProject } from '@/domain/projects'
@@ -154,8 +157,17 @@ const handleSearch = (value) => {
   })
 }
 const handleShowUpdateProject = (id) => {
-  modalUpdateProject.value.show()
-  project.value = results.value.find(({ _id }) => _id === id)
+  const fn = async () => {
+    try {
+      modalUpdateProject.value.show()
+      client.value = null
+      const { data } = await getProject(id, { populate: 'client' })
+      project.value = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
 }
 const handleToggleStatus = ({ id, clientId }) => {
   const fn = () => {
@@ -242,8 +254,6 @@ const handleAssignClient = () => {
   const fn = async () => {
     try {
       const c = await ClientsPicker.pick()
-      console.log(c)
-      console.log(c._id)
       client.value = c
     } catch (error) {
       console.log(error)
@@ -281,18 +291,36 @@ const handleCreateProject = (p) => {
   fn()
 }
 const handleStatusChange = (s) => {
-  console.log(s);
-  
   status.value = s
   retrieve()
   retrieveCount()
 }
 const project = ref(null)
 const handleUpdateProject = (p) => {
-  if (client.value && client.value._id) {
-    client.value = null
-    modalUpdateProject.value.hide()
+  const fn = async () => {
+    try {
+      modalUpdateProject.value.hide()
+      client.value = null
+      await updateProject(p._id, p)
+      retrieve()
+      Swal.fire({
+        title: `Projet modifié`,
+        text: 'Le projet a été modifié avec succès',
+        icon: 'info',
+        confirmButtonText: 'OK'
+      })
+    } catch (error) {
+      console.log(error)
+      modalUpdateProject.value.hide()
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue, ${error.response.data.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
   }
+  fn()
 }
 </script>
 

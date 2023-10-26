@@ -47,6 +47,14 @@ const getProject = async (id, { populate = '', count = '' }: GetProjectOptions =
     }
   })
 }
+const updateProject = async (id, payload) => {
+  const authorization = await getAuthorization()
+  return axios.put(`${ENDPOINT}/projects/${id}`, payload, {
+    headers: {
+      authorization
+    }
+  })
+}
 const deleteProject = async (id) => {
   const authorization = await getAuthorization()
   return axios.delete(`${ENDPOINT}/projects/${id}`, {
@@ -79,6 +87,7 @@ export {
   createProject,
   getProjects,
   getProject,
+  updateProject,
   deleteProject,
   toggleProjectStatus,
   assignConsultantToProject

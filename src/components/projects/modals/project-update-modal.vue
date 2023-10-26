@@ -37,10 +37,7 @@
                 required
                 @click="handleClickAssignClient"
               >
-                <span v-if="props.client"
-                  >{{ props.client.company.name }} - {{ props.client.firstName }}
-                  {{ props.client.lastName }}</span
-                >
+                <span v-if="c">{{ c.company?.name }} - {{ c.firstName }} {{ c.lastName }}</span>
                 <span v-else> Sélectionner un client</span>
               </button>
             </div>
@@ -114,11 +111,19 @@
             </div>
           </div>
         </div>
+        <div class="modal-body" v-else>
+          <div class="row my-5 d-flex justify-content-center align-items-center">
+            <div class="spinner-border mx-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            Chargement des données
+          </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             Annuler
           </button>
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="submit" class="btn btn-primary">Soumettre</button>
         </div>
       </form>
     </div>
@@ -126,18 +131,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 const $ = window.jQuery
-const props = defineProps({ project: Object, clients: Array<Object>, client: Object })
+const props = defineProps(['project', 'clients', 'client'])
 const emit = defineEmits(['assign-client', 'submit'])
 const errorMissingClient = ref(false)
+
 let payload = {}
+let c = {}
+watchEffect(() => {
+  if (props.project) {
+    const startDate = props.project.startDate?.substring(0, 10)
+    const endDate = props.project.endDate?.substring(0, 10)
+    payload = { ...props.project, startDate, endDate }
+    c = { ...props.project?.client }
+  }
+  if (props.client) {
+    c = props.client
+  }
+})
 const handleSubmit = () => {
   errorMissingClient.value = false
-  if (!props.client) {
+  if (!c) {
     errorMissingClient.value = true
   }
-  emit('submit', payload)
+  emit('submit', { ...payload, client: c._id })
 }
 const handleClickAssignClient = () => {
   errorMissingClient.value = false
