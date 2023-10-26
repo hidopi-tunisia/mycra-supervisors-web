@@ -26,11 +26,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12 col-lg-5 col-12">
+    <div class="col-md-12 col-lg-5 col-12" v-if="selected">
       <div class="card">
         <h5 class="card-header">
           CRA du {{ selected.month }} {{ selected.year }}
-          <span v-if="selected">
+          <span>
             - {{ selected.working + selected.remote + 0.5 * selected.half }} jours travaillés</span
           >
           <span class="badge bg-primary float-end" v-if="selected.status === 'submitted'"

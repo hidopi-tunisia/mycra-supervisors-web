@@ -7,7 +7,7 @@
           <div class="col-xs-12 col-md-2">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
               <img
-                :src="newProfile.profilePhoto"
+              :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
                 alt="user-avatar"
                 class="d-block rounded"
                 height="100"
@@ -77,6 +77,7 @@
 <script setup lang="ts">
 import ConsultantProfileHistoryCollection from '@/components/consultants/details/consultant-profile-history-collection.vue'
 import Swal from 'sweetalert2'
+import { generateFromString } from 'generate-avatar'
 import { ref } from 'vue'
 const props = defineProps(['profile', 'isUpdate', 'history'])
 let newProfile
@@ -143,6 +144,9 @@ const handleApprove = () => {
     icon: 'success',
     confirmButtonText: 'OK'
   })
+}
+const getAvatar = () => {
+  return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
 }
 </script>
 
