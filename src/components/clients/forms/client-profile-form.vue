@@ -359,6 +359,7 @@ let newProfile = {}
 if (props.isUpdate) {
   if (props.profile.note) {
     note.value = props.profile.note
+    representative.value = props.profile.company?.representative
   }
   newProfile = { ...props.profile }
 }
