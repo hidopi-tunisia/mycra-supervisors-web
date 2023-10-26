@@ -1,17 +1,21 @@
 <template>
   <tr>
     <td>
-      <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <strong>{{ props.item!.name }}</strong>
     </td>
     <td>
       <router-link :to="'clients/' + props.item!.client._id">
-        <strong class="text-gray">{{ props.item!.client.firstName }} {{ props.item!.client.lastName }}</strong>
+        <strong class="text-gray"
+          >{{ props.item!.client.firstName }} {{ props.item!.client.lastName }}</strong
+        >
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>
     </td>
     <td>
-      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center" v-if="props.item!.consultants && Array.isArray(props.item!.consultants) && props.item!.consultants.length > 0">
+      <ul
+        class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+        v-if="props.item!.consultants && Array.isArray(props.item!.consultants) && props.item!.consultants.length > 0"
+      >
         <li
           v-for="c in props.item!.consultants"
           data-bs-toggle="tooltip"
@@ -37,7 +41,7 @@
       }}</span>
     </td>
     <td>
-      <div class="dropdown">
+      <div class="dropdown position-static">
         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
           <i class="bx bx-dots-vertical-rounded"></i>
         </button>

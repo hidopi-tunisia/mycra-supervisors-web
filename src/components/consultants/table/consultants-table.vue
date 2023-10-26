@@ -26,7 +26,7 @@
         </thead>
         <tbody class="table-border-bottom-0">
           <consultants-table-item
-            v-for="item in props.items.slice(0, currentSize)"
+            v-for="item in props.items"
             :key="item._id"
             :item="item"
             @delete="handleDelete"
