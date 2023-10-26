@@ -118,7 +118,7 @@ const currentSize = ref(100)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getProjects()
+    const { data } = await getProjects({ populate: 'client,consultants' })
     results.value = data
     selected.value = data[0]
     filtered.value = data

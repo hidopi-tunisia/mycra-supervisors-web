@@ -34,8 +34,8 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Client</div>
-          <div class="fw-bold my-2 text-uppercase">
-            {{ props.data.client }}
+          <div class="fw-bold my-2">
+            {{ props.data.client?.company?.name }}
           </div>
         </div>
         <div class="mb-3 col-md-6 col-lg-4">
@@ -49,7 +49,7 @@
               data-popup="tooltip-custom"
               data-bs-placement="top"
               class="avatar avatar-xs pull-up"
-              :title="c.name"
+              :title="c.firstName + ' ' + c.lastName"
               :key="c"
             >
               <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
