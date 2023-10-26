@@ -9,7 +9,7 @@
                 >{{ props.item!.name }} - {{ props.item.category }}</strong
               >
               <small class="text-uppercase fw-bold"
-                >{{ props.item.projectCode.substring(0, 8) }}</small
+                >{{ props.item.code }}</small
               >
             </div>
             <div class="d-flex justify-content-center align-items-center mx-2">

@@ -29,7 +29,7 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Code</div>
           <div class="fw-bold my-2 text-uppercase">
-            {{ props.data.projectCode.substring(0, 8) }}
+            {{ props.data.code.substring(0, 8) }}
           </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">

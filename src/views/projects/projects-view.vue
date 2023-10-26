@@ -138,7 +138,7 @@ const handleSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
       d.name.toLowerCase().includes(value.toLowerCase()) ||
-      d.projectCode.toLowerCase().includes(value.toLowerCase()) ||
+      d.code.toLowerCase().includes(value.toLowerCase()) ||
       d.client.toLowerCase().includes(value.toLowerCase()) ||
       d.category.toLowerCase().includes(value.toLowerCase())
     )
