@@ -67,6 +67,16 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/alerts',
+      name: 'alerts',
+      component: AboutView
+    },
+    {
+      path: '/upgrade',
+      name: 'upgrade',
+      component: AboutView
     }
   ]
 })

@@ -55,7 +55,11 @@
           >
             <div class="avatar avatar-online">
               <img
-                :src="result?.company?.logo"
+                :src="
+                  result?.company?.logo
+                    ? result?.company?.logo
+                    : '/assets/img/avatars/company-placeholder.png'
+                "
                 alt=""
                 class="w-px-40 h-auto rounded-circle"
               />
