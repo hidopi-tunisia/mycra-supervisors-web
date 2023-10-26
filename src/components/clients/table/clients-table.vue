@@ -17,10 +17,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Nom</th>
+            <th>Nom social</th>
+            <th>Responsable</th>
+            <th>Email</th>
             <th>Référencé depuis</th>
-            <th>Projet en cours</th>
-            <th>Consultants</th>
             <th>Actions</th>
           </tr>
         </thead>

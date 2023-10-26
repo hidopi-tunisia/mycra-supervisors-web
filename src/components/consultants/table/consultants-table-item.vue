@@ -1,7 +1,6 @@
 <template>
   <tr>
     <td>
-      <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <router-link :to="'consultants/' + props.item._id">
         <img class="avatar rounded" v-if="props.item.profilePhoto" :src="props.item.profilePhoto" />
         <img class="avatar rounded" v-else :src="getAvatar()" />
