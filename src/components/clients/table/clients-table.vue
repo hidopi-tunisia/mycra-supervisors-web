@@ -17,16 +17,16 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Nom</th>
+            <th>Nom social</th>
+            <th>Responsable</th>
+            <th>Email</th>
             <th>Référencé depuis</th>
-            <th>Projet en cours</th>
-            <th>Consultants</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           <clients-table-item
-            v-for="item in props.items.slice(0, currentSize)"
+            v-for="item in props.items"
             :key="item._id"
             :item="item"
             @delete="handleDelete"

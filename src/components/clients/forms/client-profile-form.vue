@@ -112,7 +112,13 @@
               id="firstName"
               placeholder="Ex : John"
               :value="newProfile.firstName"
-              @input="({ target }) => (newProfile.firstName = target.value)"
+              @input="
+                ({ target }) => {
+                  newProfile.firstName = target.value
+                  representative = newProfile.firstName + ' ' + newProfile.lastName
+                  newProfile.company = { ...newProfile.company, representative }
+                }
+              "
             />
           </div>
           <div class="mb-3 col-md-6">
@@ -124,7 +130,13 @@
               id="lastName"
               placeholder="Ex : Doe"
               :value="newProfile.lastName"
-              @input="({ target }) => (newProfile.lastName = target.value)"
+              @input="
+                ({ target }) => {
+                  newProfile.lastName = target.value
+                  representative = newProfile.firstName + ' ' + newProfile.lastName
+                  newProfile.company = { ...newProfile.company, representative }
+                }
+              "
             />
           </div>
         </div>
@@ -178,19 +190,15 @@
         </div>
         <div class="row">
           <div class="mb-3 col-md-6">
-            <label for="representative" class="form-label required">Responsable</label>
+            <label for="representative" class="form-label">Responsable</label>
             <input
               class="form-control"
               type="text"
               name="representative"
               id="representative"
-              :value="newProfile.company?.representative"
+              :value="representative"
               placeholder="Ex : Jane Doe"
-              required
-              @input="
-                ({ target }) =>
-                  (newProfile.company = { ...newProfile.company, representative: target.value })
-              "
+              disabled
             />
           </div>
           <div class="mb-3 col-md-3">
@@ -346,10 +354,12 @@
 import { ref } from 'vue'
 const note = ref('')
 const props = defineProps(['profile', 'isUpdate', 'loading'])
+const representative = ref('')
 let newProfile = {}
 if (props.isUpdate) {
   if (props.profile.note) {
     note.value = props.profile.note
+    representative.value = props.profile.company?.representative
   }
   newProfile = { ...props.profile }
 }

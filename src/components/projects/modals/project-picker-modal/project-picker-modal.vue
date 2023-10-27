@@ -33,7 +33,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" v-if="!loading">
           <div class="row" v-if="Array.isArray(results) && results.length > 0">
             <div
               class="col-xs-12 col-lg-5 wrapper overflow-auto"
@@ -72,6 +72,14 @@
             </div>
           </div>
         </div>
+        <div class="modal-body my-5" v-if="loading">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="spinner-border mx-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            Chargement des données
+          </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             Annuler
@@ -95,7 +103,7 @@
 import Item from './project-picker-modal-item.vue'
 import projectSummary from '@/components/projects/details/project-summary.vue'
 import { ref } from 'vue'
-import { getProjects } from '@/api/projects'
+import { getProjects } from '@/domain/projects'
 
 const $ = window.jQuery
 
@@ -110,7 +118,7 @@ const currentSize = ref(100)
 const fn = async () => {
   try {
     loading.value = true
-    const { data } = await getProjects()
+    const { data } = await getProjects({ populate: 'client,consultants' })
     results.value = data
     selected.value = data[0]
     filtered.value = data
@@ -126,7 +134,7 @@ const handleInputSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
       d.name.toLowerCase().includes(value.toLowerCase()) ||
-      d.projectCode.toLowerCase().includes(value.toLowerCase())
+      d.code.toLowerCase().includes(value.toLowerCase())
     )
   })
 }

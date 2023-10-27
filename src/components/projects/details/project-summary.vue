@@ -29,13 +29,13 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Code</div>
           <div class="fw-bold my-2 text-uppercase">
-            {{ props.data.projectCode.substring(0, 8) }}
+            {{ props.data.code.substring(0, 8) }}
           </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
           <div class="mb-2">Client</div>
-          <div class="fw-bold my-2 text-uppercase">
-            {{ props.data.client }}
+          <div class="fw-bold my-2">
+            {{ props.data.client?.company?.name }}
           </div>
         </div>
         <div class="mb-3 col-md-6 col-lg-4">
@@ -49,10 +49,16 @@
               data-popup="tooltip-custom"
               data-bs-placement="top"
               class="avatar avatar-xs pull-up"
-              :title="c.name"
+              :title="c.firstName + ' ' + c.lastName"
               :key="c"
             >
-              <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
+              <img
+                alt="Avatar"
+                class="rounded-circle"
+                v-if="c.profilePhoto"
+                :src="c.profilePhoto"
+              />
+              <img alt="Avatar" class="rounded-circle" v-else :src="getAvatar(c._id)" />
             </li>
           </ul>
         </div>
@@ -89,7 +95,12 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar'
 const props = defineProps(['data'])
+
+const getAvatar = (text) => {
+  return `data:image/svg+xml;utf8,${generateFromString(text)}`
+}
 </script>
 
 <style scoped>

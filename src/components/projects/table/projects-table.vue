@@ -22,13 +22,34 @@
             <th>Consultants</th>
             <th>Code</th>
             <th>Catégorie</th>
-            <th>Statut</th>
+            <th>
+              <div class="dropdown position-static d-flex align-items-center">
+                <div class="with-pointer" data-bs-toggle="dropdown">
+                  Statut -
+                  <span v-show="status === ''">Tout</span>
+                  <span v-show="status === 'active'">Actif</span>
+                  <span v-show="status === 'inactive'">Inactif</span>
+                </div>
+                <i class="bx bx-dots-vertical-rounded with-pointer" data-bs-toggle="dropdown"></i>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item with-pointer" @click="handleChangeStatus('')">
+                    <i class="bx bx-list-check me-1"></i>Tout
+                  </a>
+                  <a class="dropdown-item with-pointer" @click="handleChangeStatus('active')">
+                    <i class="bx bx-check me-1"></i>Actif
+                  </a>
+                  <a class="dropdown-item with-pointer" @click="handleChangeStatus('inactive')">
+                    <i class="bx bx-x me-1"></i>Inactif
+                  </a>
+                </div>
+              </div>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           <projects-table-item
-            v-for="item in props.items.slice(0, currentSize)"
+            v-for="item in props.items"
             :key="item._id"
             :item="item"
             @delete="handleDelete"
@@ -65,9 +86,11 @@ const props = defineProps({
   pages: Number,
   currentPage: Number,
   sizes: Array<Number>,
-  currentSize: Number
+  currentSize: Number,
+  status: String,
 })
 const emit = defineEmits([
+  "status-change",
   'search',
   'delete',
   'show-update',
@@ -86,8 +109,8 @@ const handleUpdate = (id) => {
 const handleDelete = (id) => {
   emit('delete', id)
 }
-const handleToggleStatus = (id) => {
-  emit('toggle-status', id)
+const handleToggleStatus = ({ id, clientId }) => {
+  emit('toggle-status', { id, clientId })
 }
 const handleChangePagination = (page) => {
   emit('pagination-change', page)
@@ -95,8 +118,11 @@ const handleChangePagination = (page) => {
 const handleChangeSize = (page) => {
   emit('size-change', page)
 }
-const handleAssignConsultant = (id) => {
-  emit('assign-consultant', id)
+const handleAssignConsultant = ({ id, clientId }) => {
+  emit('assign-consultant', { id, clientId })
+}
+const handleChangeStatus = (status) => {
+  emit('status-change', status)
 }
 </script>
 

@@ -122,7 +122,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             Annuler
           </button>
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="submit" class="btn btn-primary">Soumettre</button>
         </div>
       </form>
     </div>

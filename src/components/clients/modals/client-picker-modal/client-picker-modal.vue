@@ -33,7 +33,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" v-if="!loading">
           <div class="row" v-if="Array.isArray(results) && results.length > 0">
             <div
               class="col-xs-12 col-lg-5 wrapper overflow-auto"
@@ -70,6 +70,14 @@
                 </router-link>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="modal-body my-5" v-if="loading">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="spinner-border mx-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            Chargement des données
           </div>
         </div>
         <div class="modal-footer">
@@ -125,6 +133,7 @@ fn()
 const handleInputSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
+      d.company?.name.toLowerCase().includes(value.toLowerCase()) ||
       d.firstName.toLowerCase().includes(value.toLowerCase()) ||
       d.lastName.toLowerCase().includes(value.toLowerCase())
     )

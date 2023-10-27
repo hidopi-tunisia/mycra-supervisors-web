@@ -6,7 +6,11 @@
         <div class="col-3">
           <div class="d-flex align-items-start align-items-sm-center gap-4">
             <img
-              :src="props.profile.company?.logo"
+              :src="
+                props?.profile?.company?.logo
+                  ? props?.profile?.company?.logo
+                  : '/assets/img/avatars/company-placeholder.png'
+              "
               alt="user-avatar"
               class="d-block rounded"
               height="100"
@@ -65,7 +69,13 @@
                   :title="c.name"
                   :key="c"
                 >
-                  <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
+                  <img
+                    alt="Avatar"
+                    class="rounded-circle"
+                    v-if="c.profilePhoto"
+                    :src="c.profilePhoto"
+                  />
+                  <img alt="Avatar" class="rounded-circle" v-else :src="getAvatar(c._id)" />
                 </li>
               </ul>
             </div>
@@ -165,32 +175,46 @@
             >
               <div class="icon-social bx bxs-mouse with-pointer me-2"></div>
             </a>
-            <a target="_blank" :href="props.profile.company?.facebookLink"
+            <a
+              target="_blank"
+              :href="props.profile.company?.facebookLink"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
-              title="Facebook">
+              title="Facebook"
+            >
               <div class="icon-social bx bxl-facebook-circle with-pointer me-2"></div>
             </a>
-            <a target="_blank" :href="props.profile.company?.instagramPage"
+            <a
+              target="_blank"
+              :href="props.profile.company?.instagramPage"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
-              title="Instagram">
+              title="Instagram"
+            >
               <div class="icon-social bx bxl-instagram-alt with-pointer me-2"></div>
             </a>
-            <a target="_blank" :href="props.profile.company?.xLink"
+            <a
+              target="_blank"
+              :href="props.profile.company?.xLink"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
-              title="Twitter">
-              <div class="icon-social bx bxl-twitter with-pointer me-2"></div>
+              title="X"
+            >
+              <div class="icon-social with-pointer me-2">
+                <img class="icon-x" src="/assets/img/icons/x.png" />
+              </div>
             </a>
-            <a target="_blank" :href="props.profile.company?.linkedInLink"
+            <a
+              target="_blank"
+              :href="props.profile.company?.linkedInLink"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
-              title="LinkedIn">
+              title="LinkedIn"
+            >
               <div class="icon-social bx bxl-linkedin-square with-pointer me-2"></div>
             </a>
           </div>
@@ -210,6 +234,7 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar'
 const props = defineProps(['profile'])
 const emit = defineEmits(['update', 'upgrade'])
 const handleClickUpdate = () => {
@@ -218,6 +243,14 @@ const handleClickUpdate = () => {
 const handleClickUpgrade = () => {
   emit('upgrade')
 }
+const getAvatar = (text) => {
+  return `data:image/svg+xml;utf8,${generateFromString(text)}`
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.icon-x {
+  height: 24px;
+  width: 24px;
+}
+</style>

@@ -43,8 +43,6 @@ const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getClient(id)
-    console.log(data)
-
     result.value = data
     loading.value = false
   } catch (error) {

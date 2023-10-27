@@ -41,7 +41,9 @@ const handleUpgrade = () => {
     cancelButtonText: 'Annuler'
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire('Envoyé', 'Le demande de mise à niveau a été envoyé avec succès.', 'success')
+      const recipient = 'contact@hidopi.com'
+      const url = `mailto:${recipient}?subject=Modification du profil&body=Bonjour, je voudrais faire des modification dans mon profil.`
+      window.open(url)
     }
   })
 }

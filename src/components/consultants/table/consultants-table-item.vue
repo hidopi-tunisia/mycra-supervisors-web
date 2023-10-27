@@ -1,7 +1,6 @@
 <template>
   <tr>
     <td>
-      <i class="fab fa-angular fa-lg text-danger me-3"></i>
       <router-link :to="'consultants/' + props.item._id">
         <img class="avatar rounded" v-if="props.item.profilePhoto" :src="props.item.profilePhoto" />
         <img class="avatar rounded" v-else :src="getAvatar()" />
@@ -12,7 +11,8 @@
       </router-link>
     </td>
     <td>{{ props.item!.hiredAt.substring(0, 10) }}</td>
-    <td>{{ props.item!.projects?.[0]?.name }}</td>
+    <td v-if="props.item!.projects?.[0]">{{ props.item!.projects?.[0]?.name }}</td>
+    <td v-else><small>Pas de projets</small></td>
     <td>
       <span
         class="badge bg-label-success me-1"
@@ -29,7 +29,7 @@
       </span>
     </td>
     <td>
-      <div class="dropdown">
+      <div class="dropdown position-static">
         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
           <i class="bx bx-dots-vertical-rounded"></i>
         </button>

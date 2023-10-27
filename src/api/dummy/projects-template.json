@@ -3,7 +3,7 @@
   {
     "_id": "{{objectId()}}",
     "name": "{{lorem(1, 'words')}}",
-    "projectCode": "{{guid()}}",
+    "code": "{{guid()}}",
     "description": "{{lorem(1, 'paragraphs')}}",
     "startDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
     "endDate": "{{date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')}}",
