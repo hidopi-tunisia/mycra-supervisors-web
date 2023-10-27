@@ -4,9 +4,9 @@
       <strong>{{ props.item!.name }}</strong>
     </td>
     <td>
-      <router-link :to="'clients/' + props.item!.client._id">
+      <router-link :to="'clients/' + props.item!.client?._id">
         <strong class="text-gray"
-          >{{ props.item!.client.firstName }} {{ props.item!.client.lastName }}</strong
+          >{{ props.item!.client?.firstName }} {{ props.item!.client?.lastName }}</strong
         >
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>

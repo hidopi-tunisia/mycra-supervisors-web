@@ -52,7 +52,13 @@
               :title="c.firstName + ' ' + c.lastName"
               :key="c"
             >
-              <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
+              <img
+                alt="Avatar"
+                class="rounded-circle"
+                v-if="c.profilePhoto"
+                :src="c.profilePhoto"
+              />
+              <img alt="Avatar" class="rounded-circle" v-else :src="getAvatar(c._id)" />
             </li>
           </ul>
         </div>
@@ -89,7 +95,12 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar'
 const props = defineProps(['data'])
+
+const getAvatar = (text) => {
+  return `data:image/svg+xml;utf8,${generateFromString(text)}`
+}
 </script>
 
 <style scoped>

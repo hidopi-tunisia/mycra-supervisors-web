@@ -19,7 +19,7 @@
           <tr>
             <th>Nom</th>
             <th>Depuis</th>
-            <th>Projet en cours</th>
+            <th>Projets</th>
             <th>CRA saisi</th>
             <th>Actions</th>
           </tr>

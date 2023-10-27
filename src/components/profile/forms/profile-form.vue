@@ -6,11 +6,11 @@
         <div class="col-3">
           <div class="d-flex align-items-start align-items-sm-center gap-4">
             <img
-                :src="
-                  props?.profile?.company?.logo
-                    ? props?.profile?.company?.logo
-                    : '/assets/img/avatars/company-placeholder.png'
-                "
+              :src="
+                props?.profile?.company?.logo
+                  ? props?.profile?.company?.logo
+                  : '/assets/img/avatars/company-placeholder.png'
+              "
               alt="user-avatar"
               class="d-block rounded"
               height="100"
@@ -69,7 +69,13 @@
                   :title="c.name"
                   :key="c"
                 >
-                  <img :src="c.profilePhoto" alt="Avatar" class="rounded-circle" />
+                  <img
+                    alt="Avatar"
+                    class="rounded-circle"
+                    v-if="c.profilePhoto"
+                    :src="c.profilePhoto"
+                  />
+                  <img alt="Avatar" class="rounded-circle" v-else :src="getAvatar(c._id)" />
                 </li>
               </ul>
             </div>
@@ -198,7 +204,7 @@
               title="X"
             >
               <div class="icon-social with-pointer me-2">
-                <img class="icon-x" src="/assets/img/icons/x.png"/>
+                <img class="icon-x" src="/assets/img/icons/x.png" />
               </div>
             </a>
             <a
@@ -228,6 +234,7 @@
 </template>
 
 <script setup lang="ts">
+import { generateFromString } from 'generate-avatar'
 const props = defineProps(['profile'])
 const emit = defineEmits(['update', 'upgrade'])
 const handleClickUpdate = () => {
@@ -236,11 +243,14 @@ const handleClickUpdate = () => {
 const handleClickUpgrade = () => {
   emit('upgrade')
 }
+const getAvatar = (text) => {
+  return `data:image/svg+xml;utf8,${generateFromString(text)}`
+}
 </script>
 
 <style scoped>
 .icon-x {
-height: 24px;
-width: 24px;
+  height: 24px;
+  width: 24px;
 }
 </style>

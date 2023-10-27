@@ -11,7 +11,8 @@
       </router-link>
     </td>
     <td>{{ props.item!.hiredAt.substring(0, 10) }}</td>
-    <td>{{ props.item!.projects?.[0]?.name }}</td>
+    <td v-if="props.item!.projects?.[0]">{{ props.item!.projects?.[0]?.name }}</td>
+    <td v-else><small>Pas de projets</small></td>
     <td>
       <span
         class="badge bg-label-success me-1"

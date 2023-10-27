@@ -96,6 +96,7 @@ import Picker from '@/components/shared/pickers/projects-picker'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
 import { getConsultantsCount } from '@/domain/statistics/consultants'
+import { assignConsultantToProject } from '@/domain/projects'
 
 const count = ref(null)
 const retrieveCount = () => {
@@ -110,7 +111,6 @@ const retrieveCount = () => {
   fn()
 }
 retrieveCount()
-
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
@@ -121,7 +121,11 @@ const currentSize = ref(25)
 const retrieve = async () => {
   try {
     loading.value = true
-    const { data } = await getConsultants({ page: currentPage.value, limit: currentSize.value })
+    const { data } = await getConsultants({
+      page: currentPage.value,
+      limit: currentSize.value,
+      populate: 'projects'
+    })
     results.value = data
     filtered.value = data
     loading.value = false
@@ -198,16 +202,24 @@ const handleClickNotifyRest = () => {
 }
 const handleAssignProject = (id) => {
   const fn = async () => {
-    const project = await Picker.pick()
-    console.log('project: ', project._id)
-    console.log('client: ', project.client)
-    console.log('consultant: ', id)
-    Swal.fire({
-      title: 'Consultant assigné au projet',
-      text: `Le consultant a été assigné au projet avec succès.`,
-      icon: 'success',
-      confirmButtonText: 'OK'
-    })
+    try {
+      const project = await Picker.pick()
+      await assignConsultantToProject({
+        id: project._id,
+        clientId: project.client._id,
+        consultantId: id
+      })
+      retrieveCount()
+      retrieve()
+      Swal.fire({
+        title: 'Consultant assigné au projet',
+        text: `Le consultant a été assigné au projet avec succès.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
   fn()
 }
@@ -230,8 +242,6 @@ const handleNotifyConsultant = (id) => {
 }
 const modalConsultantCRA = ref(null)
 const handleViewCRA = (id) => {
-  console.log('CRA ID: ', id)
-
   modalConsultantCRA.value.show()
 }
 const reasons = ['CP', 'Maternité', 'Absence', 'Congé maladie', 'Déménagement']
