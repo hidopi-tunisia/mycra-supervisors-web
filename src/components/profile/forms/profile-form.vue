@@ -22,7 +22,7 @@
         <div class="col-12 col-md-9">
           <div class="row">
             <div class="col-6 col-md-4">
-              <div class="mb-2">Nom et prénom</div>
+              <div class="mb-2">Prénom et nom</div>
               <div class="fw-bold">
                 {{ props.profile.civility }} {{ props.profile.firstName }}
                 {{ props.profile.lastName }}

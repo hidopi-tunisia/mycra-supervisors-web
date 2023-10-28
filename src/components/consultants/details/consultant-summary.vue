@@ -26,7 +26,7 @@
       <div class="mt-4 d-md-none"></div>
       <div class="row">
         <div class="col-xs-12 col-md-6">
-          <div class="mb-2">Nom et prénom</div>
+          <div class="mb-2">Prénom et nom</div>
           <div class="fw-bold">
             {{ props.data.civility }} {{ props.data.firstName }} {{ props.data.lastName }}
           </div>

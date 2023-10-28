@@ -42,7 +42,7 @@
           <div class="col-xs-12 col-lg-6" v-if="props.isUpdate">
             <div class="row">
               <div class="col-6">
-                <div class="mb-2">Nom et prénom</div>
+                <div class="mb-2">Prénom et nom</div>
                 <div class="fw-bold">
                   <span v-show="newProfile.sex === 'male'">Mr.</span>
                   <span v-show="newProfile.sex === 'female'">Mme.</span>

@@ -20,7 +20,7 @@
           <div class="col-10">
             <div class="row">
               <div class="col-xs-12 col-sm-6 col-lg-4">
-                <div class="mb-2">Nom et prénom</div>
+                <div class="mb-2">Prénom et nom</div>
                 <div class="fw-bold">
                   {{ newProfile.civility }} {{ newProfile.firstName }} {{ newProfile.lastName }}
                 </div>

@@ -8,15 +8,15 @@
           <div class="d-flex justify-content-between w-100 flex-row mx-2">
             <div class="d-flex flex-column">
               <strong class="text-gray"
-                >{{ props.item!.firstName }} {{ props.item!.lastName }}</strong
+                >{{ props.item.company?.name }}</strong
               >
-              <small class="fw-bold">{{ props.item.company?.name }}</small>
+              <small class="fw-bold">{{ props.item!.firstName }} {{ props.item!.lastName }} </small>
             </div>
             <div class="d-flex justify-content-center align-items-center mx-2">
-              <span class="badge rounded-pill bg-info" v-if="props.item.project">{{
-                props.item.project
+              <span class="badge rounded-pill bg-info" v-if="props.item.offer">{{
+                props.item.offer
               }}</span>
-              <span class="badge rounded-pill bg-warning" v-else>Pas de projets</span>
+              <span class="badge rounded-pill bg-warning" v-else>Pas d'offres</span>
             </div>
           </div>
         </a>

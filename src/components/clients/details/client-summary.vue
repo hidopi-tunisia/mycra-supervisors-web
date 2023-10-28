@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="row">
         <div class="col-xs-12 col-sm-6 col-lg-4">
-          <div class="mb-2">Nom et prénom</div>
+          <div class="mb-2">Prénom et nom</div>
           <div class="fw-bold">{{ props.data.firstName }} {{ props.data.lastName }}</div>
         </div>
         <div class="col-xs-12 col-sm-6 col-lg-4">
@@ -30,13 +30,14 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-lg-4">
           <div>
-            Contrat -
+            Contrat
             <a
+              v-if="props.data.contract?.url"
               target="_blank"
               class="text-gray"
-              href="https://www.africau.edu/images/default/sample.pdf"
+              :href="props.data.contract?.url"
             >
-              Voir <i class="bx bx-link-external text-gray mx-1"></i>
+              - Voir <i class="bx bx-link-external text-gray mx-1"></i>
             </a>
           </div>
           <div class="fw-bold my-2 text-uppercase">
@@ -50,32 +51,16 @@
   <div class="row wrapper overflow-auto">
     <div class="row mt-3">
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
-        <label for="currency" class="form-label">Projet</label>
-        <p v-if="props.data.project">{{ props.data.project }}</p>
-        <p v-else>Pas de projets</p>
+        <label for="currency" class="form-label">Offre</label>
+        <p v-if="props.data.offer">{{ props.data.offer }}</p>
+        <p v-else>Pas d'offres</p>
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
-        <label for="skills" class="form-label"
-          >Consultants
-          <span v-if="props.data?.consultants?.length > 0"
-            >({{ props.data?.consultants?.length }})</span
-          ></label
-        >
-        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-          <li
-            v-for="c in props.data?.consultants"
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            class="avatar avatar-xs pull-up"
-            :title="c.name"
-            :key="c"
-          >
-            <img alt="Avatar" class="rounded-circle" v-if="c.profilePhoto" :src="c.profilePhoto" />
-            <img alt="Avatar" class="rounded-circle" v-else :src="getAvatar(c._id)" />
-          </li>
-        </ul>
-        <span v-if="!props.data?.consultants">Pas de consultant</span>
+        <label for="skills" class="form-label">Projets</label>
+        <p v-if="props.projects !== 'loading' && props.projects && props.projects > 0">
+          {{ props.projects }}
+        </p>
+        <p v-else>Pas de projets</p>
       </div>
       <div class="mb-3 col-xs-12 col-sm-6 col-lg-4">
         <label for="currency" class="form-label">Représentant</label>
@@ -122,11 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { generateFromString } from 'generate-avatar'
-const props = defineProps(['data'])
-const getAvatar = (text) => {
-  return `data:image/svg+xml;utf8,${generateFromString(text)}`
-}
+const props = defineProps(['data', 'projects'])
 </script>
 
 <style scoped>
