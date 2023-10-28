@@ -368,7 +368,7 @@ const handleFileChange = ({ target }) => {
     const { files } = target
 
     // 1MB
-    if (files[0].size < 1024 * 1024) {
+    if (files[0] && files[0].size < 1024 * 1024) {
       emit('upload', files[0])
     } else {
       Swal.fire({

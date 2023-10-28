@@ -12,10 +12,6 @@ const upload = ({
     cacheControl: 'no-store'
   }
 }) => {
-  console.log('xxxxxxxxxxxxxx')
-  console.log(data)
-  console.log('xxxxxxxxxxxxxx')
-
   const sRef = ref(storage, path)
   const task = uploadBytesResumable(sRef, data, metadata)
   task.on(

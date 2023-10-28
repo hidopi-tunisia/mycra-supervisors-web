@@ -73,7 +73,11 @@
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
                         <img
-                          :src="result?.company?.logo"
+                          :src="
+                            result?.company?.logo
+                              ? result?.company?.logo
+                              : '/assets/img/avatars/company-placeholder.png'
+                          "
                           alt=""
                           class="w-px-40 h-auto rounded-circle"
                         />
@@ -83,7 +87,7 @@
                       <span class="fw-semibold d-block" v-if="result">
                         {{ result.firstName }} {{ result.lastName }}
                       </span>
-                      <small class="text-muted">Superviseur</small>
+                      <small class="text-muted">{{ result.company?.name }}</small>
                     </div>
                   </div>
                 </a>
