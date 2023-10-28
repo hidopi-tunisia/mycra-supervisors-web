@@ -126,6 +126,7 @@ const retrieve = async () => {
       limit: currentSize.value,
       populate: 'projects'
     })
+    console.log(data);
     results.value = data
     filtered.value = data
     loading.value = false

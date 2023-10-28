@@ -35,6 +35,9 @@
     isUpdate="true"
     :profile="result"
     :loading="loading"
+    :loadingProgress="loadingProgress"
+    :uploadProgress="uploadProgress"
+    @upload="handleUpload"
     @submit="handleSubmit"
   />
   <consultant-profile-history
@@ -58,6 +61,7 @@ import ConsultantProfileForm from '@/components/consultants/forms/consultant-pro
 import ConsultantProfileHistory from '@/components/consultants/details/consultant-profile-history.vue'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import { upload } from '@/domain/buckets'
 const { push } = useRouter()
 const { params } = useRoute()
 const { id } = params
@@ -119,6 +123,31 @@ const handleSubmit = (payload) => {
 const tab = ref('profile')
 const handleClickTab = (t) => {
   tab.value = t
+}
+const uploadProgress = ref(null)
+const loadingProgress = ref(false)
+const errorProgress = ref(null)
+const handleUpload = (file) => {
+  const onComplete = async (profilePhoto) => {
+    const { data } = await updateConsultant(id, { profilePhoto })
+    result.value = data
+    loadingProgress.value = false
+  }
+  const onProgress = ({ transferred, total }) => {
+    loadingProgress.value = true
+    uploadProgress.value = Math.round((transferred / total) * 100)
+  }
+  const onError = (error) => {
+    uploadProgress.value = null
+    console.info(error)
+  }
+  upload({
+    path: `avatars/${id}`,
+    data: file,
+    onError,
+    onProgress,
+    onComplete
+  })
 }
 </script>
 

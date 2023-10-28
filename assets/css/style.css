@@ -15,3 +15,6 @@ label.required::after {
   content: ' *';
   color: #FF5252;
 }
+label[disabled]{
+  pointer-events: none;
+}

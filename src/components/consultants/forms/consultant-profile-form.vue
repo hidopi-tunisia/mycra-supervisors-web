@@ -6,26 +6,50 @@
         <div class="row">
           <div class="col-xs-12 col-lg-6">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
-              <img
-                :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
-                alt="user-avatar"
-                class="d-block rounded"
-                height="100"
-                width="100"
-                id="profilePhoto"
-                v-if="props.isUpdate"
-              />
-              <img
-                src="/assets/img/avatars/avatar-placeholder.jpg"
-                alt="user-avatar"
-                class="d-block rounded"
-                height="100"
-                width="100"
-                id="profilePhoto"
-                v-else
-              />
+              <div class="rounded img-loading">
+                <div class="loading-container" v-show="props.loadingProgress">
+                  <div class="spinner-border text-white" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div v-if="props.isUpdate">
+                  <img
+                    :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
+                    alt="user-avatar"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="profilePhoto"
+                  />
+                </div>
+                <div v-else>
+                  <img
+                    :src="props.file"
+                    alt="user-avatar"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="profilePhoto"
+                    v-if="props.file"
+                  />
+                  <img
+                    src="/assets/img/avatars/avatar-placeholder.jpg"
+                    alt="user-avatar"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="profilePhoto"
+                    v-else
+                  />
+                </div>
+              </div>
               <div class="button-wrapper">
-                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                <label
+                  for="upload"
+                  class="btn me-2 mb-4"
+                  tabindex="0"
+                  :class="props.loadingProgress ? '' : 'btn-primary'"
+                >
                   <span class="d-none d-sm-block">Téléverser une photo</span>
                   <i class="bx bx-upload d-block d-sm-none"></i>
                   <input
@@ -33,7 +57,9 @@
                     id="upload"
                     class="account-file-input"
                     accept="image/png, image/jpeg"
+                    ref="file"
                     hidden
+                    @change="handleFileChange"
                   />
                 </label>
                 <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
@@ -292,13 +318,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRaw } from 'vue'
+import { ref, toRaw, watchEffect } from 'vue'
 import TagsInput from '@/components/shared/inputs/tags-input.vue'
 import { generateFromString } from 'generate-avatar'
+import Swal from 'sweetalert2'
+const file = ref(null)
 const note = ref('')
 const skillsArray = ref([])
 const skillsLimit = 4
-const props = defineProps(['profile', 'isUpdate', 'loading'])
+const props = defineProps([
+  'profile',
+  'isUpdate',
+  'loading',
+  'loadingProgress',
+  'uploadProgress',
+  'file'
+])
 let newProfile = {}
 if (props.isUpdate) {
   if (props.profile.note) {
@@ -309,7 +344,12 @@ if (props.isUpdate) {
   }
   newProfile = { ...props.profile }
 }
-const emit = defineEmits(['submit'])
+watchEffect(() => {
+  if (props.isUpdate) {
+    newProfile = props.profile
+  }
+})
+const emit = defineEmits(['upload', 'submit'])
 const handleSubmit = () => {
   const payload = { ...newProfile, skills: { arr: toRaw(skillsArray.value) } }
   emit('submit', payload)
@@ -323,10 +363,45 @@ const handleSkillsChanged = (v) => {
 const handleClickEmptySkills = () => {
   skillsArray.value = []
 }
+const handleFileChange = ({ target }) => {
+  if (target && target.files) {
+    const { files } = target
+
+    // 1MB
+    if (files[0].size < 1024 * 1024) {
+      emit('upload', files[0])
+    } else {
+      Swal.fire({
+        title: `Image trop large`,
+        text: 'Merci de choisir une image de taille < 1 Mo',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
 .btn-submit {
   width: 200px;
+}
+.img-loading {
+  height: 100px;
+  width: 100px;
+  border: 1px solid white;
+  border-radius: 8px;
+}
+.loading-container {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border: 1px solid gray;
+  border-radius: 8px;
+  background-color: #21212166;
 }
 </style>
