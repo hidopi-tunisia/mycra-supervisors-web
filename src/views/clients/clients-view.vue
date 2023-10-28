@@ -122,6 +122,7 @@ const handleDeleteClient = (id) => {
         if (result.isConfirmed) {
           await deleteClient(id)
           retrieve()
+          retrieveCount()
           Swal.fire('Supprimé !', 'Le client a été supprimé avec succès.', 'success')
         }
       })

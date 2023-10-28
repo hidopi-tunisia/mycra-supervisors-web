@@ -170,6 +170,7 @@ const handleDeleteConsultant = (id) => {
         try {
           await deleteConsultant(id)
           retrieve()
+          retrieveCount()
           Swal.fire('Supprimé !', 'Le consultant a été supprimé avec succès.', 'success')
         } catch (error) {
           console.log(error)
@@ -229,7 +230,6 @@ const handleNotifyConsultant = (id) => {
     if (consultant) {
       const t = `${consultant.firstName} ${consultant.lastName}`
       const message = await ConsultantsNotifier.notify(t)
-      console.log(message)
       Swal.fire({
         title: 'Consultant notifé',
         text: `Le notification a été envoyé vers le consultant ${t} avec succès.`,
