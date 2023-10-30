@@ -45,7 +45,7 @@
       </div>
       <!-- /Search -->
 
-      <ul class="navbar-nav flex-row align-items-center ms-auto">
+      <ul class="navbar-nav flex-row align-items-center ms-auto" v-if="result">
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a
@@ -84,7 +84,7 @@
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-semibold d-block" v-if="result">
+                      <span class="fw-semibold d-block">
                         {{ result.firstName }} {{ result.lastName }}
                       </span>
                       <small class="text-muted">{{ result.company?.name }}</small>
