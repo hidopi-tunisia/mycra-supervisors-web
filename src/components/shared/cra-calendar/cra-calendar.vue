@@ -11,6 +11,7 @@
       <div
         class="calendar__number"
         :key="d"
+        v-if="days"
         v-for="d in days"
         :class="'day-' + d.type"
         @click="handleClickDay(d)"
@@ -22,10 +23,16 @@
 </template>
 
 <script setup lang="ts">
-import { toRaw } from 'vue'
+import { ref, toRaw } from 'vue'
 import { populateDays } from './utils'
 const props = defineProps(['selected'])
-const days = populateDays(toRaw(props.selected)).sort((a, b) => new Date(a.date) - new Date(b.date))
+const days = ref(null)
+if (toRaw(props.selected)) {
+  days.value = populateDays(toRaw(props.selected)).sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  )
+}
+
 const emit = defineEmits(['click-day'])
 const handleClickDay = (d) => {
   emit('click-day', d)

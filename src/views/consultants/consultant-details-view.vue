@@ -42,7 +42,7 @@
   />
   <consultant-profile-history
     isUpdate="true"
-    v-if="tab === 'history' && history"
+    v-if="tab === 'history' && history && visible"
     :profile="result"
     :history="history"
     @year-changed="handleChangeYear"
@@ -74,7 +74,7 @@ const result = ref(null)
 const history = ref(null)
 const loading = ref(false)
 const year = ref(new Date().getFullYear())
-const fn = async () => {
+const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getConsultant(id)
@@ -82,13 +82,17 @@ const fn = async () => {
     result.value = data
     history.value = historyData
     loading.value = false
+    visible.value = false
+    setTimeout(() => {
+      visible.value = true
+    }, 500)
   } catch (error) {
     loading.value = false
     console.log(error)
     console.log(error.response.data)
   }
 }
-fn()
+retrieve()
 const handleSubmit = (payload) => {
   const fn = async () => {
     try {
@@ -155,9 +159,10 @@ const handleUpload = (file) => {
     onComplete
   })
 }
-const reason = ref('')
+const visible = ref(true)
+const motive = ref('')
 const handleReject = (id) => {
-  reason.value = ''
+  motive.value = ''
   Swal.fire({
     title: 'La raison de rejet ?',
     input: 'text',
@@ -169,14 +174,15 @@ const handleReject = (id) => {
     cancelButtonText: 'Annuler',
     showLoaderOnConfirm: true,
     preConfirm: (r) => {
-      reason.value = r
+      motive.value = r
     },
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
       const fn = async () => {
         try {
-          await rejectCRA(id)
+          await rejectCRA(id, motive.value)
+          retrieve()
           Swal.fire({
             title: `Rejetté`,
             text: `Le CRA a été rejetté avec succès`,
@@ -200,6 +206,7 @@ const handleApprove = (id) => {
   const fn = async () => {
     try {
       await approveCRA(id)
+      retrieve()
       Swal.fire({
         title: `Approuvé`,
         text: `Le CRA a été approuvé avec succès`,
@@ -219,7 +226,7 @@ const handleApprove = (id) => {
 }
 const handleChangeYear = (y) => {
   year.value = Number(y)
-  fn()
+  retrieve()
 }
 </script>
 

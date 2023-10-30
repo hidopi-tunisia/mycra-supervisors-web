@@ -49,34 +49,34 @@
             >Rejeté</span
           >
         </h5>
-        <div class="card-body">
+        <div class="card-body" v-if="selected">
           <p v-if="selected.status === 'submitted'">
-            Le CRA a été envoyé à <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
+            Le CRA a été envoyé à <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
           <p v-if="selected.status === 'approved'">
-            Le CRA est apprové le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
+            Le CRA est apprové le <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
           <p v-if="selected.status === 'rejected'">
-            Le a été rejeté le <span class="fw-bold">{{ selected.at.substring(0, 10) }}</span>
+            Le a été rejeté le <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
           <Calendar :selected="selected" @click-day="handleClickDay" class="mx-sm-auto mb-4" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
-            >{{ selected.working.length }} Travaillés</span
+            >{{ selected?.working.length }} Travaillés</span
           >
           <span class="badge rounded-pill day-half mx-1 mb-1"
-            >{{ selected.half.length }} Demi journées</span
+            >{{ selected?.half.length }} Demi journées</span
           >
           <span class="badge rounded-pill day-remote mx-1 mb-1"
-            >{{ selected.remote.length }} Télétravail</span
+            >{{ selected?.remote.length }} Télétravail</span
           >
           <span class="badge rounded-pill day-off mx-1 mb-1"
-            >{{ selected.off.length }} Absence</span
+            >{{ selected?.off.length }} Absence</span
           >
-          <h5 class="mt-3" v-if="selected.motive">Motif</h5>
+          <h5 class="mt-3" v-if="selected?.motive">Motif</h5>
           <p>
-            {{ selected.motive }}
+            {{ selected?.motive }}
           </p>
-          <div class="row" v-if="selected.status === 'pending'">
+          <div class="row" v-if="selected?.status === 'pending'">
             <p>Actions</p>
             <div class="d-flex flex-row vw-100 justify-content-between">
               <div>
@@ -84,7 +84,7 @@
                   type="button"
                   class="btn btn-outline-danger"
                   data-bs-dismiss="modal"
-                  @click="emit('reject', selected._id)"
+                  @click="emit('reject', selected?._id)"
                 >
                   Rejetter
                 </button>
@@ -92,7 +92,7 @@
                   type="button"
                   class="btn btn-success mx-2"
                   data-bs-dismiss="modal"
-                  @click="emit('approve', selected._id)"
+                  @click="emit('approve', selected?._id)"
                 >
                   Approver
                 </button>
@@ -108,7 +108,19 @@
 <script setup lang="ts">
 import ConsultantProfileHistoryCollectionItem from '@/components/consultants/details/consultant-profile-history-collection-item.vue'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
+import { ref, watchEffect } from 'vue';
 const props = defineProps(['history', 'selected', 'years', 'current'])
+let action = ref(null)
+if (props.selected.status === 'pending') {
+  action.value = props.selected.history.filter(({ action }) => action === 'submitted')
+} else if (props.selected.status === 'approved') {
+  action.value = props.selected.history.filter(({ action }) => action === 'approved')
+} else if (props.selected.status === 'rejected') {
+  action.value = props.selected.history.filter(({ action }) => action === 'rejected')
+}
+action.value = action.value.sort((a, b) => {
+  b.meta.at - a.meta.at
+})[0]
 const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve'])
 const handleClickDay = (d) => {
   emit('click-day', d)
