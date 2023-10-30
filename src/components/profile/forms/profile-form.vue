@@ -167,7 +167,8 @@
           <div class="d-flex flex-row">
             <a
               target="_blank"
-              :href="props.profile.company?.website"
+              v-if="props.profile.social?.company?.website"
+              :href="props.profile.social?.company?.website"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
@@ -177,7 +178,8 @@
             </a>
             <a
               target="_blank"
-              :href="props.profile.company?.facebookLink"
+              v-if="props.profile.social?.company?.facebookLink"
+              :href="props.profile.social?.company?.facebookLink"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
@@ -187,7 +189,8 @@
             </a>
             <a
               target="_blank"
-              :href="props.profile.company?.instagramPage"
+              v-if="props.profile.social?.company?.instagramPage"
+              :href="props.profile.social?.company?.instagramPage"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
@@ -197,7 +200,8 @@
             </a>
             <a
               target="_blank"
-              :href="props.profile.company?.xLink"
+              v-if="props.profile.social?.company?.xLink"
+              :href="props.profile.social?.company?.xLink"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
@@ -209,7 +213,8 @@
             </a>
             <a
               target="_blank"
-              :href="props.profile.company?.linkedInLink"
+              v-if="props.profile.social?.company?.linkedInLink"
+              :href="props.profile.social?.company?.linkedInLink"
               data-bs-toggle="tooltip"
               data-popup="tooltip-custom"
               data-bs-placement="top"
@@ -217,6 +222,7 @@
             >
               <div class="icon-social bx bxl-linkedin-square with-pointer me-2"></div>
             </a>
+            <p v-if="!props.profile.social || Object.keys(props.profile.social).length === 0">Pas de liens sociaux</p>
           </div>
         </div>
       </div>
