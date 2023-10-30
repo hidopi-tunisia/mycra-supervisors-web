@@ -29,10 +29,6 @@
   color: #262626;
 }
 .calendar__number:nth-child(7n) {
-  color: #4caf50;
-  font-weight: 700;
-  background-color: white !important;
-  border: 2px solid #4caf50;
 }
 .calendar__number--current {
   background-color: #009688;

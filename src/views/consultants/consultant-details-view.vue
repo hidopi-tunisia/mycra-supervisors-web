@@ -44,7 +44,7 @@
     :profile="result"
     :history="history"
     isUpdate="true"
-    v-if="tab === 'history'"
+    v-if="tab === 'history' && history"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
@@ -62,9 +62,10 @@ import ConsultantProfileHistory from '@/components/consultants/details/consultan
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
 import { upload } from '@/domain/buckets'
+import { getCRAs } from '@/domain/me'
 const { push } = useRouter()
 const { params } = useRoute()
-const { id } = params
+const id = params.id as string
 const result = ref(null)
 const history = ref(null)
 const loading = ref(false)
@@ -73,8 +74,9 @@ const fn = async () => {
     loading.value = true
     const { data } = await getConsultant(id)
     // const { data: historyData } = await getHistory()
+    const { data: historyData } = await getCRAs({ consultant: id })
     result.value = data
-    history.value = []
+    history.value = historyData
     loading.value = false
   } catch (error) {
     loading.value = false
@@ -120,7 +122,7 @@ const handleSubmit = (payload) => {
   }
   fn()
 }
-const tab = ref('profile')
+const tab = ref('history')
 const handleClickTab = (t) => {
   tab.value = t
 }

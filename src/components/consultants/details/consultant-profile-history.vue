@@ -80,6 +80,8 @@ import Swal from 'sweetalert2'
 import { generateFromString } from 'generate-avatar'
 import { ref } from 'vue'
 const props = defineProps(['profile', 'isUpdate', 'history'])
+console.log(props.history);
+
 let newProfile
 if (props.isUpdate) {
   newProfile = { ...props.profile }
@@ -89,10 +91,14 @@ const handleSubmit = () => {
   const payload = {}
   emit('submit', payload)
 }
-const years = [2022, 2021, 2020]
-const current = ref(2022)
-const filteredHistory = ref(props.history.filter(({ year }) => year === current.value))
-const selected = ref(props.history.filter(({ year }) => year === current.value)[0])
+const years = [2023,2022, 2021, 2020]
+const current = ref(2023)
+//const filteredHistory = ref(props.history.filter(({ year }) => year === current.value))
+const filteredHistory = props.history
+console.log(filteredHistory);
+
+// const selected = ref(props.history.filter(({ year }) => year === current.value)[0])
+const selected = filteredHistory[0]
 const handleChangeSelected = (id) => {
   selected.value = props.history.find(({ _id }) => _id == id)
 }

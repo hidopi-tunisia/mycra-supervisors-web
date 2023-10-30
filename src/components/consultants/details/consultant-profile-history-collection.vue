@@ -101,6 +101,8 @@
 import ConsultantProfileHistoryCollectionItem from '@/components/consultants/details/consultant-profile-history-collection-item.vue'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
 const props = defineProps(['history', 'selected', 'years', 'current'])
+console.log(props.selected);
+
 const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve'])
 const handleClickDay = (d) => {
   emit('click-day', d)

@@ -50,10 +50,16 @@ const updateCRA = async (craId, payload) => {
   })
 }
 
-const getCRAs = async ({ sort = 'desc', page = 0, limit = 12, populate = '' } = {}) => {
+const getCRAs = async ({
+  sort = 'desc',
+  page = 0,
+  limit = 12,
+  populate = '',
+  consultant = ''
+} = {}) => {
   const authorization = await getAuthorization()
   return axios.get(
-    `${ENDPOINT}/me/cras?sort=${sort}&limit=${limit}&page=${page}&populate=${populate}`,
+    `${ENDPOINT}/me/cras?sort=${sort}&limit=${limit}&page=${page}&populate=${populate}&consultant=${consultant}`,
     {
       headers: {
         authorization
