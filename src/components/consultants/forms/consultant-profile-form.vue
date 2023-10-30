@@ -252,6 +252,7 @@
                 name="phone"
                 class="form-control"
                 placeholder="Ex : 123456789"
+                required
                 :value="newProfile.phone"
                 @input="({ target }) => (newProfile.phone = target.value)"
               />

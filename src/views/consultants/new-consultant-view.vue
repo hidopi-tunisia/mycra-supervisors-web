@@ -42,14 +42,10 @@ const handleSubmit = (payload) => {
         confirmButtonText: 'OK',
         showCancelButton: true,
         cancelButtonText: 'Fermer',
-        showDenyButton: true,
-        denyButtonText: `Voir liste`,
         denyButtonColor: '#0288D1'
-      }).then(({ isConfirmed, isDenied }) => {
+      }).then(({ isConfirmed }) => {
         /* Read more about isConfirmed, isDenied below */
         if (isConfirmed) {
-          push(`/consultants/${data._id}`)
-        } else if (isDenied) {
           push(`/consultants`)
         }
       })
@@ -99,13 +95,15 @@ const updateProfilePhoto = (id) => {
     uploadProgress.value = null
     console.info(error)
   }
-  upload({
-    path: `avatars/${id}`,
-    data: file.value,
-    onError,
-    onProgress,
-    onComplete
-  })
+  if (file.value) {
+    upload({
+      path: `avatars/${id}`,
+      data: file.value,
+      onError,
+      onProgress,
+      onComplete
+    })
+  } 
 }
 </script>
 

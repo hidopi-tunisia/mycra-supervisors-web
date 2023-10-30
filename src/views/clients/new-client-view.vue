@@ -89,7 +89,7 @@ const updateProfilePhoto = (id, data) => {
   const onComplete = async (profilePhoto) => {
     photo.value = profilePhoto
     loadingProgress.value = false
-    updateClient(id, {...data, company: { ...data.company, logo: profilePhoto } })
+    updateClient(id, { ...data, company: { ...data.company, logo: profilePhoto } })
   }
   const onProgress = ({ transferred, total }) => {
     loadingProgress.value = true
@@ -99,13 +99,15 @@ const updateProfilePhoto = (id, data) => {
     uploadProgress.value = null
     console.info(error)
   }
-  upload({
-    path: `avatars/${id}`,
-    data: file.value,
-    onError,
-    onProgress,
-    onComplete
-  })
+  if (file.value) {
+    upload({
+      path: `avatars/${id}`,
+      data: file.value,
+      onError,
+      onProgress,
+      onComplete
+    })
+  }
 }
 </script>
 
