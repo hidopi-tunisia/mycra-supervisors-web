@@ -65,7 +65,7 @@
             >
               <div class="d-flex flex-column justify-content-center align-items-center">
                 <div class="mb-3">Pas de projets</div>
-                <router-link to="/projects/new">
+                <router-link to="/projects">
                   <a class="btn btn-outline-primary" href="#" @click="hide"> Créer un projet</a>
                 </router-link>
               </div>
