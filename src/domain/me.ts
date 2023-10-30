@@ -55,11 +55,12 @@ const getCRAs = async ({
   page = 0,
   limit = 12,
   populate = '',
-  consultant = ''
+  consultant = '',
+  year = new Date().getFullYear()
 } = {}) => {
   const authorization = await getAuthorization()
   return axios.get(
-    `${ENDPOINT}/me/cras?sort=${sort}&limit=${limit}&page=${page}&populate=${populate}&consultant=${consultant}`,
+    `${ENDPOINT}/me/cras?sort=${sort}&limit=${limit}&page=${page}&populate=${populate}&consultant=${consultant}&year=${year}`,
     {
       headers: {
         authorization

@@ -7,7 +7,7 @@
           <div class="col-xs-12 col-md-2">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
               <img
-              :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
+                :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
                 alt="user-avatar"
                 class="d-block rounded"
                 height="100"
@@ -61,7 +61,7 @@
       </div>
     </div>
     <consultant-profile-history-collection
-      :history="filteredHistory"
+      :history="history"
       :years="years"
       :current="current"
       :selected="selected"
@@ -79,44 +79,55 @@ import ConsultantProfileHistoryCollection from '@/components/consultants/details
 import Swal from 'sweetalert2'
 import { generateFromString } from 'generate-avatar'
 import { ref } from 'vue'
+import { DayTypes } from '@/components/shared/cra-calendar/utils'
 const props = defineProps(['profile', 'isUpdate', 'history'])
-console.log(props.history);
 
 let newProfile
 if (props.isUpdate) {
   newProfile = { ...props.profile }
 }
-const emit = defineEmits(['submit', 'click-day'])
+const emit = defineEmits(['submit', 'click-day', 'year-changed'])
 const handleSubmit = () => {
   const payload = {}
   emit('submit', payload)
 }
-const years = [2023,2022, 2021, 2020]
-const current = ref(2023)
-//const filteredHistory = ref(props.history.filter(({ year }) => year === current.value))
-const filteredHistory = props.history
-console.log(filteredHistory);
-
-// const selected = ref(props.history.filter(({ year }) => year === current.value)[0])
-const selected = filteredHistory[0]
+const years = Array.from(
+  { length: new Date().getFullYear() - new Date().getFullYear() + 1 },
+  (_, i) => i + new Date().getFullYear()
+).sort((a, b) => b - a)
+const current = ref(new Date().getFullYear())
+const selected = props.history[0]
 const handleChangeSelected = (id) => {
   selected.value = props.history.find(({ _id }) => _id == id)
 }
 const handleChangeYear = (y) => {
   current.value = y
-  filteredHistory.value = props.history.filter(({ year }) => year == y)
+  emit('year-changed', y)
 }
-const reasons = ['CP', 'Maternité', 'Absence', 'Congé maladie', 'Déménagement']
-const handleClickDay = (d) => {
-  const reason = reasons[Math.floor(Math.random() * reasons.length)]
-  Swal.fire({
-    title: `${d} ${selected.value.month} ${current.value}`,
-    text: `La reason d'absence est "` + reason + '"',
-    icon: 'info',
-    confirmButtonText: 'OK'
-  })
+const handleClickDay = ({ date, meta, type }) => {
+  if (type === DayTypes.OFF) {
+    Swal.fire({
+      title: `${date}`,
+      text: `Le motif d'absence est "` + meta.value + '"',
+      icon: 'info',
+      confirmButtonText: 'OK'
+    })
+  } else if (type === DayTypes.WEEKEND) {
+    Swal.fire({
+      title: `${date}`,
+      text: 'Cette date est un week-end',
+      icon: 'info',
+      confirmButtonText: 'OK'
+    })
+  } else if (type === DayTypes.HOLIDAY) {
+    Swal.fire({
+      title: `${date}`,
+      text: `Cette date est un jour férié, ${meta.value}`,
+      icon: 'info',
+      confirmButtonText: 'OK'
+    })
+  }
 }
-
 const handleReject = () => {
   Swal.fire({
     title: 'La raison de rejet ?',

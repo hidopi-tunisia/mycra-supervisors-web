@@ -41,10 +41,11 @@
     @submit="handleSubmit"
   />
   <consultant-profile-history
-    :profile="result"
-    :history="history"
     isUpdate="true"
     v-if="tab === 'history' && history"
+    :profile="result"
+    :history="history"
+    @year-changed="handleChangeYear"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
@@ -69,12 +70,12 @@ const id = params.id as string
 const result = ref(null)
 const history = ref(null)
 const loading = ref(false)
+const year = ref(new Date().getFullYear())
 const fn = async () => {
   try {
     loading.value = true
     const { data } = await getConsultant(id)
-    // const { data: historyData } = await getHistory()
-    const { data: historyData } = await getCRAs({ consultant: id })
+    const { data: historyData } = await getCRAs({ consultant: id, year: year.value })
     result.value = data
     history.value = historyData
     loading.value = false
@@ -150,6 +151,10 @@ const handleUpload = (file) => {
     onProgress,
     onComplete
   })
+}
+const handleChangeYear = (y) => {
+  year.value = Number(y)
+  fn()
 }
 </script>
 

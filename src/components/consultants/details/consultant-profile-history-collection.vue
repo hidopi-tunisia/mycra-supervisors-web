@@ -18,20 +18,22 @@
           </select>
           <consultant-profile-history-collection-item
             :key="h._id"
+            v-if="props.history.length > 0"
             v-for="h in props.history"
             :history="h"
             :selected="selected._id === h._id"
             @select="handleChangeSelected"
           />
+          <div v-else>Pas d'historique</div>
         </div>
       </div>
     </div>
     <div class="col-md-12 col-lg-5 col-12" v-if="selected">
       <div class="card">
         <h5 class="card-header">
-          CRA du {{ selected.month }} {{ selected.year }}
+          CRA du {{ months[selected.date.month] }} {{ selected.date.year }}
           <span>
-            - {{ selected.working + selected.remote + 0.5 * selected.half }} jours travaillés</span
+            - {{ selected.working.length + selected.remote.length + 0.5 * selected.half.length }} jours travaillés</span
           >
           <span class="badge bg-primary float-end" v-if="selected.status === 'submitted'"
             >Envoyé</span
@@ -55,20 +57,20 @@
           </p>
           <Calendar :selected="selected" @click-day="handleClickDay" class="mx-sm-auto mb-4" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
-            >{{ selected.working }} Travaillés</span
+            >{{ selected.working.length }} Travaillés</span
           >
           <span class="badge rounded-pill day-half mx-1 mb-1"
-            >{{ selected.half }} Demi journées</span
+            >{{ selected.half.length }} Demi journées</span
           >
           <span class="badge rounded-pill day-remote mx-1 mb-1"
-            >{{ selected.remote }} Télétravail</span
+            >{{ selected.remote.length }} Télétravail</span
           >
-          <span class="badge rounded-pill day-off mx-1 mb-1">{{ selected.off }} Absence</span>
-          <h5 class="mt-3">Motif</h5>
+          <span class="badge rounded-pill day-off mx-1 mb-1">{{ selected.off.length }} Absence</span>
+          <h5 class="mt-3" v-if="selected.motive">Motif</h5>
           <p>
             {{ selected.motive }}
           </p>
-          <div class="row" v-if="selected.status === 'submitted'">
+          <div class="row" v-if="selected.status === 'pending'">
             <p>Actions</p>
             <div class="d-flex flex-row vw-100 justify-content-between">
               <div>
@@ -101,8 +103,6 @@
 import ConsultantProfileHistoryCollectionItem from '@/components/consultants/details/consultant-profile-history-collection-item.vue'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
 const props = defineProps(['history', 'selected', 'years', 'current'])
-console.log(props.selected);
-
 const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve'])
 const handleClickDay = (d) => {
   emit('click-day', d)
@@ -114,6 +114,20 @@ const handleChangeYear = ({ target }) => {
 const handleChangeSelected = (id) => {
   emit('select', id)
 }
+const months = [
+  'janvier',
+  'février',
+  'mars',
+  'avril',
+  'mai',
+  'juin',
+  'juillet',
+  'août',
+  'septembre',
+  'octobre',
+  'novembre',
+  'décembre'
+]
 </script>
 
 <style scoped>
