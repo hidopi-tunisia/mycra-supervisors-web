@@ -33,7 +33,11 @@
         <h5 class="card-header">
           CRA du {{ months[selected.date.month] }} {{ selected.date.year }}
           <span>
-            - {{ selected.working.length + selected.remote.length + 0.5 * selected.half.length }} jours travaillés</span
+            -
+            {{
+              selected.working.length + selected.remote.length + 0.5 * selected.half.length
+            }}
+            jours travaillés</span
           >
           <span class="badge bg-primary float-end" v-if="selected.status === 'submitted'"
             >Envoyé</span
@@ -65,7 +69,9 @@
           <span class="badge rounded-pill day-remote mx-1 mb-1"
             >{{ selected.remote.length }} Télétravail</span
           >
-          <span class="badge rounded-pill day-off mx-1 mb-1">{{ selected.off.length }} Absence</span>
+          <span class="badge rounded-pill day-off mx-1 mb-1"
+            >{{ selected.off.length }} Absence</span
+          >
           <h5 class="mt-3" v-if="selected.motive">Motif</h5>
           <p>
             {{ selected.motive }}
@@ -78,7 +84,7 @@
                   type="button"
                   class="btn btn-outline-danger"
                   data-bs-dismiss="modal"
-                  @click="emit('reject')"
+                  @click="emit('reject', selected._id)"
                 >
                   Rejetter
                 </button>
@@ -86,7 +92,7 @@
                   type="button"
                   class="btn btn-success mx-2"
                   data-bs-dismiss="modal"
-                  @click="emit('approve')"
+                  @click="emit('approve', selected._id)"
                 >
                   Approver
                 </button>

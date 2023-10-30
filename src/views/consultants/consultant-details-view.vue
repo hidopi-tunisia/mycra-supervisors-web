@@ -46,6 +46,8 @@
     :profile="result"
     :history="history"
     @year-changed="handleChangeYear"
+    @approve-cra="handleApprove"
+    @reject-cra="handleReject"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
@@ -64,6 +66,7 @@ import { ref } from 'vue'
 import Swal from 'sweetalert2'
 import { upload } from '@/domain/buckets'
 import { getCRAs } from '@/domain/me'
+import { approveCRA, rejectCRA } from '@/domain/cras'
 const { push } = useRouter()
 const { params } = useRoute()
 const id = params.id as string
@@ -151,6 +154,68 @@ const handleUpload = (file) => {
     onProgress,
     onComplete
   })
+}
+const reason = ref('')
+const handleReject = (id) => {
+  reason.value = ''
+  Swal.fire({
+    title: 'La raison de rejet ?',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Confirmer',
+    cancelButtonText: 'Annuler',
+    showLoaderOnConfirm: true,
+    preConfirm: (r) => {
+      reason.value = r
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const fn = async () => {
+        try {
+          await rejectCRA(id)
+          Swal.fire({
+            title: `Rejetté`,
+            text: `Le CRA a été rejetté avec succès`,
+            icon: 'info',
+            confirmButtonText: 'OK'
+          })
+        } catch (error) {
+          Swal.fire({
+            title: `Erreur servenue`,
+            text: `Une erreur est servenue`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
+        }
+      }
+      fn()
+    }
+  })
+}
+const handleApprove = (id) => {
+  const fn = async () => {
+    try {
+      await approveCRA(id)
+      Swal.fire({
+        title: `Approuvé`,
+        text: `Le CRA a été approuvé avec succès`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
+    } catch (error) {
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
 }
 const handleChangeYear = (y) => {
   year.value = Number(y)

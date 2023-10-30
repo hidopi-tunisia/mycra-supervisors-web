@@ -86,7 +86,7 @@ let newProfile
 if (props.isUpdate) {
   newProfile = { ...props.profile }
 }
-const emit = defineEmits(['submit', 'click-day', 'year-changed'])
+const emit = defineEmits(['submit', 'click-day', 'year-changed', 'approve-cra', 'reject-cra'])
 const handleSubmit = () => {
   const payload = {}
   emit('submit', payload)
@@ -128,39 +128,12 @@ const handleClickDay = ({ date, meta, type }) => {
     })
   }
 }
-const handleReject = () => {
-  Swal.fire({
-    title: 'La raison de rejet ?',
-    input: 'text',
-    inputAttributes: {
-      autocapitalize: 'off'
-    },
-    showCancelButton: true,
-    confirmButtonText: 'Confirmer',
-    cancelButtonText: 'Annuler',
-    showLoaderOnConfirm: true,
-    preConfirm: (login) => {
-      console.log(login)
-    },
-    allowOutsideClick: () => !Swal.isLoading()
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: `Rejetté`,
-        text: `Le CRA a été rejetté avec succès`,
-        icon: 'info',
-        confirmButtonText: 'OK'
-      })
-    }
-  })
+const reason = ref('')
+const handleReject = (id) => {
+  emit('reject-cra', id)
 }
-const handleApprove = () => {
-  Swal.fire({
-    title: `Approuvé`,
-    text: `Le CRA a été approuvé avec succès`,
-    icon: 'success',
-    confirmButtonText: 'OK'
-  })
+const handleApprove = (id) => {
+  emit('approve-cra', id)
 }
 const getAvatar = () => {
   return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
