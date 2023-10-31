@@ -8,22 +8,30 @@
         @select="handleSelect"
         @search="handleSearch"
       />
-      <alerts-history v-if="selected" :contact="selected" />
+      <alerts-history v-if="selected" :contact="selected" :messages="alerts" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getConsultants } from '@/domain/consultants'
+import { getAlerts } from '@/domain/alerts'
 import AlertsContacts from '@/components/alerts/contacts/alerts-contacts.vue'
 import AlertsHistory from '@/components/alerts/history/alerts-history.vue'
 import { ref } from 'vue'
 
+const selected = ref(null)
+const handleSelect = (i) => {
+  selected.value = null
+  alerts.value = null
+  selected.value = i
+  retrieveAlerts(i._id)
+}
 const results = ref(null)
 const filtered = ref(null)
 const loading = ref(false)
 const currentSize = ref(100)
-const retrieve = async () => {
+const retrieveConsultants = async () => {
   try {
     loading.value = true
     const { data } = await getConsultants({
@@ -31,7 +39,9 @@ const retrieve = async () => {
     })
     results.value = data
     filtered.value = data
-    selected.value = data[0]
+    if (Array.isArray(data) && data.length > 0) {
+      handleSelect(data[0])
+    }
     loading.value = false
   } catch (error) {
     loading.value = false
@@ -39,16 +49,23 @@ const retrieve = async () => {
     console.log(error.response.data)
   }
 }
-retrieve()
-const selected = ref(null)
-const handleSelect = (i) => {
-  selected.value = i
+retrieveConsultants()
+const loadingAlerts = ref(false)
+const alerts = ref(null)
+const retrieveAlerts = async (id) => {
+  try {
+    loadingAlerts.value = true
+    const { data } = await getAlerts({ consultant: id })
+    alerts.value = data
+    loadingAlerts.value = false
+  } catch (error) {
+    loadingAlerts.value = false
+    console.log(error)
+    console.log(error.response.data)
+  }
 }
 const handleSearch = (value) => {
-  console.log(value)
-
   filtered.value = results.value.filter((d) => {
-    console.log(d)
     return (
       d.firstName.toLowerCase().includes(value.toLowerCase()) ||
       d.lastName.toLowerCase().includes(value.toLowerCase())

@@ -44,7 +44,7 @@
       <!-- Contacts -->
       <ul class="list-unstyled chat-contact-list mb-0 overflow-auto" id="contact-list">
         <li class="chat-contact-list-item chat-contact-list-item-title">
-          <h5 class="text-primary mb-0">contacts</h5>
+          <h5 class="text-primary mb-0">Contacts</h5>
         </li>
         <li
           class="chat-contact-list-item"
