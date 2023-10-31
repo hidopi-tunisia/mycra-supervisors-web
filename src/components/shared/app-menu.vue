@@ -66,7 +66,7 @@
       <a
         class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none"
         @click="handleClickToggle"
-        >
+      >
         <i class="bx bx-chevron-left bx-sm align-middle"></i>
       </a>
     </div>
@@ -79,7 +79,7 @@
         <router-link to="/">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Tableau de bord</div>
+            <div data-i18n="Dashboard">Tableau de bord</div>
           </a>
         </router-link>
       </li>
@@ -87,7 +87,7 @@
         <router-link to="/projects">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-code-block"></i>
-            <div data-i18n="Analytics">Mes projets</div>
+            <div data-i18n="My projects">Mes projets</div>
           </a>
         </router-link>
       </li>
@@ -95,7 +95,7 @@
         <router-link to="/clients">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Analytics">Mes clients</div>
+            <div data-i18n="My clients">Mes clients</div>
           </a>
         </router-link>
       </li>
@@ -103,16 +103,24 @@
         <router-link to="/consultants">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bxs-user-badge"></i>
-            <div data-i18n="Analytics">Mes consultants</div>
+            <div data-i18n="My consultants">Mes consultants</div>
           </a>
         </router-link>
       </li>
       <li class="menu-header"></li>
+      <li class="menu-item" :class="route.name === 'alerts' ? 'active' : ''">
+        <router-link to="/alerts">
+          <a class="menu-link">
+            <i class="menu-icon tf-icons bx bx-chat"></i>
+            <div data-i18n="Alerts">Alerts</div>
+          </a>
+        </router-link>
+      </li>
       <li class="menu-item" :class="route.name === 'create-notification' ? 'active' : ''">
         <router-link to="/notifications/new">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-bell"></i>
-            <div data-i18n="Analytics">Notifications</div>
+            <div data-i18n="Notifications">Notifications</div>
           </a>
         </router-link>
       </li>
@@ -121,7 +129,7 @@
         <router-link to="/upgrade">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-star"></i>
-            <div data-i18n="Analytics">Mettre à niveau votre forfait</div>
+            <div data-i18n="Upgrade">Mettre à niveau votre forfait</div>
           </a>
         </router-link>
       </li>
@@ -129,7 +137,7 @@
         <router-link to="/about">
           <a class="menu-link">
             <i class="menu-icon tf-icons bx bx-info-circle"></i>
-            <div data-i18n="Analytics">À propos</div>
+            <div data-i18n="About">À propos</div>
           </a>
         </router-link>
       </li>

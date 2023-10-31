@@ -38,7 +38,7 @@
   <count-cards-item
     text="Alerts"
     menu-text="Voir les alerts"
-    icon="bx bx-bell bx-sm align-middle icon-alert"
+    icon="bx bx-chat bx-sm align-middle icon-alert"
     name="alerts"
     link="/alerts"
     v-if="props.item === 'alerts'"
