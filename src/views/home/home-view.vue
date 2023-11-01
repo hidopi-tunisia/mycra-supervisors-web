@@ -118,7 +118,7 @@ const retrieveCounts = () => {
         getProjectsCount({ status: 'active' }),
         getClientsCount(),
         getConsultantsCount({ status: 'active' }),
-        getAlertsCount()
+        getAlertsCount({ isRead: false })
       ])
       loadingCounts.value = false
       counts.value['projects'] = projects.value.data?.count

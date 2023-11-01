@@ -6,17 +6,19 @@ type GetAlertsOptions = {
   page?: number
   limit?: number
   sort?: string
-  consultant?: string
+  consultant?: string,
+  isRead?: boolean
 }
 const getAlerts = async ({
   page = 0,
   limit = 10,
   sort = 'asc',
-  consultant = ''
+  consultant = '',
+  isRead = null
 }: GetAlertsOptions = {}) => {
   const authorization = await getAuthorization()
   return axios.get(
-    `${ENDPOINT}/me/alerts?page=${page}&limit=${limit}&sort=${sort}&consultant=${consultant}`,
+    `${ENDPOINT}/me/alerts?page=${page}&limit=${limit}&sort=${sort}&consultant=${consultant}&is-read=${isRead}`,
     {
       headers: {
         authorization

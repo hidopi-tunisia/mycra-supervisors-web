@@ -26,8 +26,34 @@
             </div>
           </div>
           <div class="d-flex align-items-center">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                :class="props.isRead === null ? 'active' : ''"
+                @click="handleClickFilterIsRead(null)"
+              >
+                Tout
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                :class="props.isRead === 'false' ? 'active' : ''"
+                @click="handleClickFilterIsRead('false')"
+              >
+                Non lûs
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                :class="props.isRead === 'true' ? 'active' : ''"
+                @click="handleClickFilterIsRead('true')"
+              >
+                Lûs
+              </button>
+            </div>
             <i
-              class="bx bx-refresh cursor-pointer d-sm-block d-none me-3 fs-4"
+              class="bx bx-refresh cursor-pointer d-sm-block d-none mx-3 fs-4"
               @click="handleClickRefresh"
             ></i>
             <div class="dropdown">
@@ -162,8 +188,10 @@ const $ = window.jQuery
 const div = ref(null)
 const message = ref('')
 const isHover = ref(null)
-const props = defineProps(['contact', 'messages'])
-const emit = defineEmits(['notify', 'refresh', 'remove', 'toggle-is-read'])
+const props = defineProps(['contact', 'messages', 'isRead'])
+console.log(props.isRead)
+
+const emit = defineEmits(['notify', 'refresh', 'remove', 'toggle-is-read', 'filter-is-read'])
 const handleClickSubmit = () => {
   emit('notify', message.value)
 }
@@ -177,6 +205,9 @@ const handleClickRemove = (id) => {
 const handleClickToggleIsRead = (id) => {
   emit('toggle-is-read', id)
   hideTooltips()
+}
+const handleClickFilterIsRead = (f) => {
+  emit('filter-is-read', f)
 }
 const getAvatar = () => {
   if (props.contact && props.contact._id) {

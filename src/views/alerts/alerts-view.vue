@@ -12,10 +12,12 @@
         v-if="selected"
         :contact="selected"
         :messages="alerts"
+        :isRead="filterIsRead"
         @refresh="handleRefresh"
         @remove="handleRemove"
         @toggle-is-read="handleToggleIsRead"
         @notify="handleNotifyConsultant"
+        @filter-is-read="handleFilterIsRead"
       />
     </div>
   </div>
@@ -63,7 +65,7 @@ const alerts = ref(null)
 const retrieveAlerts = async (id) => {
   try {
     loadingAlerts.value = true
-    const { data } = await getAlerts({ consultant: id })
+    const { data } = await getAlerts({ consultant: id, isRead: filterIsRead.value })
     alerts.value = data
     loadingAlerts.value = false
   } catch (error) {
@@ -112,6 +114,11 @@ const handleToggleIsRead = (id) => {
     }
   }
   fn()
+}
+const filterIsRead = ref(null)
+const handleFilterIsRead = (f) => {
+  filterIsRead.value = f
+  retrieveAlerts(selected.value._id)
 }
 </script>
 
