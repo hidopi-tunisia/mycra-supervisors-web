@@ -18,6 +18,7 @@
         @toggle-is-read="handleToggleIsRead"
         @notify="handleNotifyConsultant"
         @filter-is-read="handleFilterIsRead"
+        @assign-project="handleAssignProject"
       />
     </div>
   </div>
@@ -29,6 +30,9 @@ import { deleteAlert, getAlerts, toggleAlertIsRead } from '@/domain/alerts'
 import AlertsContacts from '@/components/alerts/contacts/alerts-contacts.vue'
 import AlertsHistory from '@/components/alerts/history/alerts-history.vue'
 import { ref } from 'vue'
+import Picker from '@/components/shared/pickers/projects-picker'
+import { assignConsultantToProject } from '@/domain/projects'
+import Swal from 'sweetalert2'
 
 const selected = ref(null)
 const handleSelect = (i) => {
@@ -109,6 +113,29 @@ const handleToggleIsRead = (id) => {
         alert._id === id ? { ...alert, isRead: true } : alert
       )
       await toggleAlertIsRead(id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
+}
+const handleAssignProject = (id) => {
+  console.log(id)
+
+  const fn = async () => {
+    try {
+      const project = await Picker.pick()
+      await assignConsultantToProject({
+        id: project._id,
+        clientId: project?.client._id,
+        consultantId: id
+      })
+      Swal.fire({
+        title: 'Consultant assigné au projet',
+        text: `Le consultant a été assigné au projet avec succès.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
     } catch (error) {
       console.log(error)
     }

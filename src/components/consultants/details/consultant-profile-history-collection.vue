@@ -34,9 +34,7 @@
           CRA du {{ months[selected.date.month] }} {{ selected.date.year }}
           <span>
             -
-            {{
-              selected.working.length + selected.remote.length + 0.5 * selected.half.length
-            }}
+            {{ selected.working.length + selected.remote.length + 0.5 * selected.half.length }}
             jours travaillés</span
           >
           <span class="badge bg-primary float-end" v-if="selected.status === 'submitted'"
@@ -51,13 +49,16 @@
         </h5>
         <div class="card-body" v-if="selected">
           <p v-if="selected.status === 'submitted'">
-            Le CRA a été envoyé à <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
+            Le CRA a été envoyé à
+            <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
           <p v-if="selected.status === 'approved'">
-            Le CRA est apprové le <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
+            Le CRA est apprové le
+            <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
           <p v-if="selected.status === 'rejected'">
-            Le a été rejeté le <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
+            Le a été rejeté le
+            <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
           <Calendar :selected="selected" @click-day="handleClickDay" class="mx-sm-auto mb-4" />
           <span class="badge rounded-pill day-working mx-1 mb-1"
@@ -108,19 +109,21 @@
 <script setup lang="ts">
 import ConsultantProfileHistoryCollectionItem from '@/components/consultants/details/consultant-profile-history-collection-item.vue'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue'
 const props = defineProps(['history', 'selected', 'years', 'current'])
 let action = ref(null)
-if (props.selected.status === 'pending') {
-  action.value = props.selected.history.filter(({ action }) => action === 'submitted')
-} else if (props.selected.status === 'approved') {
-  action.value = props.selected.history.filter(({ action }) => action === 'approved')
-} else if (props.selected.status === 'rejected') {
-  action.value = props.selected.history.filter(({ action }) => action === 'rejected')
+if (props.selected) {
+  if (props.selected.status === 'pending') {
+    action.value = props.selected.history.filter(({ action }) => action === 'submitted')
+  } else if (props.selected.status === 'approved') {
+    action.value = props.selected.history.filter(({ action }) => action === 'approved')
+  } else if (props.selected.status === 'rejected') {
+    action.value = props.selected.history.filter(({ action }) => action === 'rejected')
+  }
+  action.value = action.value.sort((a, b) => {
+    b.meta.at - a.meta.at
+  })[0]
 }
-action.value = action.value.sort((a, b) => {
-  b.meta.at - a.meta.at
-})[0]
 const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve'])
 const handleClickDay = (d) => {
   emit('click-day', d)

@@ -68,8 +68,12 @@
                 <i class="bx bx-dots-vertical-rounded fs-4"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="chat-header-actions">
-                <a class="dropdown-item" href="javascript:void(0);">Voir details</a>
-                <a class="dropdown-item" href="javascript:void(0);">Affecter à un projet</a>
+                <router-link :to="'/consultants/' + props.contact?._id">
+                  <a class="dropdown-item" href="#">Voir details</a>
+                </router-link>
+                <button class="dropdown-item" @click="handleClickAssignProject(props.contact?._id)">
+                  Affecter à un projet
+                </button>
               </div>
             </div>
           </div>
@@ -189,9 +193,14 @@ const div = ref(null)
 const message = ref('')
 const isHover = ref(null)
 const props = defineProps(['contact', 'messages', 'isRead'])
-console.log(props.isRead)
-
-const emit = defineEmits(['notify', 'refresh', 'remove', 'toggle-is-read', 'filter-is-read'])
+const emit = defineEmits([
+  'notify',
+  'refresh',
+  'remove',
+  'toggle-is-read',
+  'filter-is-read',
+  'assign-project'
+])
 const handleClickSubmit = () => {
   emit('notify', message.value)
 }
@@ -209,6 +218,7 @@ const handleClickToggleIsRead = (id) => {
 const handleClickFilterIsRead = (f) => {
   emit('filter-is-read', f)
 }
+const handleClickAssignProject = (id) => [emit('assign-project', id)]
 const getAvatar = () => {
   if (props.contact && props.contact._id) {
     return `data:image/svg+xml;utf8,${generateFromString(props.contact?._id)}`

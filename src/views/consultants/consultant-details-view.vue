@@ -130,7 +130,7 @@ const handleSubmit = (payload) => {
   }
   fn()
 }
-const tab = ref('history')
+const tab = ref('profile')
 const handleClickTab = (t) => {
   tab.value = t
 }
