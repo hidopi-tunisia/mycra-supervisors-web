@@ -8,14 +8,22 @@
         @select="handleSelect"
         @search="handleSearch"
       />
-      <alerts-history v-if="selected" :contact="selected" :messages="alerts" />
+      <alerts-history
+        v-if="selected"
+        :contact="selected"
+        :messages="alerts"
+        @refresh="handleRefresh"
+        @remove="handleRemove"
+        @toggle-is-read="handleToggleIsRead"
+        @notify="handleNotifyConsultant"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getConsultants } from '@/domain/consultants'
-import { getAlerts } from '@/domain/alerts'
+import { deleteAlert, getAlerts, toggleAlertIsRead } from '@/domain/alerts'
 import AlertsContacts from '@/components/alerts/contacts/alerts-contacts.vue'
 import AlertsHistory from '@/components/alerts/history/alerts-history.vue'
 import { ref } from 'vue'
@@ -64,6 +72,12 @@ const retrieveAlerts = async (id) => {
     console.log(error.response.data)
   }
 }
+const handleNotifyConsultant = (message) => {
+  const fn = async () => {
+    alert(selected.value._id + message)
+  }
+  fn()
+}
 const handleSearch = (value) => {
   filtered.value = results.value.filter((d) => {
     return (
@@ -71,6 +85,33 @@ const handleSearch = (value) => {
       d.lastName.toLowerCase().includes(value.toLowerCase())
     )
   })
+}
+const handleRefresh = () => {
+  retrieveAlerts(selected.value._id)
+}
+const handleRemove = (id) => {
+  const fn = async () => {
+    try {
+      alerts.value = alerts.value.filter(({ _id }) => _id !== id)
+      deleteAlert(id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
+}
+const handleToggleIsRead = (id) => {
+  const fn = async () => {
+    try {
+      alerts.value = alerts.value.map((alert) =>
+        alert._id === id ? { ...alert, isRead: true } : alert
+      )
+      await toggleAlertIsRead(id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
 }
 </script>
 

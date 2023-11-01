@@ -24,4 +24,20 @@ const getAlerts = async ({
     }
   )
 }
-export { getAlerts }
+const toggleAlertIsRead = async (id) => {
+  const authorization = await getAuthorization()
+  return axios.patch(`${ENDPOINT}/me/alerts/${id}/is-read`, null, {
+    headers: {
+      authorization
+    }
+  })
+}
+const deleteAlert = async (id) => {
+  const authorization = await getAuthorization()
+  return axios.delete(`${ENDPOINT}/me/alerts/${id}`, {
+    headers: {
+      authorization
+    }
+  })
+}
+export { getAlerts, toggleAlertIsRead, deleteAlert }
