@@ -133,7 +133,7 @@ const handleSubmit = () => {
           const year = new Date().getFullYear()
           const month = new Date().getMonth()
           const date = `${year}_${month}`
-          const condition = `supervisors~${uid}_consultants in topics && !(supervisors~${uid}_cras_${date} in topics)`
+          const condition = `'supervisors~${uid}_consultants' in topics && !('supervisors~${uid}_cras_${date}' in topics)`
           payload['condition'] = condition
         }
         await send(payload)

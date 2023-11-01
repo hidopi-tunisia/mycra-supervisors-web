@@ -120,8 +120,6 @@ const handleToggleIsRead = (id) => {
   fn()
 }
 const handleAssignProject = (id) => {
-  console.log(id)
-
   const fn = async () => {
     try {
       const project = await Picker.pick()

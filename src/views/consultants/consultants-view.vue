@@ -97,6 +97,8 @@ import Swal from 'sweetalert2'
 import { ref } from 'vue'
 import { getConsultantsCount } from '@/domain/statistics/consultants'
 import { assignConsultantToProject } from '@/domain/projects'
+import { send } from '@/domain/messaging'
+import { currentUser } from '@/domain/auth'
 
 const count = ref(null)
 const retrieveCount = () => {
@@ -189,17 +191,51 @@ const handleSizeChange = (s) => {
   retrieve()
 }
 const handleClickNotifyRest = () => {
-  const fn = async () => {
-    const message = await ConsultantsNotifier.notify()
-    console.log(message)
-    Swal.fire({
-      title: 'Consultants notifés',
-      text: `Le notification a été envoyé vers les consultant.`,
-      icon: 'success',
-      confirmButtonText: 'OK'
-    })
-  }
-  fn()
+  Swal.fire({
+    title: 'Êtes-vous sûr de vouloir envoyer la notification ?',
+    text: 'Cette action est irriversible',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, envoyer !'
+  }).then(async ({ isConfirmed }) => {
+    if (isConfirmed) {
+      try {
+        const { uid } = currentUser()
+        const body = await ConsultantsNotifier.notify("Notifier le reste")
+        const payload = {
+          notification: {
+            title: 'My CRA',
+            body: body
+          },
+          data: {
+            title: 'My CRA',
+            body: body
+          }
+        }
+        const year = new Date().getFullYear()
+        const month = new Date().getMonth()
+        const date = `${year}_${month}`
+        const condition = `'supervisors~${uid}_consultants' in topics && !('supervisors~${uid}_cras_${date}' in topics)`
+        payload['condition'] = condition
+        await send(payload)
+        Swal.fire({
+          title: 'Notification envoyée',
+          text: 'La notification a été envoyé avec succès.',
+          icon: 'success'
+        })
+      } catch (error) {
+        console.log(error)
+        Swal.fire({
+          title: `Erreur servenue`,
+          text: `Une erreur est servenue, ${error.response.data.message}`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
+      }
+    }
+  })
 }
 const handleAssignProject = (id) => {
   const fn = async () => {
@@ -229,7 +265,19 @@ const handleNotifyConsultant = (id) => {
     const consultant = results.value.find(({ _id }) => _id === id)
     if (consultant) {
       const t = `${consultant.firstName} ${consultant.lastName}`
-      const message = await ConsultantsNotifier.notify(t)
+      const body = await ConsultantsNotifier.notify(t)
+      const payload = {
+        notification: {
+          title: 'My CRA',
+          body: body
+        },
+        data: {
+          title: 'My CRA',
+          body: body
+        },
+        topic: `consultants~${id}`
+      }
+      await send(payload)
       Swal.fire({
         title: 'Consultant notifé',
         text: `Le notification a été envoyé vers le consultant ${t} avec succès.`,
