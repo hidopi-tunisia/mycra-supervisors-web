@@ -49,7 +49,25 @@
                   </div>
                   <div class="row">
                     <div class="col-12 col-md-12 my-3">
-                      <label for="textarea-notification-message" class="form-label">Message</label>
+                      <div class="d-flex justify-content-between">
+                        <label for="note" class="form-label"
+                          >Message
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-simple"
+                            @click="handleClickRestoreIntialMessage"
+                          >
+                            Restaurer le message initial
+                          </button>
+                        </label>
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-danger mb-1"
+                          @click="handleClickDeleteMessage"
+                        >
+                          Vider
+                        </button>
+                      </div>
                       <textarea
                         type="text"
                         id="textarea-notification-message"
@@ -84,7 +102,8 @@ import Swal from 'sweetalert2'
 import { ref } from 'vue'
 const { uid } = currentUser()
 const checked = ref('consultants')
-const body = ref('Merci de saisir le CRA')
+const INITIAL_MESSAGE = `Merci de saisir le CRA`
+const body = ref(INITIAL_MESSAGE)
 const handleSubmit = () => {
   Swal.fire({
     title: 'Êtes-vous sûr de vouloir envoyer la notification ?',
@@ -134,6 +153,12 @@ const handleSubmit = () => {
       }
     }
   })
+}
+const handleClickRestoreIntialMessage = () => {
+  body.value = INITIAL_MESSAGE
+}
+const handleClickDeleteMessage = () => {
+  body.value = ''
 }
 </script>
 
