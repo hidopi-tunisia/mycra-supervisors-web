@@ -33,6 +33,7 @@ import { ref } from 'vue'
 import Picker from '@/components/shared/pickers/projects-picker'
 import { assignConsultantToProject } from '@/domain/projects'
 import Swal from 'sweetalert2'
+import { send } from '@/domain/messaging'
 
 const selected = ref(null)
 const handleSelect = (i) => {
@@ -78,9 +79,26 @@ const retrieveAlerts = async (id) => {
     console.log(error.response.data)
   }
 }
-const handleNotifyConsultant = (message) => {
+const handleNotifyConsultant = (body) => {
   const fn = async () => {
-    alert(selected.value._id + message)
+    const payload = {
+        notification: {
+          title: 'My CRA',
+          body
+        },
+        data: {
+          title: 'My CRA',
+          body
+        },
+        topic: `consultants~${selected.value._id}`
+      }
+      await send(payload)
+      Swal.fire({
+        title: 'Consultant notifé',
+        text: `Le notification a été envoyé vers le consultant ${t} avec succès.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
   }
   fn()
 }
