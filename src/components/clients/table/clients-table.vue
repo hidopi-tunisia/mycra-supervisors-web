@@ -34,20 +34,21 @@
         </tbody>
         <tfoot>
           <div class="row">
-            <div class="col-6">
+            <div class="col-xs-12 col-sm-6">
               <table-pagination
                 :pages="pages"
                 :current="currentPage"
                 @change="handleChangePagination"
               />
             </div>
-            <div class="col-6">
+            <div class="col-xs-12 col-sm-6">
               <table-size :sizes="sizes" :current="currentSize" @change="handleChangeSize" />
             </div>
           </div>
         </tfoot>
       </table>
     </div>
+    <div class="card-footer d-sm-none"></div>
   </div>
 </template>
 

@@ -6,28 +6,64 @@
         <div class="row">
           <div class="col-xs-12 col-lg-6">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
-              <img
-                :src="
-                  newProfile.company?.logo
-                    ? newProfile.company?.logo
-                    : '/assets/img/avatars/company-placeholder.png'
-                "
-                alt="user-avatar"
-                class="d-block rounded"
-                height="100"
-                width="100"
-                id="profilePhoto"
-              />
+              <div class="rounded img-loading">
+                <div class="loading-container" v-show="props.loadingProgress">
+                  <div class="spinner-border text-white" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div v-if="props.isUpdate">
+                  <img
+                    :src="
+                      newProfile.company?.logo
+                        ? newProfile.company?.logo
+                        : '/assets/img/avatars/company-placeholder.png'
+                    "
+                    alt="user-avatar"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="companyLogo"
+                  />
+                </div>
+                <div v-else>
+                  <img
+                    :src="props.file"
+                    alt="user-avatar"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="companyLogo"
+                    v-if="props.file"
+                  />
+                  <img
+                    src="/assets/img/avatars/company-placeholder.png"
+                    alt="user-avatar"
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="companyLogo"
+                    v-else
+                  />
+                </div>
+              </div>
               <div class="button-wrapper">
-                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                <label
+                  for="upload"
+                  class="btn btn-primary me-2 mb-4"
+                  tabindex="0"
+                  :class="props.loadingProgress ? '' : 'btn-primary'"
+                >
                   <span class="d-none d-sm-block">Téléverser un logo</span>
                   <i class="bx bx-upload d-block d-sm-none"></i>
                   <input
                     type="file"
                     id="upload"
                     class="account-file-input"
-                    hidden
                     accept="image/png, image/jpeg"
+                    ref="file"
+                    hidden
+                    @change="handleFileChange"
                   />
                 </label>
                 <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
@@ -42,7 +78,7 @@
           <div class="col-xs-12 col-lg-6" v-if="props.isUpdate">
             <div class="row">
               <div class="col-6">
-                <div class="mb-2">Nom et prénom</div>
+                <div class="mb-2">Prénom et nom</div>
                 <div class="fw-bold">
                   <span v-show="newProfile.sex === 'male'">Mr.</span>
                   <span v-show="newProfile.sex === 'female'">Mme.</span>
@@ -115,7 +151,11 @@
               @input="
                 ({ target }) => {
                   newProfile.firstName = target.value
-                  representative = newProfile.firstName + ' ' + newProfile.lastName
+                  if (newProfile.lastName) {
+                    representative = newProfile.firstName + ' ' + newProfile.lastName
+                  } else {
+                    representative = newProfile.firstName
+                  }
                   newProfile.company = { ...newProfile.company, representative }
                 }
               "
@@ -133,7 +173,11 @@
               @input="
                 ({ target }) => {
                   newProfile.lastName = target.value
-                  representative = newProfile.firstName + ' ' + newProfile.lastName
+                  if (newProfile.firstName) {
+                    representative = newProfile.firstName + ' ' + newProfile.lastName
+                  } else {
+                    representative = newProfile.lastName
+                  }
                   newProfile.company = { ...newProfile.company, representative }
                 }
               "
@@ -351,9 +395,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import Swal from 'sweetalert2'
+import { ref, watchEffect } from 'vue'
 const note = ref('')
-const props = defineProps(['profile', 'isUpdate', 'loading'])
+const props = defineProps([
+  'profile',
+  'isUpdate',
+  'loading',
+  'loadingProgress',
+  'uploadProgress',
+  'file'
+])
 const representative = ref('')
 let newProfile = {}
 if (props.isUpdate) {
@@ -363,15 +415,55 @@ if (props.isUpdate) {
   }
   newProfile = { ...props.profile }
 }
-const emit = defineEmits(['submit'])
+watchEffect(() => {
+  if (props.isUpdate) {
+    newProfile = props.profile
+  }
+})
+const emit = defineEmits(['upload', 'submit'])
 const handleSubmit = () => {
   const payload = { ...newProfile }
   emit('submit', payload)
+}
+const handleFileChange = ({ target }) => {
+  if (target && target.files) {
+    const { files } = target
+
+    // 1MB
+    if (files[0] && files[0].size < 1024 * 1024) {
+      emit('upload', files[0])
+    } else {
+      Swal.fire({
+        title: `Image trop large`,
+        text: 'Merci de choisir une image de taille < 1 Mo',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
 .btn-submit {
   width: 200px;
+}
+.img-loading {
+  height: 100px;
+  width: 100px;
+  border: 1px solid white;
+  border-radius: 8px;
+}
+.loading-container {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border: 1px solid gray;
+  border-radius: 8px;
+  background-color: #21212166;
 }
 </style>

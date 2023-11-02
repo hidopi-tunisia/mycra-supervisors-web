@@ -8,7 +8,7 @@
           :src="props.item!.company?.logo"
         />
         <img class="avatar rounded mx-1" v-else src="/assets/img/avatars/company-placeholder.png" />
-        <strong class="text-gray">{{ props.item!.company.name }}</strong>
+        <strong class="text-gray mx-1">{{ props.item!.company.name }}</strong>
         <i class="bx bx-link-external text-gray mx-1"></i>
       </router-link>
     </td>

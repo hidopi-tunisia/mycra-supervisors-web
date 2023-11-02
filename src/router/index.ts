@@ -8,6 +8,7 @@ import HomeView from '@/views/home/home-view.vue'
 import MeView from '@/views/me/me-view.vue'
 import NotificationsView from '@/views/notifications/notifications-view.vue'
 import ProjectsView from '@/views/projects/projects-view.vue'
+import AlertsView from '@/views/alerts/alerts-view.vue'
 import AboutView from '@/views/about/about-view.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 const router = createRouter({
@@ -64,13 +65,13 @@ const router = createRouter({
       component: MeView
     },
     {
-      path: '/about',
-      name: 'about',
-      component: AboutView
-    },
-    {
       path: '/alerts',
       name: 'alerts',
+      component: AlertsView
+    },
+    {
+      path: '/about',
+      name: 'about',
       component: AboutView
     },
     {

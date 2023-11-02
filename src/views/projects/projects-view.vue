@@ -184,9 +184,9 @@ const handleToggleStatus = ({ id, clientId }) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await toggleProjectStatus({ id, clientId })
+          Swal.fire('Statut changé !', 'Le statut du projet a été changé avec succès.', 'success')
           retrieveCount()
           retrieve()
-          Swal.fire('Statut changé !', 'Le statut du projet a été changé avec succès.', 'success')
         }
       })
     } catch (error) {
@@ -210,8 +210,9 @@ const handleDeleteProject = (id) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await deleteProject(id)
-          retrieve()
           Swal.fire('Supprimé !', 'Le projet a été supprimé avec succès.', 'success')
+          retrieve()
+          retrieveCount()
         }
       })
     } catch (error) {
@@ -268,13 +269,25 @@ const handleCreateProject = (p) => {
         modalCreateProject.value.hide()
         const clientId = client.value._id
         client.value = null
-        await createProject(clientId, p)
-        retrieve()
+        const { data } = await createProject(clientId, p)
         Swal.fire({
           title: `Projet crée`,
           text: 'Le projet a été créé avec succès',
           icon: 'info',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
+          showDenyButton: true,
+          denyButtonText: 'Rendre actif',
+          denyButtonColor: '#4CAF50'
+        }).then(async ({ isDenied }) => {
+          if (isDenied) {
+            try {
+              await toggleProjectStatus({ id: data._id, clientId })
+            } catch (error) {
+              console.log(error)
+            }
+          }
+          retrieve()
+          retrieveCount()
         })
       }
     } catch (error) {

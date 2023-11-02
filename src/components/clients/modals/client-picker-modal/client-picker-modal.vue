@@ -56,7 +56,7 @@
             </div>
             <div class="col-xs-12 col-lg-7">
               <div class="mt-4 d-lg-none"></div>
-              <client-summary v-if="selected" :data="selected" />
+              <client-summary v-if="selected" :data="selected" :projects="projects" />
             </div>
           </div>
           <div class="row" v-else>
@@ -104,9 +104,25 @@ import Item from './client-picker-modal-item.vue'
 import ClientSummary from '@/components/clients/details/client-summary.vue'
 import { ref } from 'vue'
 import { getClients } from '@/domain/clients'
+import { getProjectsCount } from '@/domain/statistics/projects'
 
 const $ = window.jQuery
 
+const projects = ref(null)
+const handleSelect = (i) => {
+  projects.value = null
+  selected.value = results.value.find(({ _id }) => _id === i._id)
+  const rp = async () => {
+    try {
+      const { data } = await getProjectsCount({ client: i._id, status: 'active' })
+      projects.value = data.count
+    } catch (error) {
+      projects.value = null
+      console.log(error)
+    }
+  }
+  rp()
+}
 const selected = ref(null)
 const results = ref(null)
 const filtered = ref(null)
@@ -120,7 +136,7 @@ const fn = async () => {
     loading.value = true
     const { data } = await getClients()
     results.value = data
-    selected.value = data[0]
+    handleSelect(data[0])
     filtered.value = data
     loading.value = false
   } catch (error) {
@@ -142,9 +158,6 @@ const handleInputSearch = (value) => {
 let callback
 const handleConfirm = () => {
   callback(selected.value)
-}
-const handleSelect = (i) => {
-  selected.value = results.value.find(({ _id }) => _id === i._id)
 }
 const onPositive = (cb) => {
   callback = cb

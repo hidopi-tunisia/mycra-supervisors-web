@@ -50,7 +50,9 @@
                 <span v-else> Sélectionner un client</span>
               </button>
             </div>
-            <small id="errorMissingClient" class="form-text text-danger" v-if="errorMissingClient">Merci de sélectionner un client</small>
+            <small id="errorMissingClient" class="form-text text-danger" v-if="errorMissingClient"
+              >Merci de sélectionner un client</small
+            >
           </div>
           <div class="row g-2 mt-3">
             <div class="col mb-3">
@@ -148,9 +150,11 @@ const handleClickAssignClient = () => {
   emit('assign-client')
 }
 const show = () => {
+  payload = {}
   $('#project-create-modal').modal('show')
 }
 const hide = () => {
+  payload = {}
   $('#project-create-modal').modal('hide')
 }
 defineExpose({ show, hide })

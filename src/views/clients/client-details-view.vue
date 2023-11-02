@@ -17,6 +17,9 @@
     v-if="result"
     :profile="result"
     :loading="loading"
+    :loadingProgress="loadingProgress"
+    :uploadProgress="uploadProgress"
+    @upload="handleUpload"
     @submit="handleSubmit"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
@@ -29,6 +32,7 @@
 
 <script setup lang="ts">
 import ClientProfileForm from '@/components/clients/forms/client-profile-form.vue'
+import { upload } from '@/domain/buckets'
 import { getClient, updateClient } from '@/domain/clients'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
@@ -84,6 +88,34 @@ const handleSubmit = (payload) => {
     }
   }
   fn()
+}
+const uploadProgress = ref(null)
+const loadingProgress = ref(false)
+const errorProgress = ref(null)
+const handleUpload = (file) => {
+  const onComplete = async (profilePhoto) => {
+    const { data } = await updateClient(id, {
+      ...result.value,
+      company: { ...result.value.company, logo: profilePhoto }
+    })
+    result.value = data
+    loadingProgress.value = false
+  }
+  const onProgress = ({ transferred, total }) => {
+    loadingProgress.value = true
+    uploadProgress.value = Math.round((transferred / total) * 100)
+  }
+  const onError = (error) => {
+    uploadProgress.value = null
+    console.info(error)
+  }
+  upload({
+    path: `avatars/${id}`,
+    data: file,
+    onError,
+    onProgress,
+    onComplete
+  })
 }
 </script>
 

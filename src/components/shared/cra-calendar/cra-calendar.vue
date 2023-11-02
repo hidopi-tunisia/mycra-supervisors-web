@@ -8,33 +8,34 @@
       <div class="calendar__day">J</div>
       <div class="calendar__day">V</div>
       <div class="calendar__day">S</div>
-      <div class="calendar__number"></div>
-      <div class="calendar__number"></div>
-      <div class="calendar__number"></div>
       <div
         class="calendar__number"
         :key="d"
+        v-if="days"
         v-for="d in days"
-        :class="randomType()"
+        :class="'day-' + d.type"
         @click="handleClickDay(d)"
       >
-        {{ d }}
+        {{ Number(d.date.substring(8)) }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, toRaw } from 'vue'
+import { populateDays } from './utils'
 const props = defineProps(['selected'])
-const days = 30
-const types = ['working', 'half', 'remote', 'off']
+const days = ref(null)
+if (toRaw(props.selected)) {
+  days.value = populateDays(toRaw(props.selected)).sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  )
+}
+
 const emit = defineEmits(['click-day'])
 const handleClickDay = (d) => {
   emit('click-day', d)
-}
-const randomType = () => {
-  const type = types[Math.floor(Math.random() * types.length)]
-  return 'day-' + type
 }
 </script>
 
@@ -64,5 +65,17 @@ const randomType = () => {
   border-radius: 32px;
   border: 2px solid #f44336;
   color: #f44336;
+}
+.day-weekend {
+  background-color: white !important;
+  border-radius: 32px;
+  border: 2px solid #4caf50;
+  color: #4caf50;
+}
+.day-holiday {
+  background-color: white !important;
+  border-radius: 32px;
+  border: 2px solid #4caf50;
+  color: #4caf50;
 }
 </style>
