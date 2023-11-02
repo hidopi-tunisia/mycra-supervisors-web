@@ -53,7 +53,16 @@ const addMarker = ({ lat, lon, photoURL, _id }) => {
                      style="width: 48px;
                        height: 48px;
                        border-radius: 24px;
-                       border: 2px solid white;" />`
+                       border: 2px solid white;
+                       box-shadow: 0px 5px  rgba(0,0,0,0.4);
+                      -moz-box-shadow: 0px 5px  rgba(0,0,0,0.4);
+                      -webkit-box-shadow: 0px 5px  rgba(0,0,0,0.4);
+                      -o-box-shadow: 0px 5px  rgba(0,0,0,0.4);" 
+                      data-bs-toggle="tooltip"
+                      data-popup="tooltip-custom"
+                      data-bs-placement="top"
+                      title="Alan Baker"
+                    />`
   const icon = L.divIcon({
     html
   })
