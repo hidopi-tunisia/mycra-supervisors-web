@@ -300,7 +300,13 @@
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="city" class="form-label required">Ville</label>
+            <div class="d-flex flex-row justify-content-between">
+              <label for="city" class="form-label required">Ville</label>
+              <span class="form-label with-pointer" @click="handleClickPickLocation"
+                >Emplacement <i class="bx bx-map"></i
+              ></span>
+            </div>
+            {{ props.location }}
             <input
               class="form-control"
               type="text"
@@ -398,20 +404,27 @@
 import Swal from 'sweetalert2'
 import { ref, watchEffect } from 'vue'
 const note = ref('')
+const representative = ref('')
+const location = ref(null)
 const props = defineProps([
   'profile',
   'isUpdate',
   'loading',
   'loadingProgress',
   'uploadProgress',
-  'file'
+  'file',
+  'location'
 ])
-const representative = ref('')
 let newProfile = {}
 if (props.isUpdate) {
-  if (props.profile.note) {
+  if (props.profile?.note) {
     note.value = props.profile.note
-    representative.value = props.profile.company?.representative
+  }
+  if (props.profile.company?.representative) {
+    representative.value = props.profile.company.representative
+  }
+  if (props.profile?.company?.address?.location) {
+    location.value = props.profile.company.address.location
   }
   newProfile = { ...props.profile }
 }
@@ -420,7 +433,7 @@ watchEffect(() => {
     newProfile = props.profile
   }
 })
-const emit = defineEmits(['upload', 'submit'])
+const emit = defineEmits(['upload', 'submit', 'pick-location'])
 const handleSubmit = () => {
   const payload = { ...newProfile }
   emit('submit', payload)
@@ -441,6 +454,9 @@ const handleFileChange = ({ target }) => {
       })
     }
   }
+}
+const handleClickPickLocation = () => {
+  emit('pick-location')
 }
 </script>
 

@@ -5,7 +5,9 @@
         <div class="d-flex align-items-end row">
           <div class="col-sm-7">
             <div class="card-body">
-              <h5 class="card-title text-primary">Bonjour John ! 🎉</h5>
+              <h5 class="card-title text-primary" v-if="profile">
+                Bonjour {{ profile?.firstName }} ! 🎉
+              </h5>
               <p class="mb-4">
                 Vous pouvez consulter votre profil en cliquant sur le bouton
                 <span class="fw-bold">Consulter mon profil</span>.
@@ -47,8 +49,23 @@
         />
       </div>
     </div>
-    <!-- Absences -->
-    <absences-chart />
+    <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+      <div class="card">
+        <div class="row row-bordered g-0">
+          <div class="col-md-12">
+            <div class="d-flex flex-row justify-content-between">
+              <h5 class="card-header">
+                Emplacement des consultants selons les projets
+              </h5>
+              <button class="btn btn-sm">Zoom pour tout</button>
+            </div>
+            <div ref="container" class="px-2">
+              <app-map />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--/ Total Revenue -->
     <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
       <div class="row">
@@ -95,13 +112,14 @@
 <script setup lang="ts">
 import { getProfile } from '@/domain/me'
 import CountCards from '@/components/home/count-cards.vue'
-import AbsencesChart from '@/components/home/absences-chart/chart.vue'
+import AppMap from '@/components/map/app-map.vue'
 import CrasChart from '@/components/home/cras-chart/chart.vue'
 import { onMounted, ref } from 'vue'
 import { getClientsCount } from '@/domain/statistics/clients'
 import { getConsultantsCount } from '@/domain/statistics/consultants'
 import { getProjectsCount } from '@/domain/statistics/projects'
 import { getAlertsCount } from '@/domain/statistics/alerts'
+import { getProjects } from '@/domain/projects'
 
 const counts = ref({
   projects: null,
@@ -143,7 +161,19 @@ const fn = async () => {
     console.log(error.response.data)
   }
 }
-// fn()
+fn()
+const projects = ref([])
+const retriveProjects = async () => {
+  try {
+    const { data } = await getProjects({ populate: 'consultants,client' })
+    projects.value = data
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+    console.log(error.response.data)
+  }
+}
+retriveProjects()
 const positions = ref([])
 const handleMove = (o, n) => {
   const arr = { ...positions.value }

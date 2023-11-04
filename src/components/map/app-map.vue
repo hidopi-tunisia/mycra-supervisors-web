@@ -3,28 +3,44 @@
   <div ref="markerDetails" id="marker-details"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watchEffect } from 'vue'
 import * as L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 let map
+let layer_markers
 const markerDetails = ref(null)
 const props = defineProps(['markers'])
 const emit = defineEmits(['click', 'click-marker', 'mouseover-marker'])
 onMounted(() => {
-  map = L.map('map').setView([0, 0], 5)
+  map = L.map('map').setView([48.8534951, 2.3483915], 10) // Paris
+  layer_markers = L.layerGroup().addTo(map)
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map)
   map.on('click', (e) => {
     emit('click', e)
   })
-  props.markers.forEach(({ lat, lon, photoURL, _id }) => {
-    addMarker({ lat, lon, photoURL, _id })
-  })
+  if (props.markers && Array.isArray(props.markers) && props.markers.length > 0) {
+    props.markers.forEach(({ lat, lon, photoURL, _id }) => {
+      if (_id) {
+        addAvatar({ lat, lon, photoURL, _id })
+      } else {
+        addMarker({ lat, lon, photoURL })
+      }
+    })
+  }
 })
 watchEffect(() => {
-  props.markers.forEach(({ lat, lon, photoURL, _id }) => {
-    if (map) addMarker({ lat, lon, photoURL, _id })
-  })
+  if (props.markers && Array.isArray(props.markers) && props.markers.length > 0) {
+    props.markers.forEach(({ lat, lon, photoURL, _id }) => {
+      if (map) {
+        if (_id) {
+          addAvatar({ lat, lon, photoURL, _id })
+        } else {
+          addMarker({ lat, lon, photoURL })
+        }
+      }
+    })
+  }
 })
 const handleMarkerClick = (e) => {
   emit('click-marker', e)
@@ -48,7 +64,29 @@ const zoomAll = () => {
   })
   map.fitBounds(bounds)
 }
-const addMarker = ({ lat, lon, photoURL, _id }) => {
+const pickLocation = ({ lat, lon }) => {
+  map.eachLayer((layer) => {
+    if (layer instanceof L.Marker) {
+      map.removeLayer(layer)
+    }
+  })
+  L.marker([lat, lon]).addTo(map)
+  map.setView([lat, lon], 13)
+}
+const addMarker = ({ lat, lon, photoURL }) => {
+  const html = `<img src="${photoURL}"
+                     style="width: 48px;
+                       height: 48px;"
+                    />`
+  const icon = L.divIcon({
+    html
+  })
+  const marker = L.marker([lat, lon], {
+    icon
+  })
+  marker.addTo(layer_markers).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
+}
+const addAvatar = ({ lat, lon, photoURL, _id }) => {
   const html = `<img src="${photoURL}"
                      style="width: 48px;
                        height: 48px;
@@ -72,12 +110,12 @@ const addMarker = ({ lat, lon, photoURL, _id }) => {
       _id
     }
   })
-  marker.addTo(map).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
+  marker.addTo(layer_markers).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
 }
-defineExpose({ zoomAll, search })
+defineExpose({ zoomAll, search, pickLocation })
 </script>
 <style scoped>
 .leaflet-container {
-  height: 500px;
+  height: 380px;
 }
 </style>

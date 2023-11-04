@@ -13,12 +13,14 @@
     </ol>
   </nav>
   <client-profile-form
-    isUpdate="true"
+    :isUpdate="true"
     v-if="result"
     :profile="result"
+    :location="location"
     :loading="loading"
     :loadingProgress="loadingProgress"
     :uploadProgress="uploadProgress"
+    @pick-location="handlePickLocation"
     @upload="handleUpload"
     @submit="handleSubmit"
   />
@@ -32,6 +34,7 @@
 
 <script setup lang="ts">
 import ClientProfileForm from '@/components/clients/forms/client-profile-form.vue'
+import Picker from '@/components/shared/pickers/location-picker'
 import { upload } from '@/domain/buckets'
 import { getClient, updateClient } from '@/domain/clients'
 import Swal from 'sweetalert2'
@@ -116,6 +119,13 @@ const handleUpload = (file) => {
     onProgress,
     onComplete
   })
+}
+const location = ref(null)
+const handlePickLocation = () => {
+  const fn = async () => {
+    location.value = await Picker.pick()
+  }
+  fn()
 }
 </script>
 
