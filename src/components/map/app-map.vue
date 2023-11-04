@@ -7,6 +7,7 @@
 import { ref, onMounted, watchEffect } from 'vue'
 import * as L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { generateFromString } from 'generate-avatar'
 let map
 let layer_markers
 const markerDetails = ref(null)
@@ -20,9 +21,9 @@ onMounted(() => {
     emit('click', e)
   })
   if (props.markers && Array.isArray(props.markers) && props.markers.length > 0) {
-    props.markers.forEach(({ lat, lon, photoURL, _id }) => {
+    props.markers.forEach(({ lat, lon, displayName, photoURL, _id, index }) => {
       if (_id) {
-        addAvatar({ lat, lon, photoURL, _id })
+        addAvatar({ lat, lon, displayName, photoURL, _id, index })
       } else {
         addMarker({ lat, lon, photoURL })
       }
@@ -31,10 +32,10 @@ onMounted(() => {
 })
 watchEffect(() => {
   if (props.markers && Array.isArray(props.markers) && props.markers.length > 0) {
-    props.markers.forEach(({ lat, lon, photoURL, _id }) => {
+    props.markers.forEach(({ lat, lon, displayName, photoURL, _id, index }) => {
       if (map) {
         if (_id) {
-          addAvatar({ lat, lon, photoURL, _id })
+          addAvatar({ lat, lon, displayName, photoURL, _id, index })
         } else {
           addMarker({ lat, lon, photoURL })
         }
@@ -86,7 +87,7 @@ const addMarker = ({ lat, lon, photoURL }) => {
   })
   marker.addTo(layer_markers).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
 }
-const addAvatar = ({ lat, lon, photoURL, _id }) => {
+const addAvatar = ({ lat, lon, displayName, photoURL, _id }) => {
   const html = `<img src="${photoURL}"
                      style="width: 48px;
                        height: 48px;
@@ -99,7 +100,7 @@ const addAvatar = ({ lat, lon, photoURL, _id }) => {
                       data-bs-toggle="tooltip"
                       data-popup="tooltip-custom"
                       data-bs-placement="top"
-                      title="Alan Baker"
+                      title="${displayName}"
                     />`
   const icon = L.divIcon({
     html
@@ -111,6 +112,10 @@ const addAvatar = ({ lat, lon, photoURL, _id }) => {
     }
   })
   marker.addTo(layer_markers).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
+}
+
+const getAvatar = (text) => {
+  return `data:image/svg+xml;utf8,${generateFromString(text)}`
 }
 defineExpose({ zoomAll, search, pickLocation })
 </script>

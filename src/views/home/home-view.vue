@@ -57,10 +57,10 @@
               <h5 class="card-header">
                 Emplacement des consultants selons les projets
               </h5>
-              <button class="btn btn-sm">Zoom pour tout</button>
+              <button class="btn btn-sm" @click="handleClickZoomOnAll">Zoom pour tout</button>
             </div>
             <div ref="container" class="px-2">
-              <app-map />
+              <app-map ref="map$" :markers="markers" />
             </div>
           </div>
         </div>
@@ -162,12 +162,24 @@ const fn = async () => {
   }
 }
 fn()
-const projects = ref([])
+const markers = ref([])
 const retriveProjects = async () => {
   try {
     const { data } = await getProjects({ populate: 'consultants,client' })
-    projects.value = data
-    console.log(data)
+    data.forEach(({ client, consultants }) => {
+      if (client?.company?.address?.lat && client?.company?.address?.lon) {
+        consultants.forEach(({ _id, firstName, lastName, profilePhoto }, index) => {
+          markers.value.push({
+            _id: _id,
+            lat: client?.company?.address?.lat,
+            lon: client?.company?.address?.lon + index * 0.0003,
+            displayName: firstName + ' ' + lastName,
+            photoURL: profilePhoto,
+            index
+          })
+        })
+      }
+    })
   } catch (error) {
     console.log(error)
     console.log(error.response.data)
@@ -193,4 +205,8 @@ onMounted(() => {
     positions.value = ps.split(',')
   }
 })
+const map$ = ref(null)
+const handleClickZoomOnAll = () => {
+  map$.value.zoomAll()
+}
 </script>
