@@ -12,6 +12,8 @@
   <client-profile-form
     :loading="loading"
     :file="uri"
+    :location="location"
+    @pick-location="handlePickLocation"
     @upload="handleUpload"
     @submit="handleSubmit"
   />
@@ -24,13 +26,23 @@ import { ref } from 'vue'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
 import { upload } from '@/domain/buckets'
+import Picker from '@/components/shared/pickers/location-picker'
 const { push } = useRouter()
 const result = ref(null)
 const loading = ref(false)
-const handleSubmit = (payload) => {
+const handleSubmit = (body) => {
   const fn = async () => {
     try {
       loading.value = true
+      let payload = { ...body }
+      if (location.value && !isNaN(location.value.lat) && !isNaN(location.value.lon)) {
+        const address = {
+          ...payload.company?.address,
+          lat: location.value.lat,
+          lon: location.value.lon
+        }
+        payload = { ...payload, company: { ...payload.company, address } }
+      }
       const { data } = await createClient(payload)
       updateProfilePhoto(data._id, data)
       result.value = data
@@ -108,6 +120,16 @@ const updateProfilePhoto = (id, data) => {
       onComplete
     })
   }
+}
+const location = ref(null)
+const handlePickLocation = () => {
+  const fn = async () => {
+    location.value = await Picker.pick({
+      lat: result?.value?.company?.address?.lat,
+      lon: result?.value?.company?.address?.lon
+    })
+  }
+  fn()
 }
 </script>
 

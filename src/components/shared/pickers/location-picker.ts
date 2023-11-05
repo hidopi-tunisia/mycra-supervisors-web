@@ -4,13 +4,15 @@ import Modal from '@/components/map/modals/location-picker-modal/location-picker
 
 const Picker = {
   instance: null,
+  initial_location: null,
   init() {
     const div = document.createElement('div')
     this.instance = createApp(Modal).use(router).mount(div)
     document.body.appendChild(this.instance.$el)
-    this.instance.show()
+    this.instance.show(this.initial_location)
   },
-  pick() {
+  pick(l?: { lat: number; lon: number }) {
+    this.initial_location = l
     this.init()
     this.instance.onHide(() => {
       this.instance.hide(() => {

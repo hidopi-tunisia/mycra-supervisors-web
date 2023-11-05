@@ -46,6 +46,7 @@
             <app-map
               ref="map$"
               v-if="markers"
+              :initial_location="selected"
               :markers="markers"
               @click="handleClick"
               @click-marker="handleClick"
@@ -111,10 +112,10 @@ const handleClick = (e) => {
   selected.value = { lat, lon }
 }
 const handleMarkerClick = ({ target }) => {
-  console.log(target.options.meta)
+  // console.log(target.options.meta)
 }
 const handleMarkerMouseover = ({ target }) => {
-  console.log(target.options.meta)
+  // console.log(target.options.meta)
 }
 const selected = ref(null)
 let callback
@@ -125,9 +126,13 @@ const onPositive = (cb) => {
   callback = cb
 }
 const isShown = ref(false)
-const show = () => {
+const show = ({ lat, lon }) => {
   setTimeout(() => {
     isShown.value = true
+    if (!isNaN(lat) && !isNaN(lon)) {
+      selected.value = { lat, lon }
+      markers.value.push({ lat, lon, photoURL: '/assets/img/icons/map-marker.png' })
+    }
   }, 500)
   $('#location-picker-modal').modal('show')
 }

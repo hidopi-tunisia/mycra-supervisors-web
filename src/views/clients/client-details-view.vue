@@ -59,10 +59,19 @@ const retrieve = async () => {
   }
 }
 retrieve()
-const handleSubmit = (payload) => {
+const handleSubmit = (body) => {
   const fn = async () => {
     try {
       loading.value = true
+      let payload = { ...body }
+      if (location.value && !isNaN(location.value.lat) && !isNaN(location.value.lon)) {
+        const address = {
+          ...payload.company?.address,
+          lat: location.value.lat,
+          lon: location.value.lon
+        }
+        payload = { ...payload, company: { ...payload.company, address } }
+      }
       const { data } = await updateClient(id, payload)
       result.value = data
       loading.value = false
@@ -123,7 +132,10 @@ const handleUpload = (file) => {
 const location = ref(null)
 const handlePickLocation = () => {
   const fn = async () => {
-    location.value = await Picker.pick()
+    location.value = await Picker.pick({
+      lat: result?.value?.company?.address?.lat,
+      lon: result?.value?.company?.address?.lon
+    })
   }
   fn()
 }

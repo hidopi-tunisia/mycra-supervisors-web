@@ -10,7 +10,6 @@ import NotificationsView from '@/views/notifications/notifications-view.vue'
 import ProjectsView from '@/views/projects/projects-view.vue'
 import AlertsView from '@/views/alerts/alerts-view.vue'
 import AboutView from '@/views/about/about-view.vue'
-import TestView from '@/views/test/test-view.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -79,11 +78,6 @@ const router = createRouter({
       path: '/upgrade',
       name: 'upgrade',
       component: AboutView
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: TestView
     }
   ]
 })

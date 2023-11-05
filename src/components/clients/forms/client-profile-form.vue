@@ -302,11 +302,12 @@
           <div class="mb-3 col-md-3">
             <div class="d-flex flex-row justify-content-between">
               <label for="city" class="form-label required">Ville</label>
-              <span class="form-label with-pointer" @click="handleClickPickLocation"
-                >Emplacement <i class="bx bx-map"></i
-              ></span>
+              <span class="form-label with-pointer" @click="handleClickPickLocation">
+                <span v-if="props.location">Changer l'emplacement</span>
+                <span v-else>Emplacement</span>
+                <i class="bx bx-map"> </i>
+              </span>
             </div>
-            {{ props.location }}
             <input
               class="form-control"
               type="text"

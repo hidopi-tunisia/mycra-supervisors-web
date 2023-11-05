@@ -182,6 +182,7 @@ const retriveProjects = async () => {
         })
       }
     })
+    map$.value.zoomAll()
   } catch (error) {
     console.log(error)
     console.log(error.response.data)

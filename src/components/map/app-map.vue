@@ -12,19 +12,34 @@ const $ = window.jQuery
 let map
 let layer_markers
 const markerDetails = ref(null)
-const props = defineProps(['markers'])
+export interface Props {
+  initial_location?: { lat: number; lon: number }
+  markers?: Array<L.Marker>
+}
+const props = withDefaults(defineProps<Props>(), {
+  initial_location: () => ({ lat: 48.8534951, lon: 2.3483915 }),
+  markers: () => []
+})
 const emit = defineEmits(['click', 'click-marker', 'mouseover-marker'])
 onMounted(() => {
-  map = L.map('map').setView([48.8534951, 2.3483915], 10) // Paris
+  if (
+    props.initial_location &&
+    !isNaN(props.initial_location?.lat) &&
+    !isNaN(props.initial_location?.lon)
+  ) {
+    map = L.map('map').setView([props.initial_location?.lat, props.initial_location?.lon], 10)
+  } else {
+    map = L.map('map').setView([48.8534951, 2.3483915], 10) // Paris
+  }
   layer_markers = L.layerGroup().addTo(map)
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map)
   map.on('click', (e) => {
     emit('click', e)
   })
   if (props.markers && Array.isArray(props.markers) && props.markers.length > 0) {
-    props.markers.forEach(({ lat, lon, displayName, photoURL, _id, index }) => {
+    props.markers.forEach(({ lat, lon, displayName, photoURL, _id }) => {
       if (_id) {
-        addAvatar({ lat, lon, displayName, photoURL, _id, index })
+        addAvatar({ lat, lon, displayName, photoURL, _id })
       } else {
         addMarker({ lat, lon, photoURL })
       }
@@ -33,10 +48,10 @@ onMounted(() => {
 })
 watchEffect(() => {
   if (props.markers && Array.isArray(props.markers) && props.markers.length > 0) {
-    props.markers.forEach(({ lat, lon, displayName, photoURL, _id, index }) => {
+    props.markers.forEach(({ lat, lon, displayName, photoURL, _id }) => {
       if (map) {
         if (_id) {
-          addAvatar({ lat, lon, displayName, photoURL, _id, index })
+          addAvatar({ lat, lon, displayName, photoURL, _id })
         } else {
           addMarker({ lat, lon, photoURL })
         }
@@ -82,7 +97,8 @@ const addMarker = ({ lat, lon, photoURL }) => {
                        height: 48px;"
                     />`
   const icon = L.divIcon({
-    html
+    html,
+    className: '-'
   })
   const marker = L.marker([lat, lon], {
     icon
@@ -104,7 +120,7 @@ const addAvatar = ({ lat, lon, displayName, photoURL, _id }) => {
                        box-shadow: 0px 5px rgba(0,0,0,0.4);
                       -moz-box-shadow: 0px 5px rgba(0,0,0,0.4);
                       -webkit-box-shadow: 0px 5px rgba(0,0,0,0.4);
-                      -o-box-shadow: 0px 5px rgba(0,0,0,0.4);" 
+                      -o-box-shadow: 0px 5px rgba(0,0,0,0.4);"
                       data-bs-toggle="tooltip"
                       data-popup="tooltip-custom"
                       data-bs-placement="top"
