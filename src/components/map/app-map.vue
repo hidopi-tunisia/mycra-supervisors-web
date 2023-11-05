@@ -8,6 +8,7 @@ import { ref, onMounted, watchEffect } from 'vue'
 import * as L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { generateFromString } from 'generate-avatar'
+const $ = window.jQuery
 let map
 let layer_markers
 const markerDetails = ref(null)
@@ -44,6 +45,7 @@ watchEffect(() => {
   }
 })
 const handleMarkerClick = (e) => {
+  hideTooltips()
   emit('click-marker', e)
 }
 const handleMarkerMouseover = (e) => {
@@ -88,22 +90,29 @@ const addMarker = ({ lat, lon, photoURL }) => {
   marker.addTo(layer_markers).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
 }
 const addAvatar = ({ lat, lon, displayName, photoURL, _id }) => {
-  const html = `<img src="${photoURL}"
+  let img
+  if (!photoURL) {
+    img = getAvatar(_id).replaceAll('"', "'")
+  } else {
+    img = photoURL
+  }
+  const html = `<img src="${img}"
                      style="width: 48px;
                        height: 48px;
                        border-radius: 24px;
                        border: 2px solid white;
-                       box-shadow: 0px 5px  rgba(0,0,0,0.4);
-                      -moz-box-shadow: 0px 5px  rgba(0,0,0,0.4);
-                      -webkit-box-shadow: 0px 5px  rgba(0,0,0,0.4);
-                      -o-box-shadow: 0px 5px  rgba(0,0,0,0.4);" 
+                       box-shadow: 0px 5px rgba(0,0,0,0.4);
+                      -moz-box-shadow: 0px 5px rgba(0,0,0,0.4);
+                      -webkit-box-shadow: 0px 5px rgba(0,0,0,0.4);
+                      -o-box-shadow: 0px 5px rgba(0,0,0,0.4);" 
                       data-bs-toggle="tooltip"
                       data-popup="tooltip-custom"
                       data-bs-placement="top"
                       title="${displayName}"
                     />`
   const icon = L.divIcon({
-    html
+    html,
+    className: '-'
   })
   const marker = L.marker([lat, lon], {
     icon,
@@ -113,7 +122,11 @@ const addAvatar = ({ lat, lon, displayName, photoURL, _id }) => {
   })
   marker.addTo(layer_markers).on('click', handleMarkerClick).on('mouseover', handleMarkerMouseover)
 }
-
+const hideTooltips = () => {
+  $.each($('.tooltip'), function (index, element) {
+    $(this).remove()
+  })
+}
 const getAvatar = (text) => {
   return `data:image/svg+xml;utf8,${generateFromString(text)}`
 }

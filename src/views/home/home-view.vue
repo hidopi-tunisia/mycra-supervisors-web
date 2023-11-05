@@ -60,7 +60,7 @@
               <button class="btn btn-sm" @click="handleClickZoomOnAll">Zoom pour tout</button>
             </div>
             <div ref="container" class="px-2">
-              <app-map ref="map$" :markers="markers" />
+              <app-map ref="map$" :markers="markers" @click-marker="handleClickMarker" />
             </div>
           </div>
         </div>
@@ -120,7 +120,9 @@ import { getConsultantsCount } from '@/domain/statistics/consultants'
 import { getProjectsCount } from '@/domain/statistics/projects'
 import { getAlertsCount } from '@/domain/statistics/alerts'
 import { getProjects } from '@/domain/projects'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const counts = ref({
   projects: null,
   clients: null,
@@ -205,6 +207,11 @@ onMounted(() => {
     positions.value = ps.split(',')
   }
 })
+const handleClickMarker = ({ target }) => {
+  if (target && target.options && target.options.meta && target.options.meta._id) {
+    router.push("/consultants/" + target.options?.meta?._id)
+  }
+}
 const map$ = ref(null)
 const handleClickZoomOnAll = () => {
   map$.value.zoomAll()
