@@ -13,12 +13,14 @@
     </ol>
   </nav>
   <client-profile-form
-    isUpdate="true"
+    :isUpdate="true"
     v-if="result"
     :profile="result"
+    :location="location"
     :loading="loading"
     :loadingProgress="loadingProgress"
     :uploadProgress="uploadProgress"
+    @pick-location="handlePickLocation"
     @upload="handleUpload"
     @submit="handleSubmit"
   />
@@ -32,6 +34,7 @@
 
 <script setup lang="ts">
 import ClientProfileForm from '@/components/clients/forms/client-profile-form.vue'
+import Picker from '@/components/shared/pickers/location-picker'
 import { upload } from '@/domain/buckets'
 import { getClient, updateClient } from '@/domain/clients'
 import Swal from 'sweetalert2'
@@ -56,10 +59,19 @@ const retrieve = async () => {
   }
 }
 retrieve()
-const handleSubmit = (payload) => {
+const handleSubmit = (body) => {
   const fn = async () => {
     try {
       loading.value = true
+      let payload = { ...body }
+      if (location.value && !isNaN(location.value.lat) && !isNaN(location.value.lon)) {
+        const address = {
+          ...payload.company?.address,
+          lat: location.value.lat,
+          lon: location.value.lon
+        }
+        payload = { ...payload, company: { ...payload.company, address } }
+      }
       const { data } = await updateClient(id, payload)
       result.value = data
       loading.value = false
@@ -116,6 +128,16 @@ const handleUpload = (file) => {
     onProgress,
     onComplete
   })
+}
+const location = ref(null)
+const handlePickLocation = () => {
+  const fn = async () => {
+    location.value = await Picker.pick({
+      lat: result?.value?.company?.address?.lat,
+      lon: result?.value?.company?.address?.lon
+    })
+  }
+  fn()
 }
 </script>
 

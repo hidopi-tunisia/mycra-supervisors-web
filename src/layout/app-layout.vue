@@ -9,8 +9,6 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <router-view></router-view>
           </div>
-          <router-link to="/test"><button>Test</button></router-link>
-
           <div class="content-backdrop fade"></div>
         </div>
       </div>

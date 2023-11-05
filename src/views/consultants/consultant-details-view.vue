@@ -32,7 +32,7 @@
   </ul>
   <consultant-profile-form
     v-if="tab === 'profile' && result"
-    isUpdate="true"
+    :isUpdate="true"
     :profile="result"
     :loading="loading"
     :loadingProgress="loadingProgress"
@@ -41,7 +41,7 @@
     @submit="handleSubmit"
   />
   <consultant-profile-history
-    isUpdate="true"
+    :isUpdate="true"
     v-if="tab === 'history' && history && visible"
     :profile="result"
     :history="history"
