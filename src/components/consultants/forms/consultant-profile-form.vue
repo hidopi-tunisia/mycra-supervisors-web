@@ -12,9 +12,13 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
                 </div>
-                <div v-if="props.isUpdate">
+                <div v-if="props.isUpdate && !props.file">
                   <img
-                    :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
+                    :src="
+                      newProfile.profilePhoto
+                        ? newProfile.profilePhoto
+                        : '/assets/img/avatars/avatar-placeholder.jpg'
+                    "
                     alt="user-avatar"
                     class="d-block rounded"
                     height="100"
