@@ -12,7 +12,7 @@
     <div class="mockup-content">
       <p class="mockup-content-text">{{ props.content }}</p>
     </div>
-    <img src="assets/img/mockups/iphone.png" class="mockup" />
+    <img src="/assets/img/mockups/iphone.png" class="mockup" />
   </div>
 </template>
 
