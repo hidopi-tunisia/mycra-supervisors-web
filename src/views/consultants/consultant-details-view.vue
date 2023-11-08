@@ -37,6 +37,8 @@
     :loading="loading"
     :loadingProgress="loadingProgress"
     :uploadProgress="uploadProgress"
+    :file="photo"
+    @reset-photo="handleResetPhoto"
     @upload="handleUpload"
     @submit="handleSubmit"
   />
@@ -67,6 +69,7 @@ import Swal from 'sweetalert2'
 import { upload } from '@/domain/buckets'
 import { getCRAs } from '@/domain/me'
 import { approveCRA, rejectCRA } from '@/domain/cras'
+import Toaster from '@/components/shared/toasts/toaster'
 const { push } = useRouter()
 const { params } = useRoute()
 const id = params.id as string
@@ -78,6 +81,7 @@ const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getConsultant(id)
+    console.log(data)
     const { data: historyData } = await getCRAs({ consultant: id, year: year.value })
     result.value = data
     history.value = historyData
@@ -111,11 +115,22 @@ const handleSubmit = (payload) => {
       }).then(({ isConfirmed, isDenied }) => {
         /* Read more about isConfirmed, isDenied below */
         if (isConfirmed) {
-          push(`/consultants/${data._id}`)
+          push(`/consultants`)
         } else if (isDenied) {
           push(`/consultants`)
         }
       })
+      if (photo.value) {
+        const url = await updateFile(photo.value, 'avatars/' + data._id)
+        const { data: c } = await getConsultant(data._id)
+        await updateConsultant(c._id, { profilePhoto: url })
+      }
+      if (file.value) {
+        const url = await updateFile(file.value, 'documents/skills/' + data._id)
+        const { data: c } = await getConsultant(data._id)
+        await updateConsultant(c._id, { skills: { ...c.skills, url } })
+      }
+      showToast()
     } catch (error) {
       loading.value = false
       console.log(error)
@@ -134,29 +149,46 @@ const tab = ref('profile')
 const handleClickTab = (t) => {
   tab.value = t
 }
+const uri = ref(null)
+const file = ref(null)
+const photo = ref(null)
 const uploadProgress = ref(null)
 const loadingProgress = ref(false)
 const errorProgress = ref(null)
-const handleUpload = (file) => {
-  const onComplete = async (profilePhoto) => {
-    const { data } = await updateConsultant(id, { profilePhoto })
-    result.value = data
-    loadingProgress.value = false
+const handleUpload = (f, path = 'avatars') => {
+  var reader = new FileReader()
+  reader.onloadend = function () {
+    uri.value = reader.result
+    if (path === 'documents/skills') {
+      file.value = reader.result
+    } else if (path === 'avatars') {
+      photo.value = reader.result
+    }
   }
-  const onProgress = ({ transferred, total }) => {
-    loadingProgress.value = true
-    uploadProgress.value = Math.round((transferred / total) * 100)
+  if (f) {
+    reader.readAsDataURL(f)
+  } else {
+    uri.value = null
   }
-  const onError = (error) => {
-    uploadProgress.value = null
-    console.info(error)
-  }
-  upload({
-    path: `avatars/${id}`,
-    data: file,
-    onError,
-    onProgress,
-    onComplete
+}
+const updateFile = (data, path = 'avatars') => {
+  return new Promise((resolve, reject) => {
+    const onComplete = async (url) => {
+      resolve(url)
+    }
+    const onProgress = ({ transferred, total }) => {
+      // console.log(transferred, total)
+    }
+    const onError = (error) => {
+      console.info(error)
+    }
+    upload({
+      path: `${path}`,
+      data,
+      onError,
+      onProgress,
+      onComplete
+    })
   })
 }
 const visible = ref(true)
@@ -227,6 +259,16 @@ const handleApprove = (id) => {
 const handleChangeYear = (y) => {
   year.value = Number(y)
   retrieve()
+}
+const handleResetPhoto = () => {
+  photo.value = null
+}
+const showToast = () => {
+  Toaster.show({
+    title: 'Consultant mis à jour',
+    description: 'Les fichiers téléversés du consultant sont à jour.',
+    small: 'il y 1 min'
+  })
 }
 </script>
 

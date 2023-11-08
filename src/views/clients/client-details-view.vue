@@ -15,11 +15,13 @@
   <client-profile-form
     :isUpdate="true"
     v-if="result"
+    :file="photo"
     :profile="result"
     :location="location"
     :loading="loading"
     :loadingProgress="loadingProgress"
     :uploadProgress="uploadProgress"
+    @reset-logo="handleResetLogo"
     @pick-location="handlePickLocation"
     @upload="handleUpload"
     @submit="handleSubmit"
@@ -35,6 +37,7 @@
 <script setup lang="ts">
 import ClientProfileForm from '@/components/clients/forms/client-profile-form.vue'
 import Picker from '@/components/shared/pickers/location-picker'
+import Toaster from '@/components/shared/toasts/toaster'
 import { upload } from '@/domain/buckets'
 import { getClient, updateClient } from '@/domain/clients'
 import Swal from 'sweetalert2'
@@ -77,7 +80,7 @@ const handleSubmit = (body) => {
       loading.value = false
       Swal.fire({
         title: `Client modifié`,
-        text: 'Le client a été modifié avec succès',
+        text: 'Le client a été modifié avec succès, téléversement des fichiers sera fait en arrière-plan',
         icon: 'info',
         showCancelButton: true,
         confirmButtonText: 'OK',
@@ -87,6 +90,17 @@ const handleSubmit = (body) => {
           push('/clients')
         }
       })
+      if (photo.value) {
+        const url = await updateFile(photo.value, 'logos/' + data._id)
+        const { data: c } = await getClient(data._id)
+        await updateClient(c._id, { company: { ...c.company, logo: url } })
+      }
+      if (file.value) {
+        const url = await updateFile(file.value, 'documents/contracts/' + data._id)
+        const { data: c } = await getClient(data._id)
+        await updateClient(c._id, { contract: { ...c.contract, url } })
+      }
+      showToast()
     } catch (error) {
       loading.value = false
       console.log(error)
@@ -101,33 +115,50 @@ const handleSubmit = (body) => {
   }
   fn()
 }
+const uri = ref(null)
+const file = ref(null)
+const photo = ref(null)
 const uploadProgress = ref(null)
 const loadingProgress = ref(false)
 const errorProgress = ref(null)
-const handleUpload = (file) => {
-  const onComplete = async (profilePhoto) => {
-    const { data } = await updateClient(id, {
-      ...result.value,
-      company: { ...result.value.company, logo: profilePhoto }
+const handleUpload = (f, path = 'logos') => {
+  var reader = new FileReader()
+  reader.onloadend = function () {
+    uri.value = reader.result
+    if (path === 'documents/contracts') {
+      file.value = reader.result
+    } else if (path === 'logos') {
+      photo.value = reader.result
+    }
+  }
+  if (f) {
+    reader.readAsDataURL(f)
+  } else {
+    uri.value = null
+  }
+}
+const updateFile = (data, path = 'logos') => {
+  return new Promise((resolve, reject) => {
+    const onComplete = async (url) => {
+      resolve(url)
+    }
+    const onProgress = ({ transferred, total }) => {
+      // console.log(transferred, total)
+    }
+    const onError = (error) => {
+      console.info(error)
+    }
+    upload({
+      path: `${path}`,
+      data,
+      onError,
+      onProgress,
+      onComplete
     })
-    result.value = data
-    loadingProgress.value = false
-  }
-  const onProgress = ({ transferred, total }) => {
-    loadingProgress.value = true
-    uploadProgress.value = Math.round((transferred / total) * 100)
-  }
-  const onError = (error) => {
-    uploadProgress.value = null
-    console.info(error)
-  }
-  upload({
-    path: `avatars/${id}`,
-    data: file,
-    onError,
-    onProgress,
-    onComplete
   })
+}
+const handleResetLogo = () => {
+  photo.value = null
 }
 const location = ref(null)
 const handlePickLocation = () => {
@@ -138,6 +169,13 @@ const handlePickLocation = () => {
     })
   }
   fn()
+}
+const showToast = () => {
+  Toaster.show({
+    title: 'Client mis à jour',
+    description: 'Les fichiers téléversés du clients sont à jour.',
+    small: "il y 1 min"
+  })
 }
 </script>
 

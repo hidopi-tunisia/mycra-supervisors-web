@@ -11,19 +11,21 @@
   </nav>
   <consultant-profile-form
     :loading="loading"
-    :file="uri"
+    :file="photo"
+    @reset-photo="handleResetPhoto"
     @upload="handleUpload"
     @submit="handleSubmit"
   />
 </template>
 
 <script setup lang="ts">
-import { createConsultant, updateConsultant } from '@/domain/consultants'
+import { createConsultant, getConsultant, updateConsultant } from '@/domain/consultants'
 import ConsultantProfileForm from '@/components/consultants/forms/consultant-profile-form.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
 import { upload } from '@/domain/buckets'
+import Toaster from '@/components/shared/toasts/toaster'
 const { push } = useRouter()
 const result = ref(null)
 const loading = ref(false)
@@ -32,7 +34,6 @@ const handleSubmit = (payload) => {
     try {
       loading.value = true
       const { data } = await createConsultant(payload)
-      updateProfilePhoto(data._id)
       result.value = data
       loading.value = false
       Swal.fire({
@@ -49,6 +50,17 @@ const handleSubmit = (payload) => {
           push(`/consultants`)
         }
       })
+      if (photo.value) {
+        const url = await updateFile(photo.value, 'avatars/' + data._id)
+        const { data: c } = await getConsultant(data._id)
+        await updateConsultant(c._id, { profilePhoto: url })
+      }
+      if (file.value) {
+        const url = await updateFile(file.value, 'documents/skills/' + data._id)
+        const { data: c } = await getConsultant(data._id)
+        await updateConsultant(c._id, { skills: { ...c.skills, url } })
+      }
+      showToast()
     } catch (error) {
       loading.value = false
       console.log(error)
@@ -63,17 +75,21 @@ const handleSubmit = (payload) => {
   }
   fn()
 }
-const file = ref(null)
 const uri = ref(null)
+const file = ref(null)
 const photo = ref(null)
 const uploadProgress = ref(null)
 const loadingProgress = ref(false)
 const errorProgress = ref(null)
-const handleUpload = (f) => {
-  file.value = f
+const handleUpload = (f, path = 'avatars') => {
   var reader = new FileReader()
   reader.onloadend = function () {
     uri.value = reader.result
+    if (path === 'documents/skills') {
+      file.value = reader.result
+    } else if (path === 'avatars') {
+      photo.value = reader.result
+    }
   }
   if (f) {
     reader.readAsDataURL(f)
@@ -81,29 +97,35 @@ const handleUpload = (f) => {
     uri.value = null
   }
 }
-const updateProfilePhoto = (id) => {
-  const onComplete = async (profilePhoto) => {
-    photo.value = profilePhoto
-    loadingProgress.value = false
-    updateConsultant(id, { profilePhoto })
-  }
-  const onProgress = ({ transferred, total }) => {
-    loadingProgress.value = true
-    uploadProgress.value = Math.round((transferred / total) * 100)
-  }
-  const onError = (error) => {
-    uploadProgress.value = null
-    console.info(error)
-  }
-  if (file.value) {
+const updateFile = (data, path = 'avatars') => {
+  return new Promise((resolve, reject) => {
+    const onComplete = async (url) => {
+      resolve(url)
+    }
+    const onProgress = ({ transferred, total }) => {
+      // console.log(transferred, total)
+    }
+    const onError = (error) => {
+      console.info(error)
+    }
     upload({
-      path: `avatars/${id}`,
-      data: file.value,
+      path: `${path}`,
+      data,
       onError,
       onProgress,
       onComplete
     })
-  } 
+  })
+}
+const handleResetPhoto = () => {
+  photo.value = null
+}
+const showToast = () => {
+  Toaster.show({
+    title: 'Consultant mis à jour',
+    description: 'Les fichiers téléversés du consultant sont à jour.',
+    small: 'il y 1 min'
+  })
 }
 </script>
 

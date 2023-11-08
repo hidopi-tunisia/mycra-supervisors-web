@@ -2,7 +2,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 
 const storage = getStorage()
 
-const upload = ({
+const upload = async ({
   path,
   data,
   onProgress,
@@ -13,7 +13,8 @@ const upload = ({
   }
 }) => {
   const sRef = ref(storage, path)
-  const task = uploadBytesResumable(sRef, data, metadata)
+  const payload = await (await fetch(data)).blob()
+  const task = uploadBytesResumable(sRef, payload, metadata)
   task.on(
     'state_changed',
     (snapshot) => {

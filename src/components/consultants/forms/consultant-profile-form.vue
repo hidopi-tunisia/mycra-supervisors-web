@@ -12,9 +12,13 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
                 </div>
-                <div v-if="props.isUpdate">
+                <div v-if="props.isUpdate && !props.file">
                   <img
-                    :src="newProfile.profilePhoto ? newProfile.profilePhoto : getAvatar()"
+                    :src="
+                      newProfile.profilePhoto
+                        ? newProfile.profilePhoto
+                        : '/assets/img/avatars/avatar-placeholder.jpg'
+                    "
                     alt="user-avatar"
                     class="d-block rounded"
                     height="100"
@@ -62,7 +66,11 @@
                     @change="handleFileChange"
                   />
                 </label>
-                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary account-image-reset mb-4"
+                  @click="handleClickResetPhoto"
+                >
                   <i class="bx bx-reset d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Réintialiser</span>
                 </button>
@@ -184,8 +192,23 @@
             >
           </div>
           <div class="mb-3 col-md-4">
-            <label for="formFile" class="form-label">Dossier de compétence</label>
-            <input class="form-control" type="file" id="formFile" />
+            <div class="d-flex justify-content-between">
+              <span for="formFile" class="form-label">Dossier de compétence</span>
+              <a
+                v-if="newProfile?.skills?.url"
+                target="_blank"
+                :href="newProfile?.skills?.url"
+                class="form-label"
+                >Voir <i class="bx bx-link-external text-gray mx-1"></i
+              ></a>
+            </div>
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              accept=".doc,.docx,.ppt,.pptx,.pdf"
+              @change="(e) => handleFileChange(e, 'documents/skills')"
+            />
           </div>
           <div class="mb-3 col-md-2">
             <label for="position" class="form-label required">Années d'expérience</label>
@@ -350,7 +373,7 @@ watchEffect(() => {
     newProfile = props.profile
   }
 })
-const emit = defineEmits(['upload', 'submit'])
+const emit = defineEmits(['upload', 'submit', 'reset-photo'])
 const handleSubmit = () => {
   const payload = { ...newProfile, skills: { arr: toRaw(skillsArray.value) } }
   emit('submit', payload)
@@ -364,22 +387,25 @@ const handleSkillsChanged = (v) => {
 const handleClickEmptySkills = () => {
   skillsArray.value = []
 }
-const handleFileChange = ({ target }) => {
+const handleFileChange = ({ target }, path = 'avatars') => {
   if (target && target.files) {
     const { files } = target
 
     // 1MB
     if (files[0] && files[0].size < 1024 * 1024) {
-      emit('upload', files[0])
+      emit('upload', files[0], path)
     } else {
       Swal.fire({
-        title: `Image trop large`,
-        text: 'Merci de choisir une image de taille < 1 Mo',
+        title: `Trop large`,
+        text: 'Merci de choisir un fichier de taille < 1 Mo',
         icon: 'error',
         confirmButtonText: 'OK'
       })
     }
   }
+}
+const handleClickResetPhoto = () => {
+  emit('reset-photo')
 }
 </script>
 
