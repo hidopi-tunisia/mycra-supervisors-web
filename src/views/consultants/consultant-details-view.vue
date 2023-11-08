@@ -78,6 +78,7 @@ const retrieve = async () => {
   try {
     loading.value = true
     const { data } = await getConsultant(id)
+    console.log(data)
     const { data: historyData } = await getCRAs({ consultant: id, year: year.value })
     result.value = data
     history.value = historyData
