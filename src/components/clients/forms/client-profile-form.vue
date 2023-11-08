@@ -12,7 +12,7 @@
                     <span class="visually-hidden">Loading...</span>
                   </div>
                 </div>
-                <div v-if="props.isUpdate">
+                <div v-if="props.isUpdate && !props.file">
                   <img
                     :src="
                       newProfile.company?.logo
@@ -63,10 +63,10 @@
                     accept="image/png, image/jpeg"
                     ref="file"
                     hidden
-                    @change="handleFileChange"
+                    @change="(e) => handleFileChange(e, 'logos')"
                   />
                 </label>
-                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4" @click="handleClickResetLogo">
                   <i class="bx bx-reset d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Réintialiser</span>
                 </button>
@@ -246,8 +246,23 @@
             />
           </div>
           <div class="mb-3 col-md-3">
-            <label for="formFile" class="form-label">Contrat</label>
-            <input class="form-control" type="file" id="formFile" />
+            <div class="d-flex justify-content-between">
+              <span for="formFile" class="form-label">Contrat</span>
+              <a
+                v-if="newProfile?.contract?.url"
+                target="_blank"
+                :href="newProfile?.contract?.url"
+                class="form-label"
+                >Voir  <i class="bx bx-link-external text-gray mx-1"></i></a
+              >
+            </div>
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              accept=".doc,.docx,.ppt,.pptx,.pdf"
+              @change="(e) => handleFileChange(e, 'documents/contracts')"
+            />
           </div>
           <div class="mb-3 col-md-3">
             <label for="signedAt" class="form-label">Signé le</label>
@@ -434,22 +449,22 @@ watchEffect(() => {
     newProfile = props.profile
   }
 })
-const emit = defineEmits(['upload', 'submit', 'pick-location'])
+const emit = defineEmits(['upload', 'submit', 'pick-location', 'reset-logo'])
 const handleSubmit = () => {
   const payload = { ...newProfile }
   emit('submit', payload)
 }
-const handleFileChange = ({ target }) => {
+const handleFileChange = ({ target }, path = 'logos') => {
   if (target && target.files) {
     const { files } = target
 
     // 1MB
     if (files[0] && files[0].size < 1024 * 1024) {
-      emit('upload', files[0])
+      emit('upload', files[0], path)
     } else {
       Swal.fire({
-        title: `Image trop large`,
-        text: 'Merci de choisir une image de taille < 1 Mo',
+        title: `Trop large`,
+        text: 'Merci de choisir un fichier de taille < 1 Mo',
         icon: 'error',
         confirmButtonText: 'OK'
       })
@@ -458,6 +473,9 @@ const handleFileChange = ({ target }) => {
 }
 const handleClickPickLocation = () => {
   emit('pick-location')
+}
+const handleClickResetLogo = () => {
+  emit('reset-logo')
 }
 </script>
 
