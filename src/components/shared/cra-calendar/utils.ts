@@ -9,12 +9,63 @@ const DayTypes = {
 
 const populateDays = ({ working, weekends, remote, off, half, holidays }) => {
   return [
-    ...working.map((d) => ({ ...d, type: DayTypes.WORKING })),
-    ...weekends.map((d) => ({ ...d, type: DayTypes.WEEKEND })),
-    ...remote.map((d) => ({ ...d, type: DayTypes.REMOTE })),
-    ...off.map((d) => ({ ...d, type: DayTypes.OFF })),
-    ...half.map((d) => ({ ...d, type: DayTypes.HALF })),
-    ...holidays.map((d) => ({ ...d, type: DayTypes.HOLIDAY }))
+    ...working.map((d) => ({
+      ...d,
+      dates: d.date,
+      type: DayTypes.WORKING,
+      highlight: {
+        color: '#2196f3',
+        fillMode: 'solid'
+      },
+    })),
+    ...weekends.map((d) => ({
+      ...d,
+      dates: d.date,
+      type: DayTypes.WEEKEND,
+      highlight: {
+        color: 'green',
+        fillMode: 'outline'
+      },
+      popover: { label: "Week-end" }
+    })),
+    ...remote.map((d) => ({
+      ...d,
+      dates: d.date,
+      type: DayTypes.REMOTE,
+      highlight: {
+        color: 'purple',
+        fillMode: 'solid'
+      },
+    })),
+    ...off.map((d) => ({
+      ...d,
+      dates: d.date,
+      type: DayTypes.OFF,
+      highlight: {
+        color: 'red',
+        fillMode: 'outline'
+      },
+      popover: { label: d.meta.value }
+    })),
+    ...half.map((d) => ({
+      ...d,
+      dates: d.date,
+      type: DayTypes.HALF,
+      highlight: {
+        color: '#2196f3',
+        fillMode: 'outline'
+      },
+    })),
+    ...holidays.map((d) => ({
+      ...d,
+      dates: d.date,
+      type: DayTypes.HOLIDAY,
+      highlight: {
+        color: 'green',
+        fillMode: 'solid'
+      },
+      popover: { label: d.meta.value }
+    }))
   ]
 }
 

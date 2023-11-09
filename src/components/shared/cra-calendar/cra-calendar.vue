@@ -1,81 +1,42 @@
 <template>
-  <div class="calendar">
-    <div class="calendar__date">
-      <div class="calendar__day">S</div>
-      <div class="calendar__day">L</div>
-      <div class="calendar__day">M</div>
-      <div class="calendar__day">M</div>
-      <div class="calendar__day">J</div>
-      <div class="calendar__day">V</div>
-      <div class="calendar__day">S</div>
-      <div
-        class="calendar__number"
-        :key="d"
-        v-if="days"
-        v-for="d in days"
-        :class="'day-' + d.type"
-        @click="handleClickDay(d)"
-      >
-        {{ Number(d.date.substring(8)) }}
-      </div>
-    </div>
+  <div class="cra-calendar d-flex">
+    <Calendar
+      class="mx-auto"
+      :events="events"
+      transparent
+      borderless
+      locale="fr"
+      :firstDayOfWeek="0"
+      :attributes="attributes"
+      @dayclick="handleClickDay"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, toRaw } from 'vue'
+import { Calendar } from 'v-calendar'
 import { populateDays } from './utils'
+import 'v-calendar/style.css'
+const events = {}
 const props = defineProps(['selected'])
-const days = ref(null)
+const attributes = ref(null)
 if (toRaw(props.selected)) {
-  days.value = populateDays(toRaw(props.selected)).sort(
+  attributes.value = populateDays(toRaw(props.selected)).sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   )
 }
-
 const emit = defineEmits(['click-day'])
-const handleClickDay = (d) => {
-  emit('click-day', d)
+const handleClickDay = ({ id }) => {
+  emit('click-day', id)
 }
 </script>
-
 <style scoped>
-@import url('./style.css');
-.day-working {
-  background-color: #2196f3 !important;
-  border-radius: 32px;
-  color: white;
-  pointer-events: none;
+.cra-calendar :deep(.vc-header) {
+  display: none;
+  width: 20px;
 }
-.day-half {
-  background-color: white !important;
-  border-radius: 32px;
-  color: #2196f3;
-  border: 2px solid #2196f3;
-  pointer-events: none;
-}
-.day-remote {
-  background-color: #9c27b0 !important;
-  border-radius: 32px;
-  color: white;
-  pointer-events: none;
-}
-.day-off {
-  background-color: white !important;
-  border-radius: 32px;
-  border: 2px solid #f44336;
-  color: #f44336;
-}
-.day-weekend {
-  background-color: white !important;
-  border-radius: 32px;
-  border: 2px solid #4caf50;
-  color: #4caf50;
-}
-.day-holiday {
-  background-color: white !important;
-  border-radius: 32px;
-  border: 2px solid #4caf50;
-  color: #4caf50;
+.cra-calendar :deep(.vc-day) {
+  padding: 6px;
 }
 </style>

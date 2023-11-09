@@ -74,6 +74,7 @@
   </div>
   <consultant-cra
     ref="modalConsultantCRA"
+    :cra="cra"
     @day="handleClickDay"
     @approve="handleApprove"
     @reject="handleReject"
@@ -94,12 +95,13 @@ import ConsultantCra from '@/components/consultants/modals/cra/consultant-cra.vu
 import ConsultantsNotifier from '@/components/shared/notifiers/consultants-notifier'
 import Picker from '@/components/shared/pickers/projects-picker'
 import Swal from 'sweetalert2'
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import { getConsultantsCount } from '@/domain/statistics/consultants'
 import { assignConsultantToProject } from '@/domain/projects'
 import { send } from '@/domain/messaging'
 import { currentUser } from '@/domain/auth'
-
+import { getCRAs } from '@/domain/me'
+import { approveCRA, rejectCRA } from '@/domain/cras'
 const count = ref(null)
 const retrieveCount = () => {
   const fn = async () => {
@@ -203,7 +205,7 @@ const handleClickNotifyRest = () => {
     if (isConfirmed) {
       try {
         const { uid } = currentUser()
-        const body = await ConsultantsNotifier.notify("Notifier le reste")
+        const body = await ConsultantsNotifier.notify('Notifier le reste')
         const payload = {
           notification: {
             title: 'My CRA',
@@ -289,20 +291,31 @@ const handleNotifyConsultant = (id) => {
   fn()
 }
 const modalConsultantCRA = ref(null)
+const cra = ref(null)
 const handleViewCRA = (id) => {
+  const fn = async () => {
+    try {
+      const year = new Date().getFullYear()
+      const month = new Date().getMonth()
+      const { data } = await getCRAs({ consultant: id, year })
+      if (
+        Array.isArray(data) &&
+        data.length > 0 &&
+        data.filter(({ date }) => date.month === month).length > 0
+      ) {
+        cra.value = data.filter(({ date }) => date.month === month)[0]
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  fn()
   modalConsultantCRA.value.show()
 }
-const reasons = ['CP', 'Maternité', 'Absence', 'Congé maladie', 'Déménagement']
-const handleClickDay = (d) => {
-  const reason = reasons[Math.floor(Math.random() * reasons.length)]
-  Swal.fire({
-    title: `${d}`,
-    text: `La reason d'absence est "` + reason + '"',
-    icon: 'info',
-    confirmButtonText: 'OK'
-  })
-}
-const handleReject = () => {
+const visible = ref(true)
+const motive = ref('')
+const handleReject = (id) => {
+  motive.value = ''
   Swal.fire({
     title: 'La raison de rejet ?',
     input: 'text',
@@ -313,28 +326,56 @@ const handleReject = () => {
     confirmButtonText: 'Confirmer',
     cancelButtonText: 'Annuler',
     showLoaderOnConfirm: true,
-    preConfirm: (login) => {
-      console.log(login)
+    preConfirm: (r) => {
+      motive.value = r
     },
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        title: `Rejetté`,
-        text: `Le CRA a été rejetté avec succès`,
-        icon: 'info',
-        confirmButtonText: 'OK'
-      })
+      const fn = async () => {
+        try {
+          await rejectCRA(id, motive.value)
+          retrieve()
+          Swal.fire({
+            title: `Rejetté`,
+            text: `Le CRA a été rejetté avec succès`,
+            icon: 'info',
+            confirmButtonText: 'OK'
+          })
+        } catch (error) {
+          Swal.fire({
+            title: `Erreur servenue`,
+            text: `Une erreur est servenue`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
+        }
+      }
+      fn()
     }
   })
 }
-const handleApprove = () => {
-  Swal.fire({
-    title: `Approuvé`,
-    text: `Le CRA a été approuvé avec succès`,
-    icon: 'success',
-    confirmButtonText: 'OK'
-  })
+const handleApprove = (id) => {
+  const fn = async () => {
+    try {
+      await approveCRA(id)
+      retrieve()
+      Swal.fire({
+        title: `Approuvé`,
+        text: `Le CRA a été approuvé avec succès`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
+    } catch (error) {
+      Swal.fire({
+        title: `Erreur servenue`,
+        text: `Une erreur est servenue`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+  fn()
 }
 </script>
 
