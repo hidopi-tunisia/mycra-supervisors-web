@@ -60,7 +60,9 @@
             Le a été rejeté le
             <span class="fw-bold" v-if="action">{{ action.meta.at.substring(0, 10) }}</span>
           </p>
-          <Calendar :selected="selected" @click-day="handleClickDay" class="mx-sm-auto mb-4" />
+          <div class="row">
+            <Calendar :selected="selected" @click-day="handleClickDay" class="mx-sm-auto mb-4" />
+          </div>
           <span class="badge rounded-pill day-working mx-1 mb-1"
             >{{ selected?.working.length }} Travaillés</span
           >

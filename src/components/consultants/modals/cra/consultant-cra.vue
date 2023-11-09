@@ -12,9 +12,24 @@
           <div class="row d-flex">
             <div class="col">
               <h5 class="modal-title" id="consultants-cra-modal-title">
-                My CRA<span v-if="cra">
-                  - {{ cra.working + cra.remote + 0.5 * cra.half }} jours travaillés</span
+                My CRA<span v-if="props.cra">
+                  -
+                  {{
+                    props.cra.working.length + props.cra.remote.length + 0.5 * props.cra.half.length
+                  }}
+                  jours travaillés</span
                 >
+                <span class="ms-3" v-if="props.cra">
+                  <span class="badge bg-primary float-end" v-if="props.cra.status === 'pending'"
+                    >Envoyé</span
+                  >
+                  <span class="badge bg-success float-end" v-if="props.cra.status === 'approved'"
+                    >Approuvé</span
+                  >
+                  <span class="badge bg-danger float-end" v-if="props.cra.status === 'rejected'"
+                    >Rejeté</span
+                  >
+                </span>
               </h5>
             </div>
           </div>
@@ -26,24 +41,26 @@
           ></button>
         </div>
         <div class="modal-body">
-          <Calendar @click-day="handleClickDay" class="mx-auto" />
-          <div class="row mt-3 mx-auto" v-if="cra">
+          <Calendar
+            class="mx-auto"
+            v-if="props.cra"
+            :selected="props.cra"
+            @click-day="handleClickDay"
+          />
+          <div class="row mx-auto" v-if="props.cra">
             <div class="card-body">
               <span class="badge rounded-pill day-working mx-1 mb-1"
-                >{{ cra.working }} Travaillés</span
+                >{{ props.cra.working.length }} Travaillés</span
               >
               <span class="badge rounded-pill day-half mx-1 mb-1"
-                >{{ cra.half }} Demi journées</span
+                >{{ props.cra.half.length }} Demi journées</span
               >
               <span class="badge rounded-pill day-remote mx-1 mb-1"
-                >{{ cra.remote }} Télétravail</span
+                >{{ props.cra.remote.length }} Télétravail</span
               >
-              <span class="badge rounded-pill day-off mx-1 mb-1">{{ cra.off }} Absence</span>
-            </div>
-            <div class="row" v-if="reason">
-              <p class="text-danger">
-                Jour {{ day }} {{ cra.month }} {{ cra.year }} - Raison : {{ reason }}
-              </p>
+              <span class="badge rounded-pill day-off mx-1 mb-1"
+                >{{ props.cra.off.length }} Absence</span
+              >
             </div>
           </div>
           <div class="modal-footer">
@@ -56,7 +73,8 @@
                   type="button"
                   class="btn btn-outline-danger"
                   data-bs-dismiss="modal"
-                  @click="emit('reject')"
+                  v-if="props.cra.status === 'pending'"
+                  @click="emit('reject', props.cra._id)"
                 >
                   Rejetter
                 </button>
@@ -64,7 +82,8 @@
                   type="button"
                   class="btn btn-success mx-2"
                   data-bs-dismiss="modal"
-                  @click="emit('approve')"
+                  v-if="props.cra.status === 'pending' || props.cra.status === 'rejected'"
+                  @click="emit('approve', props.cra._id)"
                 >
                   Approver
                 </button>
@@ -78,24 +97,15 @@
 </template>
 
 <script setup lang="ts">
-import { getHistory } from '@/api/consultants'
 import Calendar from '@/components/shared/cra-calendar/cra-calendar.vue'
 import { ref } from 'vue'
 const $ = window.jQuery
+const props = defineProps(['cra'])
 const cra = ref(null)
-getHistory()
-  .then(({ data }) => {
-    cra.value = data[0]
-  })
-  .catch((error) => console.log(error))
 const day = ref(null)
 const reason = ref(null)
-const reasons = ['CP', 'Maternité', 'Absence', 'Congé maladie', 'Déménagement']
-const handleClickDay = (d) => {
-  day.value = d
-  reason.value = reasons[Math.floor(Math.random() * reasons.length)]
-}
-const emit = defineEmits(['day'])
+const handleClickDay = (d) => {}
+const emit = defineEmits(['day', 'approve', 'reject'])
 const show = () => {
   $('#consultants-cra-modal').modal('show')
 }
