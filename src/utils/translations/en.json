@@ -1,0 +1,20 @@
+{
+  "home": {
+    "hello ": "Hello ",
+    "button:view-my-profile": "View my profile",
+    "projects:map:title": "Consultants locations based on projects",
+    "button:zoom-for-all": "Zoom for all",
+    "Consultants": "Consultants",
+    "option:view-consultants": "View consultants",
+    "Projects": "Projects",
+    "option:view-projects": "View projects",
+    "Clients": "Clients",
+    "option:view-clients": "View clients",
+    "Alerts": "Alerts",
+    "option:view-alerts": "View alerts",
+    "filled-cras": "Filled CRAs",
+    "CRAs": "CRAs",
+    "option:move-to": "Move to",
+    "option:position": "Position %{n}"
+  }
+}

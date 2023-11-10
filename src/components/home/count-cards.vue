@@ -1,7 +1,7 @@
 <template>
   <count-cards-item
-    text="Projects"
-    menu-text="Voir les projets"
+    :text="i18n.t('home.Projects')"
+    :menu-text="i18n.t('home.option:view-projects')"
     icon="bx bx-code-block bx-sm align-middle icon-projects"
     name="projects"
     link="/projects"
@@ -12,8 +12,8 @@
     @move="handleMove"
   />
   <count-cards-item
-    text="Clients"
-    menu-text="Voir les clients"
+    :text="i18n.t('home.Clients')"
+    :menu-text="i18n.t('home.option:view-clients')"
     icon="bx bx-user bx-sm align-middle icon-clients"
     name="clients"
     link="/clients"
@@ -24,8 +24,8 @@
     @move="handleMove"
   />
   <count-cards-item
-    text="Consultants"
-    menu-text="Voir les consultant"
+    :text="i18n.t('home.Consultants')"
+    :menu-text="i18n.t('home.option:view-consultants')"
     icon="bx bxs-user-badge bx-sm align-middle icon-consultants"
     name="consultants"
     link="/consultants"
@@ -36,8 +36,8 @@
     @move="handleMove"
   />
   <count-cards-item
-    text="Alerts"
-    menu-text="Voir les alerts"
+    :text="i18n.t('home.Alerts')"
+    :menu-text="i18n.t('home.option:view-alerts')"
     icon="bx bx-chat bx-sm align-middle icon-alert"
     name="alerts"
     link="/alerts"
@@ -51,6 +51,7 @@
 
 <script setup lang="ts">
 import CountCardsItem from './count-cards-item.vue'
+import { i18n } from '@/utils/translations'
 const props = defineProps(['item', 'position', 'count', 'loading'])
 const emit = defineEmits(['move'])
 const handleMove = (p) => {

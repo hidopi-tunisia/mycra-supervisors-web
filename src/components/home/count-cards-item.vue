@@ -29,7 +29,7 @@
                 @mouseenter="handleMouseEnter"
                 @mouseleave="handleMouseLeave"
               >
-                Déplacer vers <i class="tf-icon bx bx-chevron-right"></i>
+                {{ i18n.t('home.option:move-to') }} <i class="tf-icon bx bx-chevron-right"></i>
               </a>
 
               <div
@@ -44,8 +44,8 @@
                   @mouseenter="handleMouseEnter"
                   @mouseleave="handleMouseLeave"
                   @click="handleClickMove(0)"
-                  >Position 1</a
-                >
+                  >{{ i18n.t('home.option:position', { n: 1 }) }}
+                </a>
                 <a
                   class="dropdown-item"
                   href="#"
@@ -53,7 +53,7 @@
                   @mouseenter="handleMouseEnter"
                   @mouseleave="handleMouseLeave"
                   @click="handleClickMove(1)"
-                  >Position 2</a
+                  >{{ i18n.t('home.option:position', { n: 2 }) }}</a
                 >
                 <a
                   class="dropdown-item"
@@ -62,7 +62,7 @@
                   @mouseenter="handleMouseEnter"
                   @mouseleave="handleMouseLeave"
                   @click="handleClickMove(2)"
-                  >Position 3</a
+                  >{{ i18n.t('home.option:position', { n: 3 }) }}</a
                 >
                 <a
                   class="dropdown-item"
@@ -71,7 +71,7 @@
                   @mouseenter="handleMouseEnter"
                   @mouseleave="handleMouseLeave"
                   @click="handleClickMove(3)"
-                  >Position 4</a
+                  >{{ i18n.t('home.option:position', { n: 4 }) }}</a
                 >
               </div>
             </div>
@@ -88,6 +88,7 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/utils/translations'
 import { ref } from 'vue'
 const shown = ref(false)
 const props = defineProps([
