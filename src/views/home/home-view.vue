@@ -6,16 +6,14 @@
           <div class="col-sm-7">
             <div class="card-body">
               <h5 class="card-title text-primary" v-if="profile">
-                Bonjour {{ profile?.firstName }} ! 🎉
+                {{ i18n.t('home.hello ') }} {{ profile?.firstName }} ! 🎉
               </h5>
               <p class="mb-4">
                 Vous pouvez consulter votre profil en cliquant sur le bouton
                 <span class="fw-bold">Consulter mon profil</span>.
-                {{ i18n.t('home.title') }}
-                {{ i18n.locale }}
               </p>
               <router-link to="/me">
-                <a href="#" class="btn btn-sm btn-outline-primary">Consulter mon profil</a>
+                <a href="#" class="btn btn-sm btn-outline-primary">{{ i18n.t('home.button:view-my-profile') }}</a>
               </router-link>
             </div>
           </div>
@@ -57,9 +55,9 @@
           <div class="col-md-12">
             <div class="d-flex flex-row justify-content-between">
               <h5 class="card-header">
-                Emplacement des consultants selons les projets
+                {{ i18n.t('home.projects:map:title') }}
               </h5>
-              <button class="btn btn-sm" @click="handleClickZoomOnAll">Zoom pour tout</button>
+              <button class="btn btn-sm" @click="handleClickZoomOnAll">{{ i18n.t('home.button:zoom-for-all') }}</button>
             </div>
             <div ref="container" class="px-2">
               <app-map ref="map$" :markers="markers" @click-marker="handleClickMarker" />
@@ -93,11 +91,11 @@
                   class="d-flex flex-sm-column flex-row align-items-start justify-content-between"
                 >
                   <div class="card-title">
-                    <h5 class="text-nowrap mb-2">CRAs saisi</h5>
+                    <h5 class="text-nowrap mb-2">{{ i18n.t('home.filled-cras') }}</h5>
                     <span class="badge bg-label-warning rounded-pill">Octobre 2023</span>
                   </div>
                   <div class="mt-sm-auto">
-                    <small class="text-success text-nowrap fw-semibold">CRAs</small>
+                    <small class="text-success text-nowrap fw-semibold">{{ i18n.t('home.CRAs') }}</small>
                     <h3 class="mb-0">39/50</h3>
                   </div>
                 </div>
