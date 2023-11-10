@@ -44,5 +44,3 @@ npm run build
 ```sh
 npm run lint
 ```
-Hello test 2
-World!!!!efrljgirjg
