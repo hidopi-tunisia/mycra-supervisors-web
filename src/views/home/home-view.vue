@@ -11,6 +11,8 @@
               <p class="mb-4">
                 Vous pouvez consulter votre profil en cliquant sur le bouton
                 <span class="fw-bold">Consulter mon profil</span>.
+                {{ i18n.t('home.title') }}
+                {{ i18n.locale }}
               </p>
               <router-link to="/me">
                 <a href="#" class="btn btn-sm btn-outline-primary">Consulter mon profil</a>
@@ -121,6 +123,7 @@ import { getProjectsCount } from '@/domain/statistics/projects'
 import { getAlertsCount } from '@/domain/statistics/alerts'
 import { getProjects } from '@/domain/projects'
 import { useRouter } from 'vue-router'
+import { Locales, i18n } from '@/utils/translations'
 
 const router = useRouter()
 const counts = ref({
@@ -210,7 +213,7 @@ onMounted(() => {
 })
 const handleClickMarker = ({ target }) => {
   if (target && target.options && target.options.meta && target.options.meta._id) {
-    router.push("/consultants/" + target.options?.meta?._id)
+    router.push('/consultants/' + target.options?.meta?._id)
   }
 }
 const map$ = ref(null)
