@@ -13,6 +13,7 @@
       <div class="col-9 mb-sm-0 mb-2 mr-2">
         <h6 class="mb-0 mr-2 text-capitalize" :class="props.history ? 'fw-bold' : ''">
           {{ months[props.history.date.month] }}
+
         </h6>
         <small class="text-muted" v-if="action.action === 'submitted'">
           Envoyé à <span class="fw-bold">{{ action.meta.at.substring(0, 10) }}</span>
@@ -25,13 +26,13 @@
         </small>
       </div>
       <div class="col-3 text-end">
-        <span class="badge bg-primary float-end" v-if="props.history.status === 'pending'"
+        <span class="badge bg-primary" v-if="props.history.status === 'pending'"
           >Envoyé</span
         >
-        <span class="badge bg-success float-end" v-if="props.history.status === 'approved'"
+        <span class="badge bg-success" v-if="props.history.status === 'approved'"
           >Approuvé</span
         >
-        <span class="badge bg-danger float-end" v-if="props.history.status === 'rejected'"
+        <span class="badge bg-danger" v-if="props.history.status === 'rejected'"
           >Rejeté</span
         >
       </div>
@@ -91,5 +92,8 @@ const months = [
   padding: 8px;
   border-radius: 16px;
   pointer-events: none;
+}
+.with-pointer {
+  cursor: pointer;
 }
 </style>

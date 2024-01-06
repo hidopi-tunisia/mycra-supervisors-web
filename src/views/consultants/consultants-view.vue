@@ -73,6 +73,7 @@
     </router-link>
   </div>
   <consultant-cra
+    v-if="cra"
     ref="modalConsultantCRA"
     :cra="cra"
     @day="handleClickDay"
@@ -310,7 +311,16 @@ const handleViewCRA = (id) => {
     }
   }
   fn()
-  modalConsultantCRA.value.show()
+  if (cra.value) {
+    modalConsultantCRA.value.show()
+  } else {
+    Swal.fire({
+      title: 'Aucun CRA trouvé',
+      text: `Aucun CRA n'a été trouvé pour ce consultant.`,
+      icon: 'warning',
+      confirmButtonText: 'OK'
+    })
+  }
 }
 const visible = ref(true)
 const motive = ref('')

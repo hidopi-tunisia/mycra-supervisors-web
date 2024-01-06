@@ -102,6 +102,11 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="text-primary with-pointer" @click="handleClickExport({id: selected?._id, type:'pdf'})">
+              Télécharger PDF
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -126,7 +131,7 @@ if (props.selected) {
     b.meta.at - a.meta.at
   })[0]
 }
-const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve'])
+const emit = defineEmits(['change', 'select', 'click-day', 'reject', 'approve', 'export'])
 const handleClickDay = (d) => {
   emit('click-day', d)
 }
@@ -151,6 +156,9 @@ const months = [
   'novembre',
   'décembre'
 ]
+const handleClickExport = ({id, type}) => {
+  emit('export', {id, type})
+}
 </script>
 
 <style scoped>

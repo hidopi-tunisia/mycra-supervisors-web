@@ -50,6 +50,7 @@
     @year-changed="handleChangeYear"
     @approve-cra="handleApprove"
     @reject-cra="handleReject"
+    @export="handleExport"
   />
   <div v-if="loading" class="row vh-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border mx-2" role="status">
@@ -70,6 +71,7 @@ import { upload } from '@/domain/buckets'
 import { getCRAs } from '@/domain/me'
 import { approveCRA, rejectCRA } from '@/domain/cras'
 import Toaster from '@/components/shared/toasts/toaster'
+import { exportCRAToPDF } from '@/domain/export'
 const { push } = useRouter()
 const { params } = useRoute()
 const id = params.id as string
@@ -251,6 +253,18 @@ const handleApprove = (id) => {
         icon: 'error',
         confirmButtonText: 'OK'
       })
+    }
+  }
+  fn()
+}
+const handleExport = ({ id, type }) => {
+  const fn = async () => {
+    try {
+      if (type === 'pdf') {
+        await exportCRAToPDF(id)
+      }
+    } catch (error) {
+      console.info(error)
     }
   }
   fn()

@@ -70,6 +70,7 @@
       @click-day="handleClickDay"
       @reject="handleReject"
       @approve="handleApprove"
+      @export="handleExport"
     />
   </form>
 </template>
@@ -86,15 +87,15 @@ let newProfile
 if (props.isUpdate) {
   newProfile = { ...props.profile }
 }
-const emit = defineEmits(['submit', 'click-day', 'year-changed', 'approve-cra', 'reject-cra'])
+const emit = defineEmits(['submit', 'click-day', 'year-changed', 'approve-cra', 'reject-cra', 'export'])
 const handleSubmit = () => {
   const payload = {}
   emit('submit', payload)
 }
-const years = Array.from(
-  { length: new Date().getFullYear() - new Date().getFullYear() + 1 },
-  (_, i) => i + new Date().getFullYear()
-).sort((a, b) => b - a)
+const years = []
+for (let y = new Date().getFullYear(); y >= 2023; y--) {
+  years.push(y)
+}
 const current = ref(new Date().getFullYear())
 const selected = props.history[0]
 const handleChangeSelected = (id) => {
@@ -134,6 +135,9 @@ const handleReject = (id) => {
 }
 const handleApprove = (id) => {
   emit('approve-cra', id)
+}
+const handleExport = ({id, type}) => {
+  emit('export', { id, type })
 }
 const getAvatar = () => {
   return `data:image/svg+xml;utf8,${generateFromString(props.profile._id)}`
