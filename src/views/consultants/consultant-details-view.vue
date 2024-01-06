@@ -261,7 +261,8 @@ const handleExport = ({ id, type }) => {
   const fn = async () => {
     try {
       if (type === 'pdf') {
-        await exportCRAToPDF(id)
+        const { data } = await exportCRAToPDF(id)
+        window.open(URL.createObjectURL(data))
       }
     } catch (error) {
       console.info(error)
