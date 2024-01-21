@@ -82,8 +82,8 @@ const handleInputSearch = ({ target }) => {
 const handleDelete = (id) => {
   emit('delete', id)
 }
-const handleViewCRA = (id) => {
-  emit('view-cra', id)
+const handleViewCRA = (cra) => {
+  emit('view-cra', cra)
 }
 const handleNotify = (id) => {
   emit('notify', id)

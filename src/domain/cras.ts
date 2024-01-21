@@ -4,7 +4,7 @@ import { ENDPOINT } from '@/constants'
 
 const getCRA = async (id, { populate = '', count = '', total = 'true' } = {}) => {
   const authorization = await getAuthorization()
-  return axios.get(`${ENDPOINT}/cras/${id}?populate=${populate}&count=${count}$total=${total}`, {
+  return axios.get(`${ENDPOINT}/cras/${id}?populate=${populate}&count=${count}&total=${total}`, {
     headers: {
       authorization
     }

@@ -9,7 +9,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="row d-flex">
+          <div class="row d-flex" v-if="props.cra">
             <div class="col">
               <h5 class="modal-title" id="consultants-cra-modal-title">
                 My CRA<span v-if="props.cra">
@@ -40,7 +40,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" v-if="props.cra">
           <Calendar
             class="mx-auto"
             v-if="props.cra"

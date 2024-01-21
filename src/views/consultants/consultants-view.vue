@@ -73,7 +73,6 @@
     </router-link>
   </div>
   <consultant-cra
-    v-if="cra"
     ref="modalConsultantCRA"
     :cra="cra"
     @day="handleClickDay"
@@ -293,34 +292,9 @@ const handleNotifyConsultant = (id) => {
 }
 const modalConsultantCRA = ref(null)
 const cra = ref(null)
-const handleViewCRA = (id) => {
-  const fn = async () => {
-    try {
-      const year = new Date().getFullYear()
-      const month = new Date().getMonth()
-      const { data } = await getCRAs({ consultant: id, year })
-      if (
-        Array.isArray(data) &&
-        data.length > 0 &&
-        data.filter(({ date }) => date.month === month).length > 0
-      ) {
-        cra.value = data.filter(({ date }) => date.month === month)[0]
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  fn()
-  if (cra.value) {
-    modalConsultantCRA.value.show()
-  } else {
-    Swal.fire({
-      title: 'Aucun CRA trouvé',
-      text: `Aucun CRA n'a été trouvé pour ce consultant.`,
-      icon: 'warning',
-      confirmButtonText: 'OK'
-    })
-  }
+const handleViewCRA = (c) => {
+  cra.value = c
+  modalConsultantCRA.value.show()
 }
 const visible = ref(true)
 const motive = ref('')
