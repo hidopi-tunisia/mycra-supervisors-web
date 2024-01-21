@@ -13,20 +13,17 @@
     <td>{{ props.item!.hiredAt.substring(0, 10) }}</td>
     <td v-if="props.item!.projects?.[0]">{{ props.item!.projects?.[0]?.name }}</td>
     <td v-else><small>Pas de projets</small></td>
-    <td>
-      <span
-        class="badge bg-label-success me-1"
-        v-show="props.item!.status === 'active'"
-        @click="emit('view-cra', props.item._id)"
-      >
-        Oui
-      </span>
-      <button class="btn btn-outline-primary btn-sm" v-show="props.item!.status === 'active'" @click="emit('view-cra', props.item._id)">
+    <td v-if="loading">
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </td>
+    <td v-else>
+      <span class="badge bg-label-success me-1" v-show="cra"> Oui </span>
+      <button class="btn btn-outline-primary btn-sm" v-if="cra" @click="emit('view-cra', cra)">
         Voir
       </button>
-      <span class="badge bg-label-danger me-1" v-show="props.item!.status === 'inactive'">
-        Non
-      </span>
+      <span class="badge bg-label-danger me-1" v-else> Non </span>
     </td>
     <td>
       <div class="dropdown position-static">
@@ -57,12 +54,38 @@
 </template>
 
 <script setup lang="ts">
+import { getCRAs } from '@/domain/me'
 import { generateFromString } from 'generate-avatar'
+import { onMounted, ref } from 'vue'
 const props = defineProps({ item: Object })
 const emit = defineEmits(['view-cra', 'notify', 'update', 'delete', 'assign-project'])
 const getAvatar = () => {
   return `data:image/svg+xml;utf8,${generateFromString(props.item._id)}`
 }
+const cra = ref(null)
+const loading = ref(false)
+onMounted(() => {
+  const fn = async () => {
+    try {
+      loading.value = true
+      const year = new Date().getFullYear()
+      const month = new Date().getMonth()
+      const { data } = await getCRAs({ consultant: props.item._id, year })
+      if (
+        Array.isArray(data) &&
+        data.length > 0 &&
+        data.filter(({ date }) => date.month === month).length > 0
+      ) {
+        cra.value = data.filter(({ date }) => date.month === month)[0]
+      }
+      loading.value = false
+    } catch (error) {
+      loading.value = false
+      console.log()
+    }
+  }
+  fn()
+})
 </script>
 
 <style scoped>
